@@ -1,5 +1,4 @@
 /* @refresh reload */
-// import "tailwindcss/tailwind.css";
 import "virtual:windi.css";
 
 import { onMount } from "solid-js";
