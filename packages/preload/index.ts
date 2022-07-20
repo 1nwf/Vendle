@@ -2,7 +2,7 @@ import fs from "fs";
 import { contextBridge, ipcRenderer } from "electron";
 import { domReady } from "./utils";
 import { useLoading } from "./loading";
-import { getPluginPaths } from "../main/plugins";
+import { loadPlugins } from "../main/plugins";
 
 const { appendLoading, removeLoading } = useLoading();
 
@@ -15,7 +15,11 @@ const { appendLoading, removeLoading } = useLoading();
 // --------- Expose some API to the Renderer process. ---------
 contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("removeLoading", removeLoading);
-contextBridge.exposeInMainWorld("require", require);
+contextBridge.exposeInMainWorld("getPluginPaths", () =>
+  ipcRenderer.invoke("get-plugins-path")
+);
+
+contextBridge.exposeInMainWorld("loadPlugins", loadPlugins);
 contextBridge.exposeInMainWorld("ipcRenderer", withPrototype(ipcRenderer));
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.

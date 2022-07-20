@@ -11,3 +11,11 @@ export const getPluginPaths = () => {
   });
   return paths;
 };
+
+export const loadPlugins = (pluginsPaths: string[]) => {
+  let modules: any[] = [];
+  pluginsPaths.forEach((path) => {
+    modules.push(require(path));
+  });
+  return modules;
+};

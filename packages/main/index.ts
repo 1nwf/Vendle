@@ -40,7 +40,7 @@ async function createWindow() {
     win?.webContents.send("main-process-message", new Date().toLocaleString());
   });
 
-  ipcMain.handle("get-plugin-paths", () => {
+  ipcMain.handle("get-plugins-path", () => {
     return plugins.getPluginPaths();
   });
 
