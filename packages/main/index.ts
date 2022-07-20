@@ -1,8 +1,6 @@
-import { app, BrowserWindow, shell } from "electron";
+import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "os";
 import { join } from "path";
-import {initialize} from '@electron/remote/main';
-initialize()
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -14,12 +12,12 @@ if (!app.requestSingleInstanceLock()) {
   app.quit();
   process.exit(0);
 }
-import * as plugins from './plugins';
+import * as plugins from "./plugins";
 
 let win: BrowserWindow | null = null;
+app.plugins = plugins;
 
 async function createWindow() {
-  console.log(plugins.loadPlugins())
   win = new BrowserWindow({
     title: "Main window",
     webPreferences: {
@@ -40,6 +38,10 @@ async function createWindow() {
   // Test active push message to Renderer-process
   win.webContents.on("did-finish-load", () => {
     win?.webContents.send("main-process-message", new Date().toLocaleString());
+  });
+
+  ipcMain.handle("get-plugin-paths", () => {
+    return plugins.getPluginPaths();
   });
 
   // Make all links open with the browser, not with the application
