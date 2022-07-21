@@ -22,6 +22,18 @@ contextBridge.exposeInMainWorld("getPluginPaths", () =>
 contextBridge.exposeInMainWorld("loadPlugins", loadPlugins);
 contextBridge.exposeInMainWorld("ipcRenderer", withPrototype(ipcRenderer));
 
+contextBridge.exposeInMainWorld("saveFile", (id: string, contents: any) =>
+  ipcRenderer.invoke("saveFile", id, contents)
+);
+
+contextBridge.exposeInMainWorld("deleteNote", (id: string) =>
+  ipcRenderer.invoke("deleteNote", id)
+);
+
+contextBridge.exposeInMainWorld("getFileContents", (name: string) =>
+  ipcRenderer.invoke("getFileContents", name)
+);
+
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {
   const protos = Object.getPrototypeOf(obj);

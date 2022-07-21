@@ -1,3 +1,4 @@
+import { deleteNote, getFileContents, saveFile } from "./util";
 import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "os";
 import { join } from "path";
@@ -13,9 +14,9 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0);
 }
 import * as plugins from "./plugins";
+import { initDirs } from "./util";
 
 let win: BrowserWindow | null = null;
-app.plugins = plugins;
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -40,14 +41,29 @@ async function createWindow() {
     win?.webContents.send("main-process-message", new Date().toLocaleString());
   });
 
-  ipcMain.handle("get-plugins-path", () => {
-    return plugins.getPluginPaths();
-  });
-
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith("https:")) shell.openExternal(url);
     return { action: "deny" };
+  });
+
+  ipcMain.handle("get-plugins-path", () => {
+    return plugins.getPluginPaths();
+  });
+  ipcMain.handle("initDirs", () => {
+    initDirs();
+  });
+
+  ipcMain.handle("saveFile", async (event, id: string, contents: any) => {
+    return await saveFile(id, contents);
+  });
+
+  ipcMain.handle("deleteNote", async (event, id: string) => {
+    return await deleteNote(id);
+  });
+
+  ipcMain.handle("getFileContents", async (event, name: string) => {
+    return JSON.parse(await getFileContents(name));
   });
 }
 
