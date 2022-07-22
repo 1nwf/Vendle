@@ -43,7 +43,7 @@ export default function Editor() {
     const instance = editor();
     if (instance) {
       instance.commands.focus();
-      plugins.EditorActions.forEach((fn) => {
+      plugins.editorActions.forEach((fn) => {
         fn(instance);
       });
     }
@@ -100,7 +100,7 @@ export default function Editor() {
   });
   onCleanup(() => {
     ref.removeEventListener("keydown", handleKeyDown);
-    plugins.EditorActionsCleanup.forEach((fn) => {
+    plugins.editorActionsCleanup.forEach((fn) => {
       fn(editor);
     });
   });
