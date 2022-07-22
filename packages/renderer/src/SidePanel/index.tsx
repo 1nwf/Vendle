@@ -7,9 +7,11 @@ import Workspace from "./Workspace";
 
 export default function SidePanel() {
   return (
-    <div class="h-[80vh]">
-      <div class="h-4" />
+    <div class="h-[80vh] mt-2">
       <Workspace />
+      <div class="flex justify-center ">
+        <hr class="w-10/12" />
+      </div>
       <div
         class={` ${settings.theme.sidePanelBg} p-4 rounded-r-2xl h-12/12 overflow-x-hidden ${settings.theme.sidePanelFg}`}
       >
