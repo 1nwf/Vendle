@@ -4,8 +4,8 @@ import { saveFile } from "../util/files";
 
 export default function Workspace() {
   const [editable, setEditable] = createSignal(false);
-  let usernameRef;
-  const handleClick = (e) => {
+  let usernameRef: HTMLParagraphElement;
+  const handleClick = (e: MouseEvent) => {
     if (e.detail == 2) {
       setEditable(true);
     }
@@ -13,13 +13,12 @@ export default function Workspace() {
   };
   const handleKeyDown = async (e) => {
     if (e.key != "Enter") return;
-    console.log(e.target.textContent);
     user.name = e.target.textContent;
     setEditable(false);
-    await saveFile("user", "", { name: e.target.textContent });
+    await saveFile("settings", "", { name: e.target.textContent });
   };
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: MouseEvent) => {
     let contain = usernameRef.contains(e.target);
     if (!contain) {
       setEditable(false);
