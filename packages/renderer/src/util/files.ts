@@ -17,8 +17,6 @@ export async function getFileContents<T>(name: string): Promise<T> {
 }
 export async function getAllFileNames(): Promise<FilesList[]> {
   let allFiles = await getFileContents<FilesList[]>(WORKSPACE_FILES);
-  console.log("all files: ", allFiles);
-
   return allFiles;
 }
 

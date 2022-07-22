@@ -30,9 +30,6 @@ export default function CreateFile() {
     await saveFile(nanoid(), fileName(), initialData);
     setFileName("");
   };
-  createEffect(() => {
-    console.log("input ref: ", inputRef);
-  });
 
   const handleKeyDown = async (e: any) => {
     if (e.key != "Enter") return;
