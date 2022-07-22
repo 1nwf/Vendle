@@ -24,6 +24,7 @@ async function createWindow() {
     webPreferences: {
       preload: join(__dirname, "../preload/index.cjs"),
     },
+    titleBarStyle: "hiddenInset",
   });
 
   if (app.isPackaged) {
