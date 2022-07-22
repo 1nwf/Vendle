@@ -54,7 +54,7 @@ async function createWindow() {
     initDirs();
   });
 
-  ipcMain.handle("saveFile", async (event, id: string, contents: any) => {
+  ipcMain.handle("saveFile", async (event, id: string, contents: string) => {
     return await saveFile(id, contents);
   });
 

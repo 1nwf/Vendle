@@ -27,7 +27,7 @@ export default function CreateFile() {
       ],
     };
 
-    await saveFile(nanoid(), fileName(), JSON.stringify(initialData));
+    await saveFile(nanoid(), fileName(), initialData);
     setFileName("");
   };
   createEffect(() => {

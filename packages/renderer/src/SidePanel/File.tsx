@@ -18,7 +18,7 @@ export default function File({
     if (e.detail == 1) {
       if (file.name && file.id && file.id != id) {
         updateFileContents();
-        await saveFile(file.id, file.name, JSON.stringify(file.contents));
+        await saveFile(file.id, file.name, file.contents);
       }
       setFile({ id: id, name: fileName });
     } else if (e.detail == 2) {

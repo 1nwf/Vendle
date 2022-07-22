@@ -88,7 +88,7 @@ export default function Block({
     } else if (cp == 0 && e.key == "ArrowLeft") {
       focusUpBlock(block.id);
     } else if (e.key == "s" && prevKey() == "Meta") {
-      await saveFile(file.id, file.name, JSON.stringify(fileContents));
+      await saveFile(file.id, file.name, fileContents);
     } else if (e.key == "b" && prevKey() == "Meta") {
       if (!["p", "strong"].includes(block.tag)) return;
       const caretPos = getCaretIndex(blockRef);

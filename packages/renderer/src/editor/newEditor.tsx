@@ -32,7 +32,7 @@ export default function Editor() {
   const handleKeyDown = async (e) => {
     if (e.metaKey && e.key === "s") {
       e.preventDefault();
-      await saveFile(file.id, file.name, JSON.stringify(editor().getJSON()));
+      await saveFile(file.id, file.name, editor().getJSON());
     }
 
     if (e.key == "/") {

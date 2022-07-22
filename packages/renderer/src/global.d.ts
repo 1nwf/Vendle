@@ -11,7 +11,7 @@ declare global {
     removeLoading: () => void;
     getPluginPaths: () => Promise<string[]>;
     loadPlugins: (paths: string[]) => Plugin[];
-    saveFile: (id: string, contents: any) => Promise<void>;
+    saveFile: (id: string, contents: string) => Promise<void>;
     deleteNote: (id: string) => Promise<void>;
     getFileContents: (name: string) => Promise<any>;
   }

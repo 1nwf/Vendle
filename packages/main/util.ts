@@ -13,20 +13,19 @@ export const initDirs = () => {
   writeFileSync(WORKSPACE_FILES, "[]");
 };
 
-export const saveFile = async (id: string, contents: any) => {
+export const saveFile = async (id: string, contents: string) => {
   if (id == "files") {
-    return await fs.writeFile(WORKSPACE_FILES, JSON.stringify(contents));
+    return await fs.writeFile(WORKSPACE_FILES, contents);
   } else if (id == "settings") {
-    return await fs.writeFile(SETTINGS_PATH, JSON.stringify(contents));
+    return await fs.writeFile(SETTINGS_PATH, contents);
   }
-  return await fs.writeFile(
-    NOTES_PATH + `${id}.json`,
-    JSON.stringify(contents)
-  );
+  return await fs.writeFile(NOTES_PATH + `${id}.json`, contents);
 };
 
 export const deleteNote = async (id: string) => {
-  await fs.unlink(NOTES_PATH + `${id}.json`);
+  await fs.unlink(NOTES_PATH + `${id}.json`).catch((e) => {
+    console.log("error deleting: ", e);
+  });
 };
 
 export const getFileContents = async (name: string) => {
@@ -39,5 +38,5 @@ export const getFileContents = async (name: string) => {
     res = await fs.readFile(NOTES_PATH + `${name}.json`, "ascii");
   }
 
-  return JSON.parse(res);
+  return res;
 };

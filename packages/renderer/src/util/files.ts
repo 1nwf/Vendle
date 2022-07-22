@@ -4,7 +4,7 @@ import { FilesList } from "../types";
 const WORKSPACE_FILES = "files";
 
 export async function saveFile(id: string, name: string, contents: any) {
-  await window.saveFile(id, contents);
+  await window.saveFile(id, JSON.stringify(contents));
   if (![WORKSPACE_FILES, "user"].includes(id)) {
     await updateWorkspaceFiles(id, name);
   }
@@ -37,11 +37,7 @@ async function updateWorkspaceFiles(id: string, name: string) {
       index: currentFiles.length,
     });
   }
-  await saveFile(
-    WORKSPACE_FILES,
-    WORKSPACE_FILES,
-    JSON.stringify(currentFiles)
-  );
+  await saveFile(WORKSPACE_FILES, WORKSPACE_FILES, currentFiles);
   refetchAllFiles();
 }
 
@@ -53,7 +49,7 @@ export async function deleteFile(id: string) {
   currentFiles.splice(idx, 1);
   await window.deleteNote(id);
   await saveFile(WORKSPACE_FILES, WORKSPACE_FILES, currentFiles);
-  setFile({ id: "", name: "", contents: null });
+  setFile({ id: "", name: "", contents: {} });
   refetchAllFiles();
 }
 

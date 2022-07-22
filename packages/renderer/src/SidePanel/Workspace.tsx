@@ -16,7 +16,7 @@ export default function Workspace() {
     console.log(e.target.textContent);
     user.name = e.target.textContent;
     setEditable(false);
-    await saveFile("user", "", JSON.stringify({ name: e.target.textContent }));
+    await saveFile("user", "", { name: e.target.textContent });
   };
 
   const handleMouseDown = (e) => {
