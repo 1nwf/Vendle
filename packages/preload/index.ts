@@ -13,7 +13,6 @@ const { appendLoading, removeLoading } = useLoading();
 })();
 
 // --------- Expose some API to the Renderer process. ---------
-contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("removeLoading", removeLoading);
 contextBridge.exposeInMainWorld("getPluginPaths", () =>
   ipcRenderer.invoke("get-plugins-path")
