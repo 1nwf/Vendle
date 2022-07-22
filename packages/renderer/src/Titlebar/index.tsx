@@ -6,7 +6,7 @@ export default function Titlebar() {
   };
   return (
     <div
-      class={`w-screen  ${settings.theme.appBg} ${settings.theme.appFg} absolute pb-2`}
+      class={`w-screen  ${settings.theme.appBg} ${settings.theme.appFg} absolute pb-2 z-50 `}
       style="-webkit-app-region: drag"
     >
       <div class="flex content-center items-center align-middle mt-1 ml-3">
