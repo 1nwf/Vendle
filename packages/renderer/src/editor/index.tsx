@@ -103,9 +103,6 @@ export default function Editor() {
   });
   onCleanup(() => {
     ref.removeEventListener("keydown", handleKeyDown);
-    plugins.editorActionsCleanup.forEach((fn) => {
-      fn(editor);
-    });
   });
 
   const selectionHandler = (tag) => {};
