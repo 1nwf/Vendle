@@ -1,3 +1,4 @@
+import { getPluginInfo } from "./plugins";
 import { deleteNote, saveFile, getFileContents } from "./util";
 
 export const handleSaveFile = async (
@@ -14,4 +15,8 @@ export const handleDeleteNote = async (event: any, id: string) => {
 
 export const handleGetFileContents = async (event: any, name: string) => {
   return JSON.parse(await getFileContents(name));
+};
+
+export const handleGetPluginInfo = async (event: any, dir: string) => {
+  return await getPluginInfo(dir);
 };

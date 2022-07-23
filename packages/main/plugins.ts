@@ -1,5 +1,6 @@
 import { app } from "electron";
 import { promises as fs } from "fs";
+import { Plugin } from "../types/plugins";
 
 export const getPluginPaths = async () => {
   const pluginsPath = app.getPath("appData") + "/Vendle/extensions";
@@ -8,25 +9,36 @@ export const getPluginPaths = async () => {
   plugins.forEach((dir) => {
     if (dir.startsWith(".")) return;
     paths.push(pluginsPath + "/" + dir);
-    getPluginInfo(pluginsPath + "/" + dir);
   });
   return paths;
 };
 
-export const loadPlugins = (pluginsPaths: string[]) => {
-  let modules: any[] = [];
-  pluginsPaths.forEach((path) => {
-    modules.push(require(path));
-  });
-  return modules;
-};
-
-const getPluginInfo = async (dir: string) => {
+export const getPluginInfo = async (
+  dir: string
+): Promise<Omit<Plugin, "path" | "module">> => {
   let files = await fs.readdir(dir);
   if (!files.includes("package.json")) {
     console.log("plugin does not include a package.json file");
-    return;
+    throw new Error("plugin does not contain package.json");
   }
   let info = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
-  return info;
+  return {
+    name: info.name,
+    description: info.description,
+    version: info.version,
+  };
+};
+
+export const loadPlugins = (pluginsPaths: string[]) => {
+  let plugins: Omit<Plugin, "name" | "version" | "description">[] = [];
+  pluginsPaths.forEach((path) => {
+    const mod = require(path);
+    plugins.push({
+      module: mod,
+      path,
+    });
+    return plugins;
+  });
+
+  return plugins;
 };

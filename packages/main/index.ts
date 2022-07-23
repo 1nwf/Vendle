@@ -18,6 +18,7 @@ import { initDirs } from "./util";
 import {
   handleDeleteNote,
   handleGetFileContents,
+  handleGetPluginInfo,
   handleSaveFile,
 } from "./ipcHandlers";
 
@@ -61,10 +62,9 @@ async function createWindow() {
   });
 
   ipcMain.handle("saveFile", handleSaveFile);
-
   ipcMain.handle("deleteNote", handleDeleteNote);
-
   ipcMain.handle("getFileContents", handleGetFileContents);
+  ipcMain.handle("getPluginInfo", handleGetPluginInfo);
 }
 
 app.whenReady().then(createWindow);
