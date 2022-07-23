@@ -4,7 +4,7 @@ import "./index.css";
 import { loadPlugins } from "./plugins";
 import SidePanel from "./SidePanel";
 import { file, setFile } from "./state/file";
-import { settings, user } from "./state/settings";
+import { settings } from "./state/settings";
 import Titlebar from "./Titlebar";
 import { BlockType } from "./types";
 // import { loadExtensions } from "./util/extension";
@@ -36,7 +36,7 @@ const App: Component = () => {
 
   createEffect(async () => {
     let userData = await getFileContents<{ name: string }>("settings");
-    user.name = userData.name;
+    settings.username = userData.name;
   });
 
   return (

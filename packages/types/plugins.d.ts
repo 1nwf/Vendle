@@ -10,3 +10,5 @@ export interface Plugin {
   path: string;
   module: Module;
 }
+
+export type PluginApi = "editorActions" | "editorProps";

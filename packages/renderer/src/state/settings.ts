@@ -1,5 +1,6 @@
 import { batch } from "solid-js";
 import { createMutable } from "solid-js/store";
+import { PluginApi } from "../../../types/plugins";
 
 const defaultLight = {
   editorBg: "bg-white",
@@ -51,14 +52,12 @@ export const settings = createMutable({
       name: "list",
     },
   ],
+  username: "No User Name",
 });
 
-export type ExtApi = "editorActions" | "editorProps" | "updateColorscheme";
-
-export const plugins = createMutable<Record<ExtApi, any>>({
+export const plugins = createMutable<Record<PluginApi, any>>({
   editorActions: [],
   editorProps: [],
-  updateColorscheme: [],
 });
 
 export const colorscheme = createMutable(
@@ -71,7 +70,3 @@ export const changeColorscheme = (light: boolean) => {
     settings.lightTheme = light;
   });
 };
-
-export const user = createMutable({
-  name: "No User Name",
-});

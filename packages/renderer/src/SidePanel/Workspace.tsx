@@ -1,5 +1,5 @@
 import { createSignal, onCleanup } from "solid-js";
-import { colorscheme, settings, user } from "../state/settings";
+import { colorscheme, settings } from "../state/settings";
 import { saveFile } from "../util/files";
 
 export default function Workspace() {
@@ -13,7 +13,7 @@ export default function Workspace() {
   };
   const handleKeyDown = async (e) => {
     if (e.key != "Enter") return;
-    user.name = e.target.textContent;
+    settings.username = e.target.textContent;
     setEditable(false);
     await saveFile("settings", "", { name: e.target.textContent });
   };
@@ -47,7 +47,7 @@ export default function Workspace() {
           onKeyDown={async (e) => await handleKeyDown(e)}
           ref={usernameRef}
         >
-          {user.name}
+          {settings.username}
         </p>
       </div>
     </div>
