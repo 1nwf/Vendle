@@ -1,8 +1,19 @@
 export {};
 
-interface Plugin {
+export interface Module {
   updateColorscheme: () => void;
+  editorActions: () => void;
+  editorActionsCleanup: () => void;
+  editorProps: () => void;
 }
+export interface Plugin {
+  name: string;
+  version: string;
+  description: string;
+  path: string;
+  module: Module;
+}
+// import { Plugin } from "./plugins/index";
 declare global {
   interface Window {
     // Expose some Api through preload script

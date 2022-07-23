@@ -7,19 +7,25 @@ import Workspace from "./Workspace";
 
 export default function SidePanel() {
   return (
-    <div class="h-[80vh] mt-2">
+    <div class="mt-2">
       <Workspace />
-      <div class="flex justify-center ">
-        <hr class="w-10/12" />
+      <div class="flex justify-center mb-4">
+        <hr
+          class={`w-10/12 ${
+            settings.lightTheme ? "border-black" : "border-white"
+          }`}
+        />
       </div>
-      <div
-        class={` ${settings.theme.sidePanelBg} p-4 rounded-r-2xl h-12/12 overflow-x-hidden ${settings.theme.sidePanelFg}`}
-      >
+      <div class="px-4 rounded-r-2xl h-12/12  ">
         <h1 class="font-bold">Files</h1>
-        <For each={allFiles()}>
-          {(f) => <File id={f.id} fileName={f.name} />}
-        </For>
-        <div class="sticky bottom-0">
+        <div class="h-[76vh] overflow-y-scroll">
+          <For each={allFiles()}>
+            {(f) => <File id={f.id} fileName={f.name} />}
+          </For>
+        </div>
+      </div>
+      <div class="flex justify-center w-full">
+        <div class="absolute w-11/12 bottom-3">
           <CreateFile />
         </div>
       </div>

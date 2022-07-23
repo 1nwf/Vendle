@@ -7,7 +7,7 @@ const defaultLight = {
   editorFont: "font-sans",
   appBg: "bg-white",
   appFg: "text-black",
-  sidePanelBg: "bg-transparent",
+  sidePanelBg: "bg-gray-200",
   sidePanelFg: "text-black",
   commandsPopupBg: "bg-gray-300",
   commandsPopupFg: "text-black",
@@ -19,7 +19,7 @@ const defaultDark = {
   editorFont: "font-sans",
   appBg: "bg-gray-800",
   appFg: "text-gray-200",
-  sidePanelBg: "bg-transparent",
+  sidePanelBg: "bg-gray-900",
   sidePanelFg: "text-gray-200",
   commandsPopupBg: "bg-gray-300",
   commandsPopupFg: "text-black",
@@ -27,8 +27,8 @@ const defaultDark = {
 export const settings = createMutable({
   allowEditing: true,
   menuItmes: [],
-  lightTheme: false,
-  theme: defaultDark,
+  lightTheme: true,
+  theme: defaultLight,
   overLayPopupCommands: [
     {
       tag: "h1",
@@ -53,16 +53,11 @@ export const settings = createMutable({
   ],
 });
 
-export type ExtApi =
-  | "EditorActions"
-  | "EditorProps"
-  | "EditorActionsCleanup"
-  | "updateColorscheme";
+export type ExtApi = "editorActions" | "editorProps" | "updateColorscheme";
 
 export const plugins = createMutable<Record<ExtApi, any>>({
-  EditorActions: [],
-  EditorProps: [],
-  EditorActionsCleanup: [],
+  editorActions: [],
+  editorProps: [],
   updateColorscheme: [],
 });
 

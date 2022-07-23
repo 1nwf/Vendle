@@ -1,98 +1,127 @@
-import { createEffect, createSignal, For, on } from "solid-js";
-import { BlockType } from "../types";
-import { generateBlock } from "../util/block";
-import Block from "./block";
-import { file, fileContents, setFileContents } from "../state/file";
-import { colorscheme, plugins, settings } from "../state/settings";
-import { Dynamic } from "solid-js/web";
+import { createTiptapEditor } from "solid-tiptap";
+import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
+import { editorProps, fileContentsUpdate } from "../state/editor";
+import { plugins, settings } from "../state/settings";
+import { file, setFile } from "../state/file";
+import { saveFile } from "../util/files";
+import { getCaretCoordinates } from "../util/cursor";
+import { OverlayCommandsPopup } from "./overlayCommandsPopup";
 
 export default function Editor() {
-  const [activeBlock, setActiveBlock] = createSignal(
-    fileContents[0].id ?? null
-  );
+  let ref!: HTMLDivElement;
 
-  const getBlockIdxFromId = (blockId: string): number => {
-    return fileContents.map((b) => b.id).indexOf(blockId);
+  const [cursorCoordinates, setCursorCoordinates] = createSignal({
+    x: null,
+    y: null,
+  });
+  const [showCommandsPopup, setShowCommandsPopup] = createSignal(false);
+
+  const editor = createTiptapEditor({
+    get element() {
+      return ref;
+    },
+    content: file.contents,
+    ...editorProps,
+  });
+
+  const openCommandsPopup = () => {
+    setCursorCoordinates(getCaretCoordinates());
+    setShowCommandsPopup(true);
   };
 
-  const addBlock = (blockId: string) => {
-    let idx = getBlockIdxFromId(blockId);
-    let newBlocks = [...fileContents];
-    let genBlock = generateBlock(fileContents.length);
-    newBlocks.splice(idx + 1, 0, genBlock);
-    setFileContents(newBlocks);
-    focusBlock(genBlock.position);
-  };
+  const handleKeyDown = async (e) => {
+    if (e.metaKey && e.key === "s") {
+      e.preventDefault();
+      let instance = editor();
+      if (instance != undefined) {
+        await saveFile(file.id, file.name, instance.getJSON());
+      }
+    }
 
-  const focusBlock = (position: number) => {
-    let b = document.querySelector(`[data-position="${position}"]`);
-    if (b) {
-      b.focus();
+    if (e.key == "/") {
+      openCommandsPopup();
     }
   };
-  const deleteBlock = (blockId: string) => {
-    const idx = getBlockIdxFromId(blockId);
-    if (idx == 0) return;
-    const newBlocks = [...fileContents];
-    newBlocks.splice(idx, 1);
-    setFileContents(newBlocks);
-    focusBlock(fileContents[idx - 1].position);
-  };
+  createEffect(() => {
+    const instance = editor();
+    if (instance) {
+      instance.commands.focus();
+      plugins.editorActions.forEach((fn) => {
+        fn(instance);
+      });
+    }
+  });
 
-  const updateBlock = (value: Partial<BlockType>, id: string) => {
-    setFileContents((block) => block.id == id, value);
-  };
+  createEffect(() => {
+    ref.addEventListener("keydown", handleKeyDown);
+  });
 
   createEffect(
     on(
       () => file.name,
       () => {
-        setTimeout(() => {
-          focusBlock(0);
-        }, 10);
+        if (editor()) {
+          editor().commands.focus();
+        }
       }
     )
   );
 
-  const focusUpBlock = (blockId: string) => {
-    const idx = getBlockIdxFromId(blockId);
-    if (idx == 0) return;
-    focusBlock(fileContents[idx - 1].position);
-  };
-  const focusDownBlock = (blockId: string) => {
-    const idx = getBlockIdxFromId(blockId);
-    if (idx == fileContents.length - 1) return;
-    focusBlock(fileContents[idx + 1].position);
-  };
+  createEffect(
+    on(fileContentsUpdate, (c) => {
+      if (c == 0) return;
+      setFile("contents", editor().getJSON());
+    })
+  );
 
-  const deleteAllBlocks = () => {};
+  createEffect(
+    on(
+      () => settings.lightTheme,
+      () => {
+        const editorStyle = `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-10 text-left rounded-xl h-[100vh] inline-block w-full pl-[10vw] pr-[15vw] mb-10`;
+        if (!editor()) return;
+        editor().setOptions({
+          editorProps: {
+            attributes: {
+              class: editorStyle,
+            },
+          },
+        });
+      }
+    )
+  );
+  createEffect(() => {
+    if (!editor()) return;
+    const editorStyle = `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-10 text-left rounded-xl h-[100vh] inline-block w-full pl-[10vw] pr-[15vw] mb-10`;
+    editor().setOptions({
+      editorProps: {
+        attributes: {
+          class: editorStyle,
+        },
+      },
+    });
+  });
+  onCleanup(() => {
+    ref.removeEventListener("keydown", handleKeyDown);
+    plugins.editorActionsCleanup.forEach((fn) => {
+      fn(editor);
+    });
+  });
 
+  const selectionHandler = (tag) => {};
+  const closeCommandsPopup = () => {
+    setShowCommandsPopup(false);
+  };
   return (
-    <div
-      class={`pt-10 flex m-4 rounded-xl justify-center ${colorscheme.editorBg} text-black h-[93vh]`}
-    >
-      <div>
-        <For each={plugins.MenuItems}>
-          {(Item) => (
-            <Dynamic component={Item(createEffect, createSignal)}></Dynamic>
-          )}
-        </For>
-        <For each={fileContents}>
-          {(b, index) => (
-            <Block
-              block={b}
-              updateBlock={(updatedBlock) => updateBlock(updatedBlock, b.id)}
-              addBlockHandler={addBlock}
-              deleteBlockHandler={deleteBlock}
-              focusUpBlock={focusUpBlock}
-              focusDownBlock={focusDownBlock}
-              deleteAllBlocks={deleteAllBlocks}
-              activeBlock={activeBlock}
-              setActiveBlock={setActiveBlock}
-            />
-          )}
-        </For>
-      </div>
+    <div class="mx-[1.5vw] md:(ml-0 mr-[1vw]) mb-10">
+      <Show when={showCommandsPopup()}>
+        <OverlayCommandsPopup
+          position={cursorCoordinates()}
+          selectionHandler={selectionHandler}
+          closeHandler={closeCommandsPopup}
+        />
+      </Show>
+      <div id="editor" ref={ref} class="" />
     </div>
   );
 }

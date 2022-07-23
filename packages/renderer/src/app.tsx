@@ -1,10 +1,10 @@
-import { Component, createEffect, createResource, on, Show } from "solid-js";
-import Editor from "./editor/newEditor";
+import { Component, createEffect, createResource, Show } from "solid-js";
+import Editor from "./editor";
 import "./index.css";
+import { loadPlugins } from "./plugins";
 import SidePanel from "./SidePanel";
-import { editorProps } from "./state/editor";
 import { file, setFile } from "./state/file";
-import { plugins, settings, user } from "./state/settings";
+import { settings, user } from "./state/settings";
 import Titlebar from "./Titlebar";
 import { BlockType } from "./types";
 // import { loadExtensions } from "./util/extension";
@@ -28,8 +28,11 @@ const DefaultHomeScreen = () => {
 };
 
 const App: Component = () => {
-  // initDataFolder();
   createResource(() => file.id, fetchFileContents);
+
+  createEffect(() => {
+    loadPlugins();
+  });
 
   createEffect(async () => {
     let userData = await getFileContents<{ name: string }>("settings");
@@ -42,7 +45,9 @@ const App: Component = () => {
     >
       <Titlebar />
       <div class="h-full w-screen">
-        <div class="float-left mt-6 absolute hidden md:(block w-2/12)">
+        <div
+          class={`float-left h-screen ${settings.theme.sidePanelBg} pt-6 absolute top-0 hidden lg:(block w-2/12)`}
+        >
           <SidePanel />
         </div>
         <div class="w-12/12 md:(w-10/12 float-right) select-text">
