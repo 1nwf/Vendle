@@ -15,6 +15,11 @@ if (!app.requestSingleInstanceLock()) {
 }
 import * as plugins from "./plugins";
 import { initDirs } from "./util";
+import {
+  handleDeleteNote,
+  handleGetFileContents,
+  handleSaveFile,
+} from "./ipcHandlers";
 
 let win: BrowserWindow | null = null;
 
@@ -55,17 +60,11 @@ async function createWindow() {
     initDirs();
   });
 
-  ipcMain.handle("saveFile", async (event, id: string, contents: string) => {
-    return await saveFile(id, contents);
-  });
+  ipcMain.handle("saveFile", handleSaveFile);
 
-  ipcMain.handle("deleteNote", async (event, id: string) => {
-    return await deleteNote(id);
-  });
+  ipcMain.handle("deleteNote", handleDeleteNote);
 
-  ipcMain.handle("getFileContents", async (event, name: string) => {
-    return JSON.parse(await getFileContents(name));
-  });
+  ipcMain.handle("getFileContents", handleGetFileContents);
 }
 
 app.whenReady().then(createWindow);
