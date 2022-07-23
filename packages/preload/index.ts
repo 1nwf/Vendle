@@ -1,4 +1,3 @@
-import fs from "fs";
 import { contextBridge, ipcRenderer } from "electron";
 import { domReady } from "./utils";
 import { useLoading } from "./loading";

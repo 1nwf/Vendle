@@ -48,8 +48,8 @@ async function createWindow() {
     return { action: "deny" };
   });
 
-  ipcMain.handle("get-plugins-path", () => {
-    return plugins.getPluginPaths();
+  ipcMain.handle("get-plugins-path", async () => {
+    return await plugins.getPluginPaths();
   });
   ipcMain.handle("initDirs", () => {
     initDirs();
