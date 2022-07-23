@@ -46,11 +46,11 @@ const App: Component = () => {
       <Titlebar />
       <div class="h-full w-screen">
         <div
-          class={`float-left h-screen ${settings.theme.sidePanelBg} pt-6 absolute top-0 hidden lg:(block w-2/12)`}
+          class={`float-left h-screen ${settings.theme.sidePanelBg} pt-6 absolute top-0 hidden lg:(block w-1/5)`}
         >
           <SidePanel />
         </div>
-        <div class="w-12/12 md:(w-10/12 float-right) select-text">
+        <div class="w-12/12 md:(w-4/5 float-right) select-text">
           <Show when={file.name} fallback={<DefaultHomeScreen />}>
             <Editor />
           </Show>
