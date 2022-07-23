@@ -1,15 +1,15 @@
 {
-  "name": "vite-solid-electron",
-  "productName": "Electron",
+  "name": "Vendle",
+  "productName": "Vendle",
   "private": true,
   "version": "1.0.0",
-  "description": "Vite SolidJS Electron boilerplate.",
-  "author": "ch99q <64793a1a@gmail.com>",
+  "description": "An extensible and modern notes app",
+  "author": "Nawaf Aloufi",
   "license": "MIT",
   "main": "dist/main/index.cjs",
   "scripts": {
     "dev": "node scripts/watch.mjs",
-    "build": "npm run typecheck && node scripts/build.mjs && electron-builder --config .electron-builder.config.js",
+    "build": "node scripts/build.mjs && electron-builder --config .electron-builder.config.js",
     "typecheck": "tsc --noEmit --project packages/renderer/tsconfig.json"
   },
   "engines": {

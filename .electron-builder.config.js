@@ -4,11 +4,11 @@
  */
 module.exports = {
   appId: "YourAppID",
-  productName: "YourAppName",
-  copyright: "Copyright © 2022 ${author}",
+  productName: "Vendle",
+  copyright: "Copyright © 2022 Nawaf Aloufi",
   asar: true,
   directories: {
-    output: "release/${version}",
+    output: "release/0.1",
     buildResources: "build",
   },
   files: ["dist"],
@@ -19,7 +19,7 @@ module.exports = {
         arch: ["x64"],
       },
     ],
-    artifactName: "${productName}-${version}-Setup.${ext}",
+    artifactName: "Vendle-Setup.${ext}",
   },
   nsis: {
     oneClick: false,
@@ -29,10 +29,10 @@ module.exports = {
   },
   mac: {
     target: ["dmg"],
-    artifactName: "${productName}-${version}-Installer.${ext}",
+    artifactName: "Vendle-Installer.${ext}",
   },
   linux: {
     target: ["AppImage"],
-    artifactName: "${productName}-${version}-Installer.${ext}",
+    artifactName: "Vendle-Installer.${ext}",
   },
-}
+};
