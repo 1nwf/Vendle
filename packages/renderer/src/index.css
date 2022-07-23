@@ -13,5 +13,5 @@ strong {
 
 html,
 body {
-  @apply select-none;
+  @apply select-none overflow-hidden;
 }
