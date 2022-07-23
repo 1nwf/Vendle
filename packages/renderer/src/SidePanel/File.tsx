@@ -56,7 +56,7 @@ export default function File({
         editable()
           ? "bg-black shadow-xl"
           : `hover:(cursor-pointer bg-black bg-opacity-10 font-bold) ${
-              file.name == fileName && "bg-white bg-opacity-25"
+              file.id == id && "bg-white bg-opacity-25"
             }`
       }`}
       onClick={handleClick}
