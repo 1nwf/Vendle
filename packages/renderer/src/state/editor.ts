@@ -9,7 +9,7 @@ const CustomDocument = Document.extend({
   content: "heading block*",
 });
 export const editorStyle = () => {
-  return `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-12 w-full pl-[15vw] pr-[15vw] h-screen`;
+  return `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-12 w-full lg:pl-[12vw] pl-[18vw] pr-[15vw] h-screen`;
 };
 
 const editorExtensions = createMutable([
