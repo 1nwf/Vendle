@@ -11,4 +11,5 @@ export interface Plugin {
   module: Module;
 }
 
-export type PluginApi = "editorActions" | "editorProps";
+export const PluginApis = ["editorExtensions", "editorProps"] as const;
+export type PluginApi = PluginApis[number];
