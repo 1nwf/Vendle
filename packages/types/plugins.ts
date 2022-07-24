@@ -12,4 +12,4 @@ export interface Plugin {
 }
 
 export const PluginApis = ["editorExtensions", "editorProps"] as const;
-export type PluginApi = PluginApis[number];
+export type PluginApi = typeof PluginApis[number];
