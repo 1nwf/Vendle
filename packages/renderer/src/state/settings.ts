@@ -55,8 +55,7 @@ export const settings = createMutable({
   username: "No User Name",
 });
 
-export const plugins = createMutable<Record<PluginApi, any[]>>({
-  editorActions: [],
+export const plugins = createMutable<Partial<Record<PluginApi, any[]>>>({
   editorProps: [],
 });
 

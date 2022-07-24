@@ -1,5 +1,5 @@
 import { plugins } from "../state/settings";
-import { PluginApi, PluginApis } from "../../../types/plugins";
+import { PluginApi, pluginApis } from "../../../types/plugins";
 
 export const loadPlugins = async () => {
   let paths = await window.getPluginPaths();
@@ -13,14 +13,11 @@ export const loadPlugins = async () => {
 
 export const initPlugins = async () => {
   const loadedPlugins = await loadPlugins();
-  console.log("loadedPlugins", loadedPlugins);
-
   loadedPlugins.forEach((plugin) => {
     Object.keys(plugin.module).forEach((mod) => {
       let m = mod as PluginApi;
-      if (PluginApis.includes(m)) {
-        plugins[m].push(plugin.module[m]);
-      }
+      plugins[m].push(plugin.module[m]);
     });
   });
+  console.log("plugins", loadedPlugins);
 };
