@@ -46,14 +46,6 @@ export default function Editor() {
     const instance = editor();
     if (instance) {
       instance.commands.focus();
-      plugins.editorActions.forEach((action) => {
-        let event = action();
-      });
-      // Object.keys(plugins).forEach((ext) => {
-      //   plugins[ext].forEach((fn) => {
-      //
-      //   });
-      // });
     }
   });
 
