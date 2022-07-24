@@ -48,7 +48,7 @@ const App: Component = () => {
           <SidePanel />
         </div>
         <div
-          class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-scroll ${settings.theme.editorBg}`}
+          class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-auto ${settings.theme.editorBg}`}
         >
           <Show when={file.name} fallback={<DefaultHomeScreen />}>
             <Editor />

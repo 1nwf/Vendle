@@ -3,7 +3,7 @@ import { createMutable } from "solid-js/store";
 import { PluginApi } from "../../../types/plugins";
 
 const defaultLight = {
-  editorBg: "bg-gray-100",
+  editorBg: "bg-white",
   editorFg: "text-gray-700",
   editorFont: "font-sans",
   appBg: "bg-white",
