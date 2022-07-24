@@ -8,6 +8,9 @@ import { settings } from "./settings";
 const CustomDocument = Document.extend({
   content: "heading block*",
 });
+export const editorStyle = () => {
+  return `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-10 text-left rounded-xl h-[100vh] inline-block w-full pl-[15vw] pr-[15vw] mb-10`;
+};
 
 const editorExtensions = createMutable([
   StarterKit.configure({ document: false }),
@@ -20,7 +23,7 @@ export const editorProps: Partial<UseEditorOptions<HTMLDivElement>> =
     },
     editorProps: {
       attributes: {
-        class: `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-10 text-left rounded-xl h-[100vh] inline-block w-full pl-[10vw] pr-[15vw] mb-10`,
+        class: editorStyle(),
       },
       handleKeyPress(view, event) {
         return !settings.allowEditing;

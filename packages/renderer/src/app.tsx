@@ -39,9 +39,7 @@ const App: Component = () => {
   });
 
   return (
-    <div
-      class={`h-screen ${settings.theme.appBg} overflow-x-hidden ${settings.theme.appFg}`}
-    >
+    <div class={`h-screen ${settings.theme.appBg}  ${settings.theme.appFg}`}>
       <Titlebar />
       <div class="h-full w-screen">
         <div
@@ -49,7 +47,9 @@ const App: Component = () => {
         >
           <SidePanel />
         </div>
-        <div class="w-12/12 md:(w-4/5 float-right) select-text">
+        <div
+          class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-scroll ${settings.theme.editorBg}`}
+        >
           <Show when={file.name} fallback={<DefaultHomeScreen />}>
             <Editor />
           </Show>
