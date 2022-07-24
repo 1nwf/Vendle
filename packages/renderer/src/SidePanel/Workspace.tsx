@@ -40,7 +40,10 @@ export default function Workspace() {
         />
         <p
           class={`ml-2 w-full ${
-            editable() && "bg-black bg-opacity-50"
+            editable() &&
+            `${
+              settings.lightTheme ? "bg-black" : "bg-white"
+            } text-white bg-opacity-20`
           } p-2 rounded-md outline-none select-text`}
           contentEditable={editable()}
           onClick={handleClick}
