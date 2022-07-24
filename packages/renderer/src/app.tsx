@@ -1,13 +1,12 @@
 import { Component, createEffect, createResource, Show } from "solid-js";
 import Editor from "./editor";
 import "./index.css";
-import { loadPlugins } from "./plugins";
+import { initPlugins } from "./plugins";
 import SidePanel from "./SidePanel";
 import { file, setFile } from "./state/file";
 import { settings } from "./state/settings";
 import Titlebar from "./Titlebar";
 import { BlockType } from "./types";
-// import { loadExtensions } from "./util/extension";
 import { getFileContents } from "./util/files";
 
 const fetchFileContents = async (id: string) => {
@@ -30,8 +29,8 @@ const DefaultHomeScreen = () => {
 const App: Component = () => {
   createResource(() => file.id, fetchFileContents);
 
-  createEffect(() => {
-    loadPlugins();
+  createEffect(async () => {
+    await initPlugins();
   });
 
   createEffect(async () => {
