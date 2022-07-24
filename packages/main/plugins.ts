@@ -37,7 +37,6 @@ export const loadPlugins = (pluginsPaths: string[]) => {
       module: mod,
       path,
     });
-    return plugins;
   });
 
   return plugins;
