@@ -1,7 +1,12 @@
-import { deleteNote, getFileContents, saveFile } from "./util";
 import { app, BrowserWindow, shell, ipcMain } from "electron";
 import { release } from "os";
 import { join } from "path";
+import {
+  handleDeleteNote,
+  handleGetFileContents,
+  handleGetPluginInfo,
+  handleSaveFile,
+} from "./ipcHandlers";
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -15,12 +20,6 @@ if (!app.requestSingleInstanceLock()) {
 }
 import * as plugins from "./plugins";
 import { initDirs } from "./util";
-import {
-  handleDeleteNote,
-  handleGetFileContents,
-  handleGetPluginInfo,
-  handleSaveFile,
-} from "./ipcHandlers";
 
 let win: BrowserWindow | null = null;
 

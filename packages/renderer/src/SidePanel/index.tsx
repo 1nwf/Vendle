@@ -18,7 +18,7 @@ export default function SidePanel() {
       </div>
       <div class="px-4 rounded-r-2xl h-12/12  ">
         <h1 class="font-bold">Files</h1>
-        <div class="h-[76vh] overflow-y-scroll">
+        <div class="h-[76vh] overflow-y-auto">
           <For each={allFiles()}>
             {(f) => <File id={f.id} fileName={f.name} />}
           </For>

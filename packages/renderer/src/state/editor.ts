@@ -8,10 +8,15 @@ import { settings } from "./settings";
 const CustomDocument = Document.extend({
   content: "heading block*",
 });
+
+const editorExtensions = createMutable([
+  StarterKit.configure({ document: false }),
+  CustomDocument,
+]);
 export const editorProps: Partial<UseEditorOptions<HTMLDivElement>> =
   createMutable({
     get extensions() {
-      return [StarterKit.configure({ document: false }), CustomDocument];
+      return editorExtensions;
     },
     editorProps: {
       attributes: {
