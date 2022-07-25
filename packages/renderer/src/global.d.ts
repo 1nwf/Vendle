@@ -7,7 +7,7 @@ declare global {
     ipcRenderer: import("electron").IpcRenderer;
     removeLoading: () => void;
     getPluginPaths: () => Promise<string[]>;
-    loadPlugins: (paths: string[]) => Plugin[];
+    loadPlugins: (paths: string[], vendle: any) => Plugin[];
     saveFile: (id: string, contents: string) => Promise<void>;
     deleteNote: (id: string) => Promise<void>;
     getFileContents: (name: string) => Promise<any>;

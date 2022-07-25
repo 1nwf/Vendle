@@ -1,4 +1,3 @@
-import { batch } from "solid-js";
 import { createMutable } from "solid-js/store";
 import { PluginApi } from "../../../types/plugins";
 
@@ -28,8 +27,9 @@ const defaultDark = {
 export const settings = createMutable({
   allowEditing: true,
   menuItmes: [],
-  lightTheme: true,
-  theme: defaultLight,
+  isLightTheme: true,
+  lightTheme: defaultLight,
+  darkTheme: defaultDark,
   overLayPopupCommands: [
     {
       tag: "h1",
@@ -53,6 +53,9 @@ export const settings = createMutable({
     },
   ],
   username: "No User Name",
+  get theme() {
+    return this.isLightTheme ? this.lightTheme : this.darkTheme;
+  },
 });
 
 export const plugins = createMutable<Partial<Record<PluginApi, any[]>>>({
@@ -60,12 +63,9 @@ export const plugins = createMutable<Partial<Record<PluginApi, any[]>>>({
 });
 
 export const colorscheme = createMutable(
-  settings.lightTheme ? defaultLight : defaultDark
+  settings.isLightTheme ? defaultLight : defaultDark
 );
 
 export const changeColorscheme = (light: boolean) => {
-  batch(() => {
-    settings.theme = light ? defaultLight : defaultDark;
-    settings.lightTheme = light;
-  });
+  settings.isLightTheme = light;
 };

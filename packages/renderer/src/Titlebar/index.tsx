@@ -2,7 +2,7 @@ import { changeColorscheme, settings } from "../state/settings";
 
 export default function Titlebar() {
   const toggleTheme = () => {
-    changeColorscheme(!settings.lightTheme);
+    changeColorscheme(!settings.isLightTheme);
   };
   return (
     <div
@@ -15,7 +15,7 @@ export default function Titlebar() {
           class="ml-4 pt-1 text-sm hover:cursor-pointer"
           onClick={toggleTheme}
         >
-          {settings.lightTheme ? (
+          {settings.isLightTheme ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4"

@@ -1,6 +1,19 @@
 import { app } from "electron";
 import { promises as fs } from "fs";
-import { Module, Plugin, pluginApis } from "../types/plugins";
+import { Plugin, pluginApis } from "../types/plugins";
+
+const patchedRequire = (vendle: any) => {
+  const Module = require("module");
+  const originalRequire = Module._load;
+  Module._load = function _load(modulePath: string) {
+    switch (modulePath) {
+      case "vendle":
+        return vendle;
+      default:
+        return originalRequire.apply(this, arguments);
+    }
+  };
+};
 
 export const getPluginPaths = async () => {
   const pluginsPath = app.getPath("appData") + "/Vendle/extensions";
@@ -18,7 +31,6 @@ export const getPluginInfo = async (
 ): Promise<Omit<Plugin, "path" | "module">> => {
   let files = await fs.readdir(dir);
   if (!files.includes("package.json")) {
-    console.log("plugin does not include a package.json file");
     throw new Error("plugin does not contain package.json");
   }
   let info = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
