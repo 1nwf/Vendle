@@ -23,8 +23,8 @@ export const saveFile = async (id: string, contents: string) => {
 };
 
 export const deleteNote = async (id: string) => {
-  await fs.unlink(NOTES_PATH + `${id}.json`).catch((e) => {
-    console.log("error deleting: ", e);
+  await fs.unlink(NOTES_PATH + `${id}.json`).catch(() => {
+    throw new Error("could not delete note");
   });
 };
 
