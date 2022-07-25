@@ -1,16 +1,63 @@
 import { plugins } from "../state/settings";
-import { PluginApi, pluginApis } from "../../../types/plugins";
+import { PluginApi, pluginApis, Plugin } from "../../../types/plugins";
+import { ipcRenderer } from "electron";
+import * as vendle from "./vendle";
+
+const pluginPaths = async () => {
+  const paths: string[] = await ipcRenderer.invoke("get-plugins-path");
+  return paths;
+};
+
+const patchRequire = () => {
+  const Module = require("module");
+  const originalRequire = Module._load;
+  Module._load = function _load(modulePath: string) {
+    switch (modulePath) {
+      case "vendle":
+        return vendle;
+      case "fs":
+      case "electron":
+        return undefined;
+      default:
+        return originalRequire.apply(this, arguments);
+    }
+  };
+};
+
+patchRequire();
+
+const getPluginInfo = async (dir: string) => {
+  return await ipcRenderer.invoke("getPluginInfo", dir);
+};
 
 export const loadPlugins = async () => {
-  let paths = await window.getPluginPaths();
-  let plugins = await Promise.all(
-    window
-      .loadPlugins(paths)
-      .map(async (d) => ({ ...d, ...(await window.getPluginInfo(d.path)) }))
+  let plugins: Plugin[] = [];
+  const paths = await pluginPaths();
+  paths.forEach((path) => {
+    const mod = require(path);
+    Object.keys(mod).forEach((fn) => {
+      mod[fn]();
+      if (!(pluginApis as string[]).includes(fn)) {
+        delete mod[fn];
+      }
+    });
+    plugins.push({
+      module: mod,
+      name: "",
+      description: "",
+      version: "",
+      path,
+    });
+  });
+
+  plugins = await Promise.all(
+    plugins.map(async (p) => {
+      const info = await getPluginInfo(p.path);
+      return { ...p, ...info };
+    })
   );
   return plugins;
 };
-
 export const initPlugins = async () => {
   const loadedPlugins = await loadPlugins();
   loadedPlugins.forEach((plugin) => {
@@ -19,5 +66,4 @@ export const initPlugins = async () => {
       plugins[m].push(plugin.module[m]);
     });
   });
-  console.log("plugins", loadedPlugins);
 };
