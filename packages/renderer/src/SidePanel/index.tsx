@@ -34,8 +34,8 @@ export default function SidePanel() {
         </div>
       </Show>
 
-      <div class="flex justify-center w-full">
-        <div class="absolute w-11/12 bottom-3">
+      <div class="flex mx-4 w-full">
+        <div class="absolute bottom-3">
           <ShowPlugins onClick={() => handleShowExtensions()} />
         </div>
       </div>
