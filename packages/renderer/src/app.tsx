@@ -12,7 +12,6 @@ import { getFileContents } from "./util/files";
 const fetchFileContents = async (id: string) => {
   if (!id) return;
   let contents = await getFileContents<BlockType>(id);
-
   setFile("contents", contents);
 };
 

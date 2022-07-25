@@ -1,18 +1,28 @@
 import { allFiles, refetchAllFiles, setFile } from "../state/file";
 import { FilesList } from "../types";
+import { ipcRenderer } from "electron";
+
+export const handleFileSave = async (id: string, contents: string) => {
+  return await ipcRenderer.invoke("saveFile", id, contents);
+};
+export const deleteNote = async (id: string) => {
+  return await ipcRenderer.invoke("deleteNote", id);
+};
+export const handleFileGetContents = async (name: string) => {
+  return await ipcRenderer.invoke("getFileContents", name);
+};
 
 const WORKSPACE_FILES = "files";
 
 export async function saveFile(id: string, name: string, contents: any) {
-  await window.saveFile(id, JSON.stringify(contents));
+  await handleFileSave(id, JSON.stringify(contents));
   if (![WORKSPACE_FILES, "user"].includes(id)) {
     await updateWorkspaceFiles(id, name);
   }
 }
 
 export async function getFileContents<T>(name: string): Promise<T> {
-  let contents = await window.getFileContents(name);
-
+  let contents = await handleFileGetContents(name);
   return contents;
 }
 export async function getAllFileNames(): Promise<FilesList[]> {
@@ -42,10 +52,11 @@ async function updateWorkspaceFiles(id: string, name: string) {
 export async function deleteFile(id: string) {
   let currentFiles = allFiles();
   let idx = currentFiles.findIndex((f) => f.id == id);
-  if (idx != currentFiles.length - 1)
+  if (idx != currentFiles.length - 1) {
     currentFiles[idx + 1].index = currentFiles[idx].index;
+  }
   currentFiles.splice(idx, 1);
-  await window.deleteNote(id);
+  await deleteNote(id);
   await saveFile(WORKSPACE_FILES, WORKSPACE_FILES, currentFiles);
   setFile({ id: "", name: "", contents: {} });
   refetchAllFiles();

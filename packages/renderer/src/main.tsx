@@ -6,9 +6,5 @@ import { render } from "solid-js/web";
 import App from "./app";
 
 render(() => {
-  onMount(() => {
-    window.removeLoading();
-  });
-
   return <App />;
 }, document.getElementById("root") as HTMLElement);
