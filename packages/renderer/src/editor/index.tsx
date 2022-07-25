@@ -1,6 +1,11 @@
-import { createTiptapEditor } from "solid-tiptap";
 import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
-import { editorProps, editorStyle, fileContentsUpdate } from "../state/editor";
+import {
+  editorStyle,
+  fileContentsUpdate,
+  editor,
+  EditorDiv,
+  editorRef,
+} from "../state/editor";
 import { plugins, settings } from "../state/settings";
 import { file, setFile } from "../state/file";
 import { saveFile } from "../util/files";
@@ -8,21 +13,11 @@ import { getCaretCoordinates } from "../util/cursor";
 import { OverlayCommandsPopup } from "./overlayCommandsPopup";
 
 export default function Editor() {
-  let ref!: HTMLDivElement;
-
   const [cursorCoordinates, setCursorCoordinates] = createSignal({
     x: null,
     y: null,
   });
   const [showCommandsPopup, setShowCommandsPopup] = createSignal(false);
-
-  const editor = createTiptapEditor({
-    get element() {
-      return ref;
-    },
-    content: file.contents,
-    ...editorProps,
-  });
 
   const openCommandsPopup = () => {
     setCursorCoordinates(getCaretCoordinates());
@@ -46,11 +41,12 @@ export default function Editor() {
     const instance = editor();
     if (instance) {
       instance.commands.focus();
+      plugins.editorProps?.forEach((fn) => fn());
     }
   });
 
   createEffect(() => {
-    ref.addEventListener("keydown", handleKeyDown);
+    editorRef.addEventListener("keydown", handleKeyDown);
   });
 
   createEffect(
@@ -97,7 +93,7 @@ export default function Editor() {
     });
   });
   onCleanup(() => {
-    ref.removeEventListener("keydown", handleKeyDown);
+    editorRef.removeEventListener("keydown", handleKeyDown);
   });
 
   const selectionHandler = (tag) => {};
@@ -113,7 +109,7 @@ export default function Editor() {
           closeHandler={closeCommandsPopup}
         />
       </Show>
-      <div id="editor" ref={ref} class="" />
+      {EditorDiv}
     </div>
   );
 }

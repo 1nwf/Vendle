@@ -2,8 +2,9 @@ import Document from "@tiptap/extension-document";
 import StarterKit from "@tiptap/starter-kit";
 import { createSignal } from "solid-js";
 import { createMutable } from "solid-js/store";
-import { UseEditorOptions } from "solid-tiptap";
+import { createTiptapEditor, UseEditorOptions } from "solid-tiptap";
 import { settings } from "./settings";
+import { file } from "./file";
 
 const CustomDocument = Document.extend({
   content: "heading block*",
@@ -36,3 +37,13 @@ export const [fileContentsUpdate, setFileContentsUpdate] = createSignal(0);
 export const updateFileContents = () => {
   setFileContentsUpdate(fileContentsUpdate() + 1);
 };
+
+export let editorRef;
+export let EditorDiv = <div id="editor" ref={editorRef} class="" />;
+export const editor = createTiptapEditor({
+  get element() {
+    return editorRef;
+  },
+  content: file.contents,
+  ...editorProps,
+});
