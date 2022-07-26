@@ -1,5 +1,5 @@
 import { plugins } from "../state/settings";
-import { PluginApi, pluginApis, Plugin } from "../../../types/plugins";
+import { pluginApis, Plugin } from "../../../types/plugins";
 import { ipcRenderer } from "electron";
 import * as vendle from "./vendle";
 
@@ -61,9 +61,6 @@ export const loadPlugins = async () => {
 export const initPlugins = async () => {
   const loadedPlugins = await loadPlugins();
   loadedPlugins.forEach((plugin) => {
-    Object.keys(plugin.module).forEach((mod) => {
-      let m = mod as PluginApi;
-      plugins[m].push(plugin.module[m]);
-    });
+    plugins.push(plugin);
   });
 };

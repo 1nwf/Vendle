@@ -41,7 +41,6 @@ export default function Editor() {
     const instance = editor();
     if (instance) {
       instance.commands.focus();
-      plugins.editorProps?.forEach((fn) => fn());
     }
   });
 

@@ -1,5 +1,5 @@
 import { createMutable } from "solid-js/store";
-import { PluginApi } from "../../../types/plugins";
+import { Plugin } from "../../../types/plugins";
 
 const defaultLight = {
   editorBg: "bg-white",
@@ -58,9 +58,7 @@ export const settings = createMutable({
   },
 });
 
-export const plugins = createMutable<Partial<Record<PluginApi, any[]>>>({
-  editorProps: [],
-});
+export const plugins: Plugin[] = createMutable([]);
 
 export const colorscheme = createMutable(
   settings.isLightTheme ? defaultLight : defaultDark
