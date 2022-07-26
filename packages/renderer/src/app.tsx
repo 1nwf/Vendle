@@ -1,4 +1,4 @@
-import { Component, createEffect, createResource, Show } from "solid-js";
+import { Component, createResource, onMount, Show } from "solid-js";
 import Editor from "./editor";
 import "./index.css";
 import { initPlugins } from "./plugins";
@@ -28,11 +28,11 @@ const DefaultHomeScreen = () => {
 const App: Component = () => {
   createResource(() => file.id, fetchFileContents);
 
-  createEffect(async () => {
+  onMount(async () => {
     await initPlugins();
   });
 
-  createEffect(async () => {
+  onMount(async () => {
     let userData = await getFileContents<{ name: string }>("settings");
     settings.username = userData.name;
   });
