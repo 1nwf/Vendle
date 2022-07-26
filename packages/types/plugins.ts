@@ -1,6 +1,8 @@
 export interface Module {
+  main: () => void;
   setColorscheme: () => void;
-  editorProps: () => void;
+  cleanupEditorActions: () => void;
+  setEditorOptions: () => void;
 }
 export interface Plugin {
   name: string;
@@ -10,5 +12,10 @@ export interface Plugin {
   module: Partial<Module>;
 }
 
-export const pluginApis: (keyof Module)[] = ["editorProps", "setColorscheme"];
+export const pluginApis: (keyof Module)[] = [
+  "main",
+  "setColorscheme",
+  "cleanupEditorActions",
+  "setEditorOptions",
+];
 export type PluginApi = keyof Module;
