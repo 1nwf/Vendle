@@ -36,7 +36,6 @@ export const loadPlugins = async () => {
   paths.forEach((path) => {
     const mod = require(path);
     Object.keys(mod).forEach((fn) => {
-      mod[fn]();
       if (!(pluginApis as string[]).includes(fn)) {
         delete mod[fn];
       }
