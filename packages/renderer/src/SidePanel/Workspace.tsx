@@ -1,5 +1,5 @@
 import { createSignal, onCleanup } from "solid-js";
-import { colorscheme, settings } from "../state/settings";
+import { settings } from "../state/settings";
 import { saveFile } from "../util/files";
 
 export default function Workspace() {
@@ -31,7 +31,8 @@ export default function Workspace() {
   });
   return (
     <div
-      class={`${settings.theme.sidePanelBg} ${settings.theme.sidePanelFg} py-2 pl-2 rounded-r-2xl  mb-1`}
+      style={settings.theme.sidePanelBg + settings.theme.sidePanelFg}
+      class={`py-2 pl-2 rounded-r-2xl  mb-1`}
     >
       <div class=" rounded-r-xl p-2  flex items-center w-[95%] mr-42 hover:(bg-black bg-opacity-15 cursor-pointer)">
         <img

@@ -1,3 +1,4 @@
+import { generateStylesFromWindiClassName } from "@/util/styles";
 import { createMutable } from "solid-js/store";
 import { Plugin } from "../../../types/plugins";
 
@@ -24,6 +25,12 @@ const defaultDark = {
   commandsPopupBg: "bg-gray-300",
   commandsPopupFg: "text-black",
 };
+Object.keys(defaultLight).forEach((key) => {
+  let k = key as keyof typeof defaultDark;
+  defaultLight[k] = generateStylesFromWindiClassName(defaultLight[k]);
+  defaultDark[k] = generateStylesFromWindiClassName(defaultDark[k]);
+});
+
 export const settings = createMutable({
   allowEditing: true,
   menuItmes: [],

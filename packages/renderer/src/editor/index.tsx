@@ -6,7 +6,7 @@ import {
   EditorDiv,
   editorRef,
 } from "../state/editor";
-import { plugins, settings } from "../state/settings";
+import { settings } from "../state/settings";
 import { file, setFile } from "../state/file";
 import { saveFile } from "../util/files";
 import { getCaretCoordinates } from "../util/cursor";
@@ -100,7 +100,7 @@ export default function Editor() {
     setShowCommandsPopup(false);
   };
   return (
-    <div class={`w-full ${settings.theme.editorBg}`}>
+    <div style={settings.theme.editorBg} class={`w-full`}>
       <Show when={showCommandsPopup()}>
         <OverlayCommandsPopup
           position={cursorCoordinates()}

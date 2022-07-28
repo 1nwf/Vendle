@@ -61,14 +61,16 @@ export const OverlayCommandsPopup = ({
   });
   return (
     <div
-      class={`${settings.theme.commandsPopupBg} rounded-xl w-min p-2 absolute flex flex-col justify-start z-50`}
-      style={{ left: `${position.x}px`, top: `${position.y + 25}px` }}
+      class={`rounded-xl w-min p-2 absolute flex flex-col justify-start z-50`}
+      style={`left: ${position.x}px;top: ${position.y + 25}px; ${
+        settings.theme.commandsPopupBg
+      }`}
       ref={divRef}
     >
       <Show
         when={selectionList().length > 0}
         fallback={
-          <p class={`text-sm w-max ${settings.theme.commandsPopupFg}`}>
+          <p class={`text-sm w-max`} style={settings.theme.commandsPopupFg}>
             results empty
           </p>
         }
@@ -83,7 +85,7 @@ export const OverlayCommandsPopup = ({
                   : ""
               } py-1 px-2 rounded-md`}
             >
-              <p class={`text-sm ${"text-" + settings.theme.commandsPopupFg}`}>
+              <p class={`text-sm`} style={settings.theme.commandsPopupFg}>
                 {command.name}
               </p>
             </div>

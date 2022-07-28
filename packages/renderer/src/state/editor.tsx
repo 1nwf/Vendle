@@ -10,7 +10,7 @@ const CustomDocument = Document.extend({
   content: "heading block*",
 });
 export const editorStyle = () => {
-  return `outline-none ${settings.theme.editorFg} ${settings.theme.editorBg} pt-12 w-full lg:pl-[12vw] pl-[18vw] pr-[15vw] h-screen`;
+  return `outline-none  pt-12 w-full lg:pl-[12vw] pl-[18vw] pr-[15vw] h-screen`;
 };
 
 const editorExtensions = createMutable([
@@ -39,7 +39,9 @@ export const updateFileContents = () => {
 };
 
 export let editorRef;
-export let EditorDiv = <div id="editor" ref={editorRef} class="" />;
+export let EditorDiv = (
+  <div id="editor" ref={editorRef} style={settings.theme.editorFg} />
+);
 export const editor = createTiptapEditor({
   get element() {
     return editorRef;

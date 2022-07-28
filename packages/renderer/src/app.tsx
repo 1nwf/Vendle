@@ -4,7 +4,7 @@ import "./index.css";
 import { initPlugins } from "./plugins";
 import SidePanel from "./SidePanel";
 import { file, setFile } from "./state/file";
-import { settings } from "./state/settings";
+import { plugins, settings } from "./state/settings";
 import Titlebar from "./Titlebar";
 import { BlockType } from "./types";
 import { getFileContents } from "./util/files";
@@ -18,7 +18,8 @@ const fetchFileContents = async (id: string) => {
 const DefaultHomeScreen = () => {
   return (
     <div
-      class={`justify-center h-[25vh] items-center ${settings.theme.appFg} flex w-11/12`}
+      class={`justify-center h-[25vh] items-center  flex w-11/12`}
+      style={settings.theme.appFg}
     >
       <h1 class="text-4xl">Choose a file</h1>
     </div>
@@ -38,16 +39,18 @@ const App: Component = () => {
   });
 
   return (
-    <div class={`h-screen ${settings.theme.appBg}  ${settings.theme.appFg}`}>
+    <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
       <div class="h-full w-screen">
         <div
-          class={`float-left h-screen ${settings.theme.sidePanelBg} pt-6 absolute top-0 hidden lg:(block w-1/5)`}
+          style={settings.theme.sidePanelBg}
+          class={`float-left h-screen pt-6 absolute top-0 hidden lg:(block w-1/5)`}
         >
           <SidePanel />
         </div>
         <div
-          class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-auto ${settings.theme.editorBg}`}
+          style={settings.theme.editorBg}
+          class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-auto`}
         >
           <Show when={file.name} fallback={<DefaultHomeScreen />}>
             <Editor />
