@@ -7,10 +7,10 @@ import {
 } from "solid-js";
 import Editor from "./editor";
 import "./index.css";
-import { initPlugins, loadStyles } from "./plugins";
+import { initPlugins } from "./util/plugins";
 import SidePanel from "./SidePanel";
 import { file, setFile } from "./state/file";
-import { plugins, settings } from "./state/settings";
+import { settings } from "./state/settings";
 import { store } from "./store";
 import Titlebar from "./Titlebar";
 import { BlockType } from "./types";
