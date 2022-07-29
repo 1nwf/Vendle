@@ -1,7 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { domReady } from "./utils";
 import { useLoading } from "./loading";
-import { loadPlugins } from "../main/plugins";
 
 const { appendLoading, removeLoading } = useLoading();
 
@@ -17,7 +16,6 @@ contextBridge.exposeInMainWorld("getPluginPaths", () =>
   ipcRenderer.invoke("get-plugins-path")
 );
 
-contextBridge.exposeInMainWorld("loadPlugins", loadPlugins);
 contextBridge.exposeInMainWorld("ipcRenderer", withPrototype(ipcRenderer));
 
 contextBridge.exposeInMainWorld("saveFile", (id: string, contents: any) =>

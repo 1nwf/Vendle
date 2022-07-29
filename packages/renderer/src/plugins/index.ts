@@ -1,7 +1,8 @@
-import { plugins } from "../state/settings";
+import { plugins, settings } from "../state/settings";
 import { pluginApis, Plugin } from "../../../types/plugins";
 import { ipcRenderer } from "electron";
 import * as vendle from "./vendle";
+import { generateStylesFromWindiClassName } from "@/util/styles";
 
 const pluginPaths = async () => {
   const paths: string[] = await ipcRenderer.invoke("get-plugins-path");
@@ -45,6 +46,7 @@ export const loadPlugins = async () => {
       name: "",
       description: "",
       version: "",
+      type: "",
       path,
     });
   });
@@ -64,4 +66,10 @@ export const initPlugins = async () => {
   });
 };
 
-
+export const loadStyles = (style: typeof settings.lightTheme) => {
+  Object.keys(style).forEach((key) => {
+    let k = key as keyof typeof style;
+    let css = generateStylesFromWindiClassName(style[k]);
+    settings.lightTheme[k] = css;
+  });
+};

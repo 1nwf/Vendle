@@ -1,19 +1,6 @@
 import { app } from "electron";
 import { promises as fs } from "fs";
-import { Plugin, pluginApis } from "../types/plugins";
-
-const patchedRequire = (vendle: any) => {
-  const Module = require("module");
-  const originalRequire = Module._load;
-  Module._load = function _load(modulePath: string) {
-    switch (modulePath) {
-      case "vendle":
-        return vendle;
-      default:
-        return originalRequire.apply(this, arguments);
-    }
-  };
-};
+import { Plugin } from "../types/plugins";
 
 export const getPluginPaths = async () => {
   const pluginsPath = app.getPath("appData") + "/Vendle/extensions";
@@ -38,23 +25,6 @@ export const getPluginInfo = async (
     name: info.name,
     description: info.description,
     version: info.version,
+    type: info.type,
   };
-};
-
-export const loadPlugins = (pluginsPaths: string[]) => {
-  let plugins: Omit<Plugin, "name" | "version" | "description">[] = [];
-  pluginsPaths.forEach((path) => {
-    const mod = require(path);
-    Object.keys(mod).forEach((fn) => {
-      if (!(pluginApis as string[]).includes(fn)) {
-        delete mod[fn];
-      }
-    });
-    plugins.push({
-      module: mod,
-      path,
-    });
-  });
-
-  return plugins;
 };
