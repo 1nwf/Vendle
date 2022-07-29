@@ -1,4 +1,5 @@
 import { allFiles } from "@/state/file";
+import { settings } from "@/state/settings";
 import { createSignal, For, Show } from "solid-js";
 import CreateFile from "../CreateFile";
 import File from "./File";
@@ -16,7 +17,9 @@ export default function AllFiles() {
   return (
     <div>
       <div class="flex items-center">
-        <h1 class="font-bold">Files</h1>
+        <h1 class="font-bold" style={settings.theme.sidePanelFg}>
+          Files
+        </h1>
         <div
           class="ml-auto hover:(cursor-pointer bg-opacity-60)"
           onClick={() => handleShowCreateFile()}

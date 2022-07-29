@@ -1,3 +1,4 @@
+import { settings } from "@/state/settings";
 import { createSignal, onCleanup, Show } from "solid-js";
 import { updateFileContents } from "../../state/editor";
 import { file, setFile } from "../../state/file";
@@ -67,6 +68,7 @@ export default function File({
         contentEditable={editable()}
         onInput={(e) => setNewName(e.target.textContent)}
         onKeyDown={handleKeyDown}
+        style={settings.theme.sidePanelFg}
       >
         {fileName}
       </p>
