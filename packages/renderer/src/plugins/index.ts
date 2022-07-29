@@ -67,9 +67,12 @@ export const initPlugins = async () => {
 };
 
 export const loadStyles = (style: typeof settings.lightTheme) => {
-  Object.keys(style).forEach((key) => {
-    let k = key as keyof typeof style;
-    let css = generateStylesFromWindiClassName(style[k]);
-    settings.lightTheme[k] = css;
+  console.log("style:", style);
+  Object.keys(style).forEach((theme) => {
+    let colors = style[theme];
+    Object.keys(colors).forEach((type) => {
+      const styles = generateStylesFromWindiClassName(colors[type]);
+      settings[theme][type] = styles;
+    });
   });
 };

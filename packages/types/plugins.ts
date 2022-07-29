@@ -9,9 +9,13 @@ interface Colorscheme {
   commandsPopupBg: string;
   commandsPopupFg: string;
 }
+interface Theme {
+  lightTheme: Colorscheme;
+  darkTheme: Colorscheme;
+}
 export interface Module {
   main: () => void;
-  setColorscheme: () => Colorscheme;
+  setColorscheme: () => Theme;
   cleanupEditorActions: () => void;
   setEditorOptions: () => void;
 }
