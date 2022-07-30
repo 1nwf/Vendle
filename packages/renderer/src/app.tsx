@@ -8,11 +8,11 @@ import {
 import Editor from "./editor";
 import "./index.css";
 import { initPlugins } from "./util/plugins";
-import SidePanel from "./SidePanel";
+import SidePanel from "./sidepanel";
 import { file, setFile } from "./state/file";
 import { settings } from "./state/settings";
 import { store } from "./store";
-import Titlebar from "./Titlebar";
+import Titlebar from "./titlebar";
 import { BlockType } from "./types";
 import { getFileContents } from "./util/files";
 
