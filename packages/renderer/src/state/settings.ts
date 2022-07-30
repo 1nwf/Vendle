@@ -60,6 +60,7 @@ export const settings = createMutable({
     },
   ],
   username: "No User Name",
+  themeName: "default",
   get theme() {
     return this.isLightTheme ? this.lightTheme : this.darkTheme;
   },
