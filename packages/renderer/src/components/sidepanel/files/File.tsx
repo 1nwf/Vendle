@@ -1,8 +1,8 @@
 import { settings } from "@/state/settings";
 import { createSignal, onCleanup, Show } from "solid-js";
-import { updateFileContents } from "../../state/editor";
-import { file, setFile } from "../../state/file";
-import { deleteFile, renameFile, saveFile } from "../../util/files";
+import { updateFileContents } from "@/state/editor";
+import { file, setFile } from "../../../state/file";
+import { deleteFile, renameFile, saveFile } from "@/util/files";
 
 export default function File({
   id,

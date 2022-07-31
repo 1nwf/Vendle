@@ -1,6 +1,6 @@
 import { createSignal, onCleanup } from "solid-js";
-import { settings } from "../state/settings";
-import { saveFile } from "../util/files";
+import { settings } from "@/state/settings";
+import { saveFile } from "@/util/files";
 
 export default function Workspace() {
   const [editable, setEditable] = createSignal(false);

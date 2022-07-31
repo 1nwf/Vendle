@@ -1,6 +1,6 @@
 import { matchSorter } from "match-sorter";
 import { createEffect, createSignal, For, onCleanup, Show } from "solid-js";
-import { settings } from "../state/settings";
+import { settings } from "@/state/settings";
 
 interface Props {
   selectionHandler: (tag: string) => void;

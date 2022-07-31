@@ -1,5 +1,5 @@
 import { createSignal, Show } from "solid-js";
-import { settings } from "../state/settings";
+import { settings } from "@/state/settings";
 import Workspace from "./Workspace";
 import ShowPlugins from "./plugins/ShowPlugins";
 import AllFiles from "./files";
@@ -34,8 +34,8 @@ export default function SidePanel() {
         </div>
       </Show>
 
-      <div class="flex mx-4 w-full">
-        <div class="absolute bottom-3">
+      <div class="absolute bottom-5">
+        <div class="flex mx-4 ">
           <ShowPlugins onClick={() => handleShowExtensions()} />
         </div>
       </div>

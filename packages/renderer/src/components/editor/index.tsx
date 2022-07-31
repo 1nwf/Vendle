@@ -5,11 +5,11 @@ import {
   editor,
   EditorDiv,
   editorRef,
-} from "../state/editor";
-import { settings } from "../state/settings";
-import { file, setFile } from "../state/file";
-import { saveFile } from "../util/files";
-import { getCaretCoordinates } from "../util/cursor";
+} from "@/state/editor";
+import { settings } from "@/state/settings";
+import { file, setFile } from "@/state/file";
+import { saveFile } from "@/util/files";
+import { getCaretCoordinates } from "@/util/cursor";
 import { OverlayCommandsPopup } from "./overlayCommandsPopup";
 
 export default function Editor() {

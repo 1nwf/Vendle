@@ -5,14 +5,14 @@ import {
   onMount,
   Show,
 } from "solid-js";
-import Editor from "./editor";
+import Editor from "./components/editor";
 import "./index.css";
 import { initPlugins } from "./util/plugins";
-import SidePanel from "./sidepanel";
+import SidePanel from "./components/sidepanel";
 import { file, setFile } from "./state/file";
 import { settings } from "./state/settings";
 import { store } from "./store";
-import Titlebar from "./titlebar";
+import Titlebar from "./components/titlebar";
 import { BlockType } from "./types";
 import { getFileContents } from "./util/files";
 

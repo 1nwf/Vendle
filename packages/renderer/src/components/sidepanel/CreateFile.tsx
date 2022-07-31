@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
-import { createEffect, createSignal, onMount, Show } from "solid-js";
-import { saveFile } from "../util/files";
+import { createSignal } from "solid-js";
+import { saveFile } from "@/util/files";
 
 export default function CreateFile({
   ref,
