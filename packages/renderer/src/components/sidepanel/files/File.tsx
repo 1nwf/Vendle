@@ -3,6 +3,7 @@ import { createSignal, onCleanup, Show } from "solid-js";
 import { updateFileContents } from "@/state/editor";
 import { file, setFile } from "../../../state/file";
 import { deleteFile, renameFile, saveFile } from "@/util/files";
+import { Link } from "@solidjs/router";
 
 export default function File({
   id,
@@ -56,22 +57,28 @@ export default function File({
       class={`flex rounded-md select-text ${
         editable()
           ? "bg-black shadow-xl"
-          : `hover:(cursor-pointer bg-black bg-opacity-10 font-bold) ${
+          : `hover:(cursor-pointer bg-black text-white bg-opacity-10 font-bold) ${
               file.id == id && "bg-white bg-opacity-25"
             }`
       }`}
       onClick={handleClick}
     >
-      <p
-        ref={nameRef}
-        class="p-2  w-8/12 outline-none break-all"
-        contentEditable={editable()}
-        onInput={(e) => setNewName(e.target.textContent)}
-        onKeyDown={handleKeyDown}
-        style={settings.theme.sidePanelFg}
+      <Link
+        href={`/file/${id}`}
+        class={`p-2 text-red-500 w-8/12 break-all no-underline`}
       >
-        {fileName}
-      </p>
+        <p
+          ref={nameRef}
+          style={!editable() ? settings.theme.sidePanelFg : "color: white"}
+          class="outline-none"
+          contentEditable={editable()}
+          onInput={(e) => setNewName(e.target.textContent)}
+          onKeyDown={handleKeyDown}
+        >
+          {fileName}
+        </p>
+      </Link>
+
       <div class="my-auto ml-auto mr-1" onClick={handleToggleMenu}>
         <div class="hover:(bg-gray-300 bg-opacity-30) rounded-md">
           <svg
