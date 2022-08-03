@@ -4,6 +4,8 @@ import { updateFileContents } from "@/state/editor";
 import { file, setFile } from "../../../state/file";
 import { deleteFile, renameFile, saveFile } from "@/util/files";
 import { Link } from "@solidjs/router";
+import { Icon } from "solid-heroicons";
+import { dotsVertical } from "solid-heroicons/outline";
 
 export default function File({
   id,
@@ -64,7 +66,7 @@ export default function File({
       onClick={handleClick}
     >
       <Link
-        href={`/file/${id}`}
+        href={`/file`}
         class={`p-2 text-red-500 w-8/12 break-all no-underline`}
       >
         <p
@@ -81,20 +83,7 @@ export default function File({
 
       <div class="my-auto ml-auto mr-1" onClick={handleToggleMenu}>
         <div class="hover:(bg-gray-300 bg-opacity-30) rounded-md">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width={2}
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-            />
-          </svg>
+          <Icon path={dotsVertical} class="h-6 w-6" stroke-width={2} />
         </div>
         <Show when={showMenu()}>
           <div

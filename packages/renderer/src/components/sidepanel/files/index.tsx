@@ -3,6 +3,8 @@ import { settings } from "@/state/settings";
 import { createSignal, For, Show } from "solid-js";
 import CreateFile from "../CreateFile";
 import File from "./File";
+import { Icon } from "solid-heroicons";
+import { documentAdd } from "solid-heroicons/outline";
 
 export default function AllFiles() {
   const [showCreateFile, setShowCreateFile] = createSignal(false);
@@ -24,20 +26,7 @@ export default function AllFiles() {
           class="ml-auto hover:(cursor-pointer bg-opacity-60)"
           onClick={() => handleShowCreateFile()}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width={2}
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
+          <Icon path={documentAdd} class="h-6 w-6 mr-1" stroke-width={2} />
         </div>
       </div>
       <div class="h-[76vh] overflow-y-auto mt-4">

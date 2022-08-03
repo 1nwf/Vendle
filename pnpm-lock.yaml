@@ -18,6 +18,7 @@ specifiers:
   match-sorter: ^6.3.1
   nanoid: ^4.0.0
   postcss: ^8.4.14
+  solid-heroicons: ^2.0.3
   solid-js: ^1.4.8
   solid-tiptap: ^0.3.3
   tailwindcss: ^3.1.7
@@ -33,6 +34,7 @@ dependencies:
   '@tiptap/extension-paragraph': 2.0.0-beta.26_jdrcmhoxj44u3cq7gnenksjiqq
   conf: 10.2.0
   electron-store: 8.1.0
+  solid-heroicons: 2.0.3
 
 devDependencies:
   '@tiptap/core': 2.0.0-beta.182
@@ -3327,6 +3329,12 @@ packages:
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
     dev: true
     optional: true
+
+  /solid-heroicons/2.0.3:
+    resolution: {integrity: sha512-sHlEaCaFFD8s/RDWTlmfIC/5dUPOtRB/UqOTpXQLq/BUZ94jWS58CANwONBclxwKFFGu6iasaP5zN4iYqORlVg==}
+    dependencies:
+      solid-js: 1.4.8
+    dev: false
 
   /solid-js/1.4.8:
     resolution: {integrity: sha512-XErZdnnYYXF7OwGSUAPcua2y5/ELB/c53zFCpWiEGqxTNoH1iQghzI8EsHJXk06sNn+Z/TGhb8bPDNNGSgimag==}
