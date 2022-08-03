@@ -1,20 +1,12 @@
-import {
-  Component,
-  createEffect,
-  createResource,
-  onMount,
-  Show,
-} from "solid-js";
-import Editor from "./components/editor";
+import { Component, createEffect, onMount } from "solid-js";
 import "./index.css";
-import { initPlugins } from "./util/plugins";
-import SidePanel from "./components/sidepanel";
-import { file, setFile } from "./state/file";
-import { settings } from "./state/settings";
-import { store } from "./store";
+import { useRoutes } from "@solidjs/router";
+import { routes } from "./routes";
 import Titlebar from "./components/titlebar";
-import { BlockType } from "./types";
-import { getFileContents } from "./util/files";
+import { settings } from "./state/settings";
+import SidePanel from "./components/sidepanel";
+import { initPlugins } from "./util/plugins";
+import { store } from "./store";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
@@ -26,41 +18,17 @@ const loadSettings = async () => {
     });
   }
 };
-const fetchFileContents = async (id: string) => {
-  if (!id) return;
-  let contents = await getFileContents<BlockType>(id);
-  setFile("contents", contents);
-};
-
-const DefaultHomeScreen = () => {
-  return (
-    <div
-      class={`justify-center h-[25vh] items-center  flex w-11/12`}
-      style={settings.theme.appFg}
-    >
-      <h1 class="text-4xl" style={settings.theme.appFg}>
-        Choose a file
-      </h1>
-    </div>
-  );
-};
-
 const App: Component = () => {
-  createResource(() => file.id, fetchFileContents);
-
   onMount(async () => {
     await initPlugins();
   });
-
-  createEffect(async () => {
+  onMount(async () => {
     await loadSettings();
   });
 
-  onMount(async () => {
-    let userData = await getFileContents<{ name: string }>("settings");
-    settings.username = userData.name;
-  });
+  const Routes = useRoutes(routes);
 
+  createEffect(() => {});
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -75,9 +43,7 @@ const App: Component = () => {
           style={settings.theme.editorBg}
           class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-auto`}
         >
-          <Show when={file.name} fallback={<DefaultHomeScreen />}>
-            <Editor />
-          </Show>
+          <Routes />
         </div>
       </div>
     </div>
