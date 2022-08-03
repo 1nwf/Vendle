@@ -1,7 +1,6 @@
 import { allFiles, refetchAllFiles, setFile } from "../state/file";
-import { FilesList } from "../types";
-import { ipcRenderer } from "electron";
 import { store } from "@/store";
+import { ipcRenderer } from "electron";
 
 export const handleFileSave = async (id: string, contents: string) => {
   return await ipcRenderer.invoke("saveFile", id, contents);
@@ -23,10 +22,6 @@ export async function saveFile(id: string, name: string, contents: any) {
 export async function getFileContents<T>(name: string): Promise<T> {
   let contents = await handleFileGetContents(name);
   return contents;
-}
-export async function getAllFileNames(): Promise<FilesList[]> {
-  let allFiles = await store.get(WORKSPACE_FILES);
-  return allFiles ?? [];
 }
 
 async function updateWorkspaceFiles(id: string, name: string) {

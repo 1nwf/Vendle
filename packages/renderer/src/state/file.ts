@@ -1,6 +1,10 @@
+import { store } from "@/store";
 import { createResource } from "solid-js";
 import { createStore } from "solid-js/store";
-import { getAllFileNames } from "../util/files";
+
+const getFileNames = async () => {
+  return await store.get("files");
+};
 
 export const [fileContents, setFileContents] = createStore({});
 export const [file, setFile] = createStore({
@@ -9,7 +13,7 @@ export const [file, setFile] = createStore({
   contents: {},
 });
 export const [allFiles, { refetch: refetchAllFiles }] = createResource(
-  getAllFileNames,
+  getFileNames,
   {
     initialValue: [],
   }
