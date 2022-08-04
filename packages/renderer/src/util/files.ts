@@ -5,7 +5,9 @@ import { ipcRenderer } from "electron";
 export const handleFileSave = async (id: string, contents: string) => {
   return await ipcRenderer.invoke("saveFile", id, contents);
 };
-export const deleteNote = async (id: string) => {};
+export const deleteNote = async (id: string) => {
+  ipcRenderer.invoke("deleteNote", id);
+};
 export const handleFileGetContents = async (name: string) => {
   return await ipcRenderer.invoke("getFileContents", name);
 };
@@ -44,8 +46,10 @@ async function updateWorkspaceFiles(id: string, name: string) {
 }
 
 export async function deleteFile(id: string) {
+  console.log("deleting file", id);
+
   let currentFiles = allFiles();
-  let idx = currentFiles.findIndex((f) => f.id == id);
+  let idx = currentFiles.findIndex((f) => f.id === id);
   if (idx != currentFiles.length - 1) {
     currentFiles[idx + 1].index = currentFiles[idx].index;
   }
