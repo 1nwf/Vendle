@@ -31,7 +31,7 @@
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",
     "autoprefixer": "^10.4.8",
-    "electron": "^20.0.0",
+    "electron": "^20.0.1",
     "electron-builder": "^23.3.3",
     "match-sorter": "^6.3.1",
     "nanoid": "^4.0.0",
