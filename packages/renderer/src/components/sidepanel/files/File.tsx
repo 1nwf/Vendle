@@ -1,7 +1,7 @@
 import { settings } from "@/state/settings";
 import { createSignal, onCleanup, Show } from "solid-js";
 import { updateFileContents } from "@/state/editor";
-import { file, setFile } from "../../../state/file";
+import { file } from "../../../state/file";
 import { deleteFile, renameFile, saveFile } from "@/util/files";
 import { Link } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
@@ -20,11 +20,10 @@ export default function File({
   let nameRef;
   const handleClick = async (e) => {
     if (e.detail == 1) {
-      if (file.name && file.id && file.id != id) {
-        updateFileContents();
-        await saveFile(file.id, file.name, file.contents);
-      }
-      setFile({ id: id, name: fileName });
+      // if (file.name && file.id != id) {
+      //   updateFileContents();
+      //   await saveFile(file.id, file.name, file.contents);
+      // }
     } else if (e.detail == 2) {
       setEditable(true);
     }
@@ -66,7 +65,7 @@ export default function File({
       onClick={handleClick}
     >
       <Link
-        href={`/file`}
+        href={`/file/${id}`}
         class={`p-2 text-red-500 w-8/12 break-all no-underline`}
       >
         <p
