@@ -1,4 +1,4 @@
-import { Component, createEffect, onMount } from "solid-js";
+import { Component, onMount } from "solid-js";
 import "./index.css";
 import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
@@ -28,7 +28,6 @@ const App: Component = () => {
 
   const Routes = useRoutes(routes);
 
-  createEffect(() => {});
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />

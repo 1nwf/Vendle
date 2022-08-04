@@ -1,8 +1,7 @@
 import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
 import { editorStyle, editorRef, editor, EditorDiv } from "@/state/editor";
 import { settings } from "@/state/settings";
-import { file } from "@/state/file";
-import { saveFile } from "@/util/files";
+import { saveNote } from "@/util/files";
 import { getCaretCoordinates } from "@/util/cursor";
 import { OverlayCommandsPopup } from "./overlayCommandsPopup";
 
@@ -23,7 +22,7 @@ export default function Editor() {
       e.preventDefault();
       let instance = editor();
       if (instance != undefined) {
-        await saveFile(file.id, file.name, instance.getJSON());
+        await saveNote();
       }
     }
 

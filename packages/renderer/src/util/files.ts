@@ -1,6 +1,7 @@
-import { allFiles, refetchAllFiles, setFile } from "../state/file";
+import { allFiles, file, refetchAllFiles, setFile } from "../state/file";
 import { store } from "@/store";
 import { ipcRenderer } from "electron";
+import { editor } from "@/state/editor";
 
 export const handleFileSave = async (id: string, contents: string) => {
   return await ipcRenderer.invoke("saveFile", id, contents);
@@ -64,4 +65,8 @@ export async function renameFile(id: string, newName: string) {
   updatedFiles[idx].name = newName;
   await store.set(WORKSPACE_FILES, updatedFiles);
   refetchAllFiles();
+}
+
+export async function saveNote() {
+  await saveFile(file.id, file.name, editor()!.getJSON());
 }

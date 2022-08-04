@@ -2,7 +2,7 @@ import { settings } from "@/state/settings";
 import { createSignal, onCleanup, Show } from "solid-js";
 import { editor } from "@/state/editor";
 import { file } from "../../../state/file";
-import { deleteFile, renameFile, saveFile } from "@/util/files";
+import { deleteFile, renameFile, saveNote } from "@/util/files";
 import { useNavigate } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
 import { dotsVertical } from "solid-heroicons/outline";
@@ -22,7 +22,7 @@ export default function File({
   const handleClick = async (e) => {
     if (e.detail == 1) {
       if (file.id && file.id !== id) {
-        await saveFile(file.id, file.name, editor()?.getJSON());
+        await saveNote();
       }
       navigate(`/file/${id}`);
     } else if (e.detail == 2) {
