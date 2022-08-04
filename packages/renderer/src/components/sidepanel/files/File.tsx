@@ -20,10 +20,6 @@ export default function File({
   let nameRef;
   const handleClick = async (e) => {
     if (e.detail == 1) {
-      // if (file.name && file.id != id) {
-      //   updateFileContents();
-      //   await saveFile(file.id, file.name, file.contents);
-      // }
     } else if (e.detail == 2) {
       setEditable(true);
     }
@@ -90,7 +86,7 @@ export default function File({
             onMouseEnter={(e) => e.stopPropagation()}
           >
             <p
-              onClick={() => deleteFile(id)}
+              onClick={async () => await deleteFile(id)}
               class="hover:(bg-red-500 text-white) p-2 rounded-xl"
             >
               delete
