@@ -1,9 +1,9 @@
 import { settings } from "@/state/settings";
 import { createSignal, onCleanup, Show } from "solid-js";
-import { updateFileContents } from "@/state/editor";
+import { editor } from "@/state/editor";
 import { file } from "../../../state/file";
 import { deleteFile, renameFile, saveFile } from "@/util/files";
-import { Link } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
 import { dotsVertical } from "solid-heroicons/outline";
 
@@ -14,12 +14,17 @@ export default function File({
   id: string;
   fileName: string;
 }) {
+  const navigate = useNavigate();
   const [editable, setEditable] = createSignal(false);
   const [showMenu, setShowMenu] = createSignal(false);
   const [newName, setNewName] = createSignal("");
   let nameRef;
   const handleClick = async (e) => {
     if (e.detail == 1) {
+      if (file.id && file.id !== id) {
+        await saveFile(file.id, file.name, editor()?.getJSON());
+      }
+      navigate(`/file/${id}`);
     } else if (e.detail == 2) {
       setEditable(true);
     }
@@ -60,10 +65,7 @@ export default function File({
       }`}
       onClick={handleClick}
     >
-      <Link
-        href={`/file/${id}`}
-        class={`p-2 text-red-500 w-8/12 break-all no-underline`}
-      >
+      <div class={`p-2 text-red-500 w-8/12 break-all no-underline`}>
         <p
           ref={nameRef}
           style={!editable() ? settings.theme.sidePanelFg : "color: white"}
@@ -74,7 +76,7 @@ export default function File({
         >
           {fileName}
         </p>
-      </Link>
+      </div>
 
       <div class="my-auto ml-auto mr-1" onClick={handleToggleMenu}>
         <div class="hover:(bg-gray-300 bg-opacity-30) rounded-md">

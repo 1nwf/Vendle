@@ -46,8 +46,6 @@ async function updateWorkspaceFiles(id: string, name: string) {
 }
 
 export async function deleteFile(id: string) {
-  console.log("deleting file", id);
-
   let currentFiles = allFiles();
   let idx = currentFiles.findIndex((f) => f.id === id);
   if (idx != currentFiles.length - 1) {

@@ -1,13 +1,7 @@
 import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
-import {
-  editorStyle,
-  fileContentsUpdate,
-  editor,
-  EditorDiv,
-  editorRef,
-} from "@/state/editor";
+import { editorStyle, editorRef, editor, EditorDiv } from "@/state/editor";
 import { settings } from "@/state/settings";
-import { file, setFile } from "@/state/file";
+import { file } from "@/state/file";
 import { saveFile } from "@/util/files";
 import { getCaretCoordinates } from "@/util/cursor";
 import { OverlayCommandsPopup } from "./overlayCommandsPopup";
@@ -47,24 +41,6 @@ export default function Editor() {
   createEffect(() => {
     editorRef.addEventListener("keydown", handleKeyDown);
   });
-
-  createEffect(
-    on(
-      () => file.name,
-      () => {
-        if (editor()) {
-          editor().commands.focus();
-        }
-      }
-    )
-  );
-
-  createEffect(
-    on(fileContentsUpdate, (c) => {
-      if (c == 0) return;
-      setFile("contents", editor().getJSON());
-    })
-  );
 
   createEffect(
     on(
