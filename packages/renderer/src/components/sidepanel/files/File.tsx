@@ -1,6 +1,5 @@
 import { settings } from "@/state/settings";
 import { createSignal, onCleanup, Show } from "solid-js";
-import { editor } from "@/state/editor";
 import { file } from "../../../state/file";
 import { deleteFile, renameFile, saveNote } from "@/util/files";
 import { useNavigate } from "@solidjs/router";

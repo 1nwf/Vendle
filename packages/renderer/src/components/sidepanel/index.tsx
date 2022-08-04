@@ -1,17 +1,25 @@
 import { createSignal, Show } from "solid-js";
 import { settings } from "@/state/settings";
 import Workspace from "./Workspace";
-import ShowPlugins from "./plugins/ShowPlugins";
 import AllFiles from "./files";
 import Plugins from "./plugins";
+import { Icon } from "solid-heroicons";
 
+import { cube } from "solid-heroicons/outline";
+import { useNavigate } from "@solidjs/router";
 export default function SidePanel() {
   const [showExtensionsPage, setShowExtensionsPage] = createSignal(false);
   const [showAllFiles, setShowAllFiles] = createSignal(true);
+  const navigate = useNavigate();
 
   const handleShowExtensions = () => {
     setShowAllFiles(!showAllFiles());
     setShowExtensionsPage(!showExtensionsPage());
+    if (showExtensionsPage()) {
+      navigate("/plugins");
+    } else {
+      navigate("/");
+    }
   };
   return (
     <div class="mt-2">
@@ -34,9 +42,15 @@ export default function SidePanel() {
         </div>
       </Show>
 
-      <div class="absolute bottom-5">
-        <div class="flex mx-4 ">
-          <ShowPlugins onClick={() => handleShowExtensions()} />
+      <div class="absolute bottom-2 left-3">
+        <div class="flex">
+          <div onClick={handleShowExtensions}>
+            <Icon
+              path={cube}
+              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              stroke-width={2}
+            />
+          </div>
         </div>
       </div>
     </div>

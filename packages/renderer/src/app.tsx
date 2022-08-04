@@ -4,9 +4,9 @@ import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
 import Titlebar from "./components/titlebar";
 import { settings } from "./state/settings";
-import SidePanel from "./components/sidepanel";
 import { initPlugins } from "./util/plugins";
 import { store } from "./store";
+import SidePanel from "./components/sidepanel";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
