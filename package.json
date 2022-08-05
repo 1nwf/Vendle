@@ -16,11 +16,14 @@
     "node": ">=14.17.0"
   },
   "dependencies": {
+    "@hope-ui/solid": "^0.6.7",
     "@solidjs/router": "^0.4.2",
+    "@stitches/core": "^1.2.8",
     "@tiptap/extension-paragraph": "2.0.0-beta.26",
     "conf": "^10.2.0",
     "electron-store": "^8.1.0",
-    "solid-heroicons": "^2.0.3"
+    "solid-heroicons": "^2.0.3",
+    "solid-transition-group": "^0.0.10"
   },
   "devDependencies": {
     "@tiptap/core": "2.0.0-beta.182",
@@ -36,7 +39,7 @@
     "match-sorter": "^6.3.1",
     "nanoid": "^4.0.0",
     "postcss": "^8.4.14",
-    "solid-js": "^1.4.8",
+    "solid-js": "1.4.7",
     "solid-tiptap": "^0.3.3",
     "tailwindcss": "^3.1.7",
     "typescript": "^4.7.4",

@@ -4,6 +4,7 @@ import "virtual:windi.css";
 import { render } from "solid-js/web";
 import { Router, createIntegration } from "@solidjs/router";
 import App from "./app";
+import { HopeThemeConfig, HopeProvider } from "@hope-ui/solid";
 function bindEvent(target: EventTarget, type: string, handler: EventListener) {
   target.addEventListener(type, handler);
   return () => target.removeEventListener(type, handler);
@@ -28,10 +29,23 @@ function electronIntegration() {
     }
   );
 }
+const config: HopeThemeConfig = {
+  components: {
+    Modal: {
+      baseStyle: {
+        content: {
+          borderRadius: "$xl",
+        },
+      },
+    },
+  },
+};
 render(() => {
   return (
     <Router source={electronIntegration()}>
-      <App />
+      <HopeProvider config={config}>
+        <App />
+      </HopeProvider>
     </Router>
   );
 }, document.getElementById("root") as HTMLElement);

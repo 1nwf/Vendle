@@ -7,6 +7,7 @@ import { settings } from "./state/settings";
 import { initPlugins } from "./util/plugins";
 import { store } from "./store";
 import SidePanel from "./components/sidepanel";
+import { globalCss } from "@hope-ui/solid";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
@@ -18,6 +19,7 @@ const loadSettings = async () => {
     });
   }
 };
+
 const App: Component = () => {
   onMount(async () => {
     await initPlugins();
@@ -27,7 +29,25 @@ const App: Component = () => {
   });
 
   const Routes = useRoutes(routes);
+  const styles = globalCss({
+    h1: {
+      fontSize: "1.875rem",
+      lineHeight: " 2.25rem",
+      fontWeight: "bold",
+    },
+    h2: {
+      fontSize: "1.5rem",
+      lineHeight: " 2rem",
+      fontWeight: "bold",
+    },
+    h3: {
+      fontSize: "1.25rem",
+      lineHeight: "1.75rem",
+      fontWeight: "bold",
+    },
+  });
 
+  styles();
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
