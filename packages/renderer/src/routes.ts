@@ -6,15 +6,11 @@ export const routes: RouteDefinition[] = [
     component: lazy(() => import("./pages/home")),
   },
   {
-    path: "/settings",
-    component: lazy(() => import("./pages/settings")),
-  },
-  {
     path: "/file/:id",
     component: lazy(() => import("./pages/file")),
   },
   {
-    path: "/plugins/:name?",
+    path: "/plugins/:name",
     component: lazy(() => import("./pages/plugin")),
   },
 ];
