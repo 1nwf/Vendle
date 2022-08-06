@@ -4,14 +4,48 @@ import AllFiles from "./files";
 import Plugins from "./plugins";
 import { Icon } from "solid-heroicons";
 import { createDisclosure, Modal, ModalOverlay } from "@hope-ui/solid";
-import { cog, collection, cube } from "solid-heroicons/outline";
+import {
+  adjustments,
+  cog,
+  collection,
+  cube,
+  sparkles,
+} from "solid-heroicons/outline";
 import { Settings } from "@/pages";
-import { createSignal, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectListbox,
+} from "@hope-ui/solid";
+const DropDownItem = ({
+  title,
+  path,
+  onClick,
+}: {
+  title: string;
+  path: typeof cube;
+  onClick: () => void;
+}) => {
+  return (
+    <div
+      class="flex items-center hover:(bg-gray-200 cursor-pointer) p-2 rounded-lg text-sm"
+      onClick={onClick}
+    >
+      <Icon path={path} stroke-width={2} class="h-4 w-4 mr-2" />
+      {title}
+    </div>
+  );
+};
 
 export default function SidePanel() {
   const [showExtensionsPage, setShowExtensionsPage] = createSignal(false);
-
   const { isOpen, onOpen, onClose } = createDisclosure();
+  const settingOptions = [
+    <DropDownItem title="Theme" path={sparkles} onClick={() => {}} />,
+    <DropDownItem title="Settings" path={adjustments} onClick={onOpen} />,
+  ];
   return (
     <div class="mt-2">
       <Workspace />
@@ -35,19 +69,27 @@ export default function SidePanel() {
       </Show>
 
       <div class="absolute bottom-3 left-3">
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-3 items-center">
           <Icon
             path={collection}
             class="h-6 w-6 mr-auto hover:cursor-pointer"
             stroke-width={2}
             onClick={() => setShowExtensionsPage(false)}
           />
-          <Icon
-            path={cog}
-            class="h-6 w-6 mr-auto hover:cursor-pointer"
-            stroke-width={2}
-            onClick={onOpen}
-          />
+          <Select variant="unstyled">
+            <SelectTrigger>
+              <Icon
+                path={cog}
+                class="h-6 w-6 mr-auto hover:cursor-pointer"
+                stroke-width={2}
+              />
+            </SelectTrigger>
+            <SelectContent css={{ minWidth: "120px", borderRadius: "$xl" }}>
+              <SelectListbox>
+                <For each={settingOptions}>{(item) => item}</For>
+              </SelectListbox>
+            </SelectContent>
+          </Select>
           <Icon
             path={cube}
             class="h-6 w-6 mr-auto hover:cursor-pointer"
