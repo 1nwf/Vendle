@@ -79,7 +79,7 @@ export default function SidePanel() {
             />
           </Tooltip>
           <Select variant="unstyled">
-            <SelectTrigger>
+            <SelectTrigger style={settings.theme.appFg} transition="none">
               <Tooltip label="settings">
                 <Icon
                   path={cog}
