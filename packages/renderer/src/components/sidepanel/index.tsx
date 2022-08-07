@@ -3,7 +3,7 @@ import Workspace from "./Workspace";
 import AllFiles from "./files";
 import Plugins from "./plugins";
 import { Icon } from "solid-heroicons";
-import { createDisclosure, Modal, ModalOverlay } from "@hope-ui/solid";
+import { createDisclosure, Modal, ModalOverlay, Tooltip } from "@hope-ui/solid";
 import {
   adjustments,
   cog,
@@ -70,19 +70,23 @@ export default function SidePanel() {
 
       <div class="absolute bottom-3 left-3">
         <div class="grid grid-cols-3 gap-3 items-center">
-          <Icon
-            path={collection}
-            class="h-6 w-6 mr-auto hover:cursor-pointer"
-            stroke-width={2}
-            onClick={() => setShowExtensionsPage(false)}
-          />
+          <Tooltip label="Files">
+            <Icon
+              path={collection}
+              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              stroke-width={2}
+              onClick={() => setShowExtensionsPage(false)}
+            />
+          </Tooltip>
           <Select variant="unstyled">
             <SelectTrigger>
-              <Icon
-                path={cog}
-                class="h-6 w-6 mr-auto hover:cursor-pointer"
-                stroke-width={2}
-              />
+              <Tooltip label="settings">
+                <Icon
+                  path={cog}
+                  class="h-6 w-6 mr-auto hover:cursor-pointer"
+                  stroke-width={2}
+                />
+              </Tooltip>
             </SelectTrigger>
             <SelectContent css={{ minWidth: "120px", borderRadius: "$xl" }}>
               <SelectListbox>
@@ -90,12 +94,14 @@ export default function SidePanel() {
               </SelectListbox>
             </SelectContent>
           </Select>
-          <Icon
-            path={cube}
-            class="h-6 w-6 mr-auto hover:cursor-pointer"
-            stroke-width={2}
-            onClick={() => setShowExtensionsPage(true)}
-          />
+          <Tooltip label="Plugins">
+            <Icon
+              path={cube}
+              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              stroke-width={2}
+              onClick={() => setShowExtensionsPage(true)}
+            />
+          </Tooltip>
           <Modal centered opened={isOpen()} onClose={onClose} size="7xl">
             <ModalOverlay
               bg="$blackAlpha3"
