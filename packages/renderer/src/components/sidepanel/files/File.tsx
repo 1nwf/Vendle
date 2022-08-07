@@ -1,10 +1,16 @@
 import { settings } from "@/state/settings";
-import { createSignal, onCleanup, Show } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import { file } from "../../../state/file";
 import { deleteFile, renameFile, saveNote } from "@/util/files";
 import { useNavigate } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
-import { dotsVertical } from "solid-heroicons/outline";
+import { dotsVertical, trash } from "solid-heroicons/outline";
+import {
+  Select,
+  SelectContent,
+  SelectListbox,
+  SelectTrigger,
+} from "@hope-ui/solid";
 
 export default function File({
   id,
@@ -78,22 +84,32 @@ export default function File({
       </div>
 
       <div class="my-auto ml-auto mr-1" onClick={handleToggleMenu}>
-        <div class="hover:(bg-gray-300 bg-opacity-30) rounded-md">
-          <Icon path={dotsVertical} class="h-6 w-6" stroke-width={2} />
-        </div>
-        <Show when={showMenu()}>
-          <div
-            class="bg-white text-black p-2 rounded-xl shadow-xl font-normal text-sm"
-            onMouseEnter={(e) => e.stopPropagation()}
-          >
-            <p
-              onClick={async () => await deleteFile(id)}
-              class="hover:(bg-red-500 text-white) p-2 rounded-xl"
-            >
-              delete
-            </p>
-          </div>
-        </Show>
+        <Select variant="unstyled">
+          <SelectTrigger>
+            <Icon
+              path={dotsVertical}
+              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              stroke-width={2}
+            />
+          </SelectTrigger>
+          <SelectContent css={{ minWidth: "100px", borderRadius: "$xl" }}>
+            <SelectListbox>
+              <div class="flex items-center p-2 rounded-xl hover:(bg-red-500 text-white cursor-pointer)">
+                <Icon
+                  path={trash}
+                  class="h-4 w-4 mr-2 hover:cursor-pointer"
+                  stroke-width={2}
+                />
+                <p
+                  onClick={async () => await deleteFile(id)}
+                  class="hover:(bg-red-500 text-white)  text-sm"
+                >
+                  delete
+                </p>
+              </div>
+            </SelectListbox>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
