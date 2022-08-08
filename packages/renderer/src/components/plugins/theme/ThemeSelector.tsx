@@ -1,8 +1,9 @@
 import handleOutsideClick from "@/hooks/handleOutsideClick";
 import { plugins } from "@/state/settings";
 import { loadStyles } from "@/util/plugins";
+import { matchSorter } from "match-sorter";
 import { Plugin } from "packages/types/plugins";
-import { createEffect, For } from "solid-js";
+import { createEffect, createSignal, For } from "solid-js";
 
 export {};
 
@@ -11,7 +12,8 @@ export default function ThemeSelector({
 }: {
   closeHandler: () => void;
 }) {
-  let ref;
+  const [themes, setThemes] = createSignal(plugins);
+  let ref: any;
   const handleKeyDown = (e: KeyboardEvent) => {
     const active = document.activeElement as Element;
 
@@ -34,6 +36,16 @@ export default function ThemeSelector({
   const handleFocus = (p: Plugin) => {
     loadStyles(p.module.setColorscheme());
   };
+  const handleOnInput = (e: any) => {
+    setThemes(
+      matchSorter(plugins, e.target.value, {
+        keys: ["name", "description"],
+      })
+    );
+    const active = ref as Element;
+    if (active.children[1]) active.children[1].focus();
+    inputRef.focus();
+  };
   return (
     <div class="absolute top-10 w-screen lg:ml-20 z-50">
       <div
@@ -43,9 +55,10 @@ export default function ThemeSelector({
         <input
           ref={inputRef}
           class="p-2 w-full rounded-t-md text-black outline-none"
+          onInput={handleOnInput}
           placeholder="select a theme"
         />
-        <For each={plugins}>
+        <For each={themes()}>
           {(p, idx) => {
             return (
               <div
