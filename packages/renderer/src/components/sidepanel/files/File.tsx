@@ -84,7 +84,7 @@ export default function File({
       </div>
 
       <div class="my-auto ml-auto mr-1" onClick={handleToggleMenu}>
-        <Select variant="unstyled">
+        <Select>
           <SelectTrigger>
             <Icon
               path={dotsVertical}

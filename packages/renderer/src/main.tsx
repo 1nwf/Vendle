@@ -38,6 +38,19 @@ const config: HopeThemeConfig = {
         },
       },
     },
+    Select: {
+      defaultProps: {
+        root: {
+          variant: "unstyled",
+        },
+      },
+      baseStyle: {
+        trigger: {
+          transition: "none",
+          color: "inherit",
+        },
+      },
+    },
   },
 };
 render(() => {
