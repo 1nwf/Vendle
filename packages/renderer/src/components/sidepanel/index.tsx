@@ -90,8 +90,8 @@ export default function SidePanel() {
               onClick={() => setShowExtensionsPage(false)}
             />
           </Tooltip>
-          <Select variant="unstyled">
-            <SelectTrigger style={settings.theme.appFg} transition="none">
+          <Select>
+            <SelectTrigger>
               <Tooltip label="settings">
                 <Icon
                   path={cog}
