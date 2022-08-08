@@ -35,7 +35,7 @@ export default function ThemeSelector({
     loadStyles(p.module.setColorscheme());
   };
   return (
-    <div class="absolute top-10 w-screen lg:ml-20 ">
+    <div class="absolute top-10 w-screen lg:ml-20 z-50">
       <div
         ref={ref}
         class="bg-black text-white rounded-md md:w-5/12 w-10/12  mx-auto shadow-2xl"
