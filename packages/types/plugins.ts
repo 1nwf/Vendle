@@ -24,6 +24,7 @@ export interface Plugin {
   version: string;
   description: string;
   path: string;
+  icon: any;
   module: Partial<Module>;
   type: string;
 }

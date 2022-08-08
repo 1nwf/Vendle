@@ -48,6 +48,7 @@ export const loadPlugins = async () => {
       description: "",
       version: "",
       type: "",
+      icon: "",
       path,
     });
   });

@@ -21,10 +21,12 @@ export const getPluginInfo = async (
     throw new Error("plugin does not contain package.json");
   }
   let { vendle } = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
+
   return {
     name: vendle.name,
     description: vendle.description,
     version: vendle.version,
+    icon: "atom://" + vendle.icon,
     type: vendle.type,
   };
 };

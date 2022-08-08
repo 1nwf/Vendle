@@ -1,6 +1,7 @@
 import { plugins } from "@/state/settings";
 import { matchSorter } from "match-sorter";
 import { createSignal, For } from "solid-js";
+import PluginCard from "./plugin";
 
 export default function Plugins() {
   const [pluginsList, setPluginsList] = createSignal(plugins);
@@ -22,15 +23,7 @@ export default function Plugins() {
       />
       <For each={pluginsList()}>
         {(p) => {
-          return (
-            <div class="p-2 text-sm w-full rounded mt-1 hover:(bg-black bg-opacity-20 cursor-pointer)">
-              <div class="flex flex-row items-center">
-                <p class="">{p.name}</p>
-                <p class="text-gray-500 text-xs ml-auto">{p.type}</p>
-              </div>
-              <p class="text-gray-600 text-xs">{p.description}</p>
-            </div>
-          );
+          return <PluginCard plugin={p} />;
         }}
       </For>
     </div>
