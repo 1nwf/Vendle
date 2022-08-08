@@ -1,6 +1,7 @@
-import { app, BrowserWindow, shell, ipcMain } from "electron";
+import { app, BrowserWindow, shell, ipcMain, protocol } from "electron";
 import { release } from "os";
 import { join } from "path";
+
 import {
   handleDeleteNote,
   handleGetFileContents,
@@ -67,6 +68,10 @@ async function createWindow() {
   ipcMain.handle("deleteNote", handleDeleteNote);
   ipcMain.handle("getFileContents", handleGetFileContents);
   ipcMain.handle("getPluginInfo", handleGetPluginInfo);
+  protocol.registerFileProtocol("atom", (request, callback) => {
+    const url = request.url.substr(7);
+    callback({ path: url });
+  });
 }
 
 app.whenReady().then(createWindow);
