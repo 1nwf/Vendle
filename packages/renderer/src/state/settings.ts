@@ -1,3 +1,4 @@
+import { store } from "@/store";
 import { generateStylesFromWindiClassName } from "@/util/styles";
 import { createMutable } from "solid-js/store";
 import { Plugin } from "../../../types/plugins";
@@ -70,4 +71,5 @@ export const plugins: Plugin[] = createMutable([]);
 
 export const changeColorscheme = (light: boolean) => {
   settings.isLightTheme = light;
+  store.set("settings", settings);
 };
