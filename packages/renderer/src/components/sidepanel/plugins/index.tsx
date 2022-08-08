@@ -1,15 +1,15 @@
-import { loadPlugins, loadStyles } from "@/util/plugins";
-import { createEffect, createSignal, For } from "solid-js";
-import { Plugin } from "../../../../../types/plugins";
+import { plugins } from "@/state/settings";
+import { matchSorter } from "match-sorter";
+import { createSignal, For } from "solid-js";
 
 export default function Plugins() {
-  const [plugins, setPlugins] = createSignal<Plugin[]>([]);
-  createEffect(async () => {
-    const p = await loadPlugins();
-    setPlugins(p);
-  });
-  const handleSwitchColorscheme = (colors) => {
-    loadStyles(colors);
+  const [pluginsList, setPluginsList] = createSignal(plugins);
+  const handleOnInput = (e: any) => {
+    setPluginsList(
+      matchSorter(plugins, e.target.value, {
+        keys: ["name", "type", "description"],
+      })
+    );
   };
   return (
     <div>
@@ -18,14 +18,12 @@ export default function Plugins() {
         class="p-2 text-sm w-full rounded my-2 text-black"
         type="text"
         placeholder="Search Plugins"
+        onInput={handleOnInput}
       />
-      <For each={plugins()}>
+      <For each={pluginsList()}>
         {(p) => {
           return (
-            <div
-              class="p-2 text-sm w-full rounded mt-1 hover:(bg-black bg-opacity-20 cursor-pointer)"
-              onClick={() => handleSwitchColorscheme(p.module.setColorscheme())}
-            >
+            <div class="p-2 text-sm w-full rounded mt-1 hover:(bg-black bg-opacity-20 cursor-pointer)">
               <div class="flex flex-row items-center">
                 <p class="">{p.name}</p>
                 <p class="text-gray-500 text-xs ml-auto">{p.type}</p>
