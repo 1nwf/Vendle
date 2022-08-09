@@ -22,6 +22,7 @@
     "@tiptap/extension-paragraph": "2.0.0-beta.26",
     "conf": "^10.2.0",
     "electron-store": "^8.1.0",
+    "showdown": "^2.1.0",
     "solid-heroicons": "^2.0.3",
     "solid-transition-group": "^0.0.10"
   },
@@ -32,6 +33,7 @@
     "@tiptap/suggestion": "2.0.0-beta.97",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/showdown": "^2.0.0",
     "@vitejs/plugin-react": "^2.0.0",
     "autoprefixer": "^10.4.8",
     "electron": "^20.0.1",

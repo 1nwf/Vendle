@@ -11,6 +11,7 @@ specifiers:
   '@tiptap/suggestion': 2.0.0-beta.97
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
+  '@types/showdown': ^2.0.0
   '@vitejs/plugin-react': ^2.0.0
   autoprefixer: ^10.4.8
   conf: ^10.2.0
@@ -20,6 +21,7 @@ specifiers:
   match-sorter: ^6.3.1
   nanoid: ^4.0.0
   postcss: ^8.4.14
+  showdown: ^2.1.0
   solid-heroicons: ^2.0.3
   solid-js: 1.4.7
   solid-tiptap: ^0.3.3
@@ -39,6 +41,7 @@ dependencies:
   '@tiptap/extension-paragraph': 2.0.0-beta.26_jdrcmhoxj44u3cq7gnenksjiqq
   conf: 10.2.0
   electron-store: 8.1.0
+  showdown: 2.1.0
   solid-heroicons: 2.0.3
   solid-transition-group: 0.0.10_solid-js@1.4.7
 
@@ -49,6 +52,7 @@ devDependencies:
   '@tiptap/suggestion': 2.0.0-beta.97_jdrcmhoxj44u3cq7gnenksjiqq
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
+  '@types/showdown': 2.0.0
   '@vitejs/plugin-react': 2.0.0_vite@3.0.4
   autoprefixer: 10.4.8_postcss@8.4.14
   electron: 20.0.1
@@ -898,6 +902,10 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
     dev: true
 
+  /@types/showdown/2.0.0:
+    resolution: {integrity: sha512-70xBJoLv+oXjB5PhtA8vo7erjLDp9/qqI63SRHm4REKrwuPOLs8HhXwlZJBJaB4kC18cCZ1UUZ6Fb/PLFW4TCA==}
+    dev: true
+
   /@types/verror/1.10.6:
     resolution: {integrity: sha512-NNm+gdePAX1VGvPcGZCDKQZKYSiAWigKhKaz5KF94hG6f2s8de9Ow5+7AbXoeKxL8gavZfk4UquSAygOF2duEQ==}
     dev: true
@@ -1481,6 +1489,11 @@ packages:
     resolution: {integrity: sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==}
     engines: {node: '>= 6'}
     dev: true
+
+  /commander/9.4.0:
+    resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==}
+    engines: {node: ^12.20.0 || >=14}
+    dev: false
 
   /compare-version/0.1.2:
     resolution: {integrity: sha512-pJDh5/4wrEnXX/VWRZvruAGHkzKdr46z11OlTPN+VrATlWWhSKewNCJ1futCO5C7eJB3nPMFZA1LeYtcFboZ2A==}
@@ -3374,6 +3387,13 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
     dev: true
+
+  /showdown/2.1.0:
+    resolution: {integrity: sha512-/6NVYu4U819R2pUIk79n67SYgJHWCce0a5xTP979WbNp0FL9MN1I1QK662IDU1b6JzKTvmhgI7T7JYIxBi3kMQ==}
+    hasBin: true
+    dependencies:
+      commander: 9.4.0
+    dev: false
 
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
