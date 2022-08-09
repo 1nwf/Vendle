@@ -28,6 +28,7 @@ export const getPluginInfo = async (
     version: vendle.version,
     icon: "atom://" + vendle.icon,
     type: vendle.type,
+    author: vendle.author,
   };
 };
 

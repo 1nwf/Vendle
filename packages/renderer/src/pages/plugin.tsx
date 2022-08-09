@@ -34,6 +34,7 @@ export default function Plugins() {
           <div class="block ml-5">
             <h1>{plugin().name}</h1>
             <p>{plugin().description}</p>
+            <p class="text-gray-500 text-sm">by: {plugin().author}</p>
             <button
               class="bg-red-500 text-white p-1 rounded-md text-xs"
               onClick={async () => await uninstallPlugin()}
@@ -43,7 +44,8 @@ export default function Plugins() {
           </div>
         </div>
       </Show>
-      <div innerHTML={readme()} />
+      <hr class="mt-5" />
+      <div innerHTML={readme()} class="mt-5" />
     </div>
   );
 }

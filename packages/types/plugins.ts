@@ -22,6 +22,7 @@ export interface Module {
 export interface Plugin {
   name: string;
   version: string;
+  author: string;
   description: string;
   path: string;
   icon: any;
