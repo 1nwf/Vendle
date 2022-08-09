@@ -6,6 +6,7 @@ import {
   handleDeleteNote,
   handleGetFileContents,
   handleGetPluginInfo,
+  handleGetPluginReadme,
   handleSaveFile,
 } from "./ipcHandlers";
 import "./store";
@@ -68,6 +69,7 @@ async function createWindow() {
   ipcMain.handle("deleteNote", handleDeleteNote);
   ipcMain.handle("getFileContents", handleGetFileContents);
   ipcMain.handle("getPluginInfo", handleGetPluginInfo);
+  ipcMain.handle("getPluginReadme", handleGetPluginReadme);
   protocol.registerFileProtocol("atom", (request, callback) => {
     const url = request.url.substr(7);
     callback({ path: url });

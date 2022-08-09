@@ -1,14 +1,14 @@
-import { app } from "electron";
 import { promises as fs } from "fs";
 import { Plugin } from "../types/plugins";
+import { PLUGINS_PATH } from "./constants";
+import showdown from "showdown";
 
 export const getPluginPaths = async () => {
-  const pluginsPath = app.getPath("appData") + "/Vendle/extensions";
   let paths: string[] = [];
-  let plugins = await fs.readdir(pluginsPath);
+  let plugins = await fs.readdir(PLUGINS_PATH);
   plugins.forEach((dir) => {
     if (dir.startsWith(".")) return;
-    paths.push(pluginsPath + "/" + dir);
+    paths.push(PLUGINS_PATH + dir);
   });
   return paths;
 };
@@ -29,4 +29,11 @@ export const getPluginInfo = async (
     icon: "atom://" + vendle.icon,
     type: vendle.type,
   };
+};
+
+export const getPluginReadme = async (name: string) => {
+  const readmePath = PLUGINS_PATH + name + "/README.md";
+  const contents = await fs.readFile(readmePath, "ascii").catch((e) => "");
+  const converter = new showdown.Converter();
+  return converter.makeHtml(contents);
 };
