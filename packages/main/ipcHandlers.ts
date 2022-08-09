@@ -1,4 +1,4 @@
-import { getPluginInfo, getPluginReadme } from "./plugins";
+import { getPluginInfo, getPluginReadme, uninstallPlugin } from "./plugins";
 import { deleteNote, saveFile, getFileContents } from "./util";
 
 export const handleSaveFile = async (
@@ -23,4 +23,8 @@ export const handleGetPluginInfo = async (event: any, dir: string) => {
 
 export const handleGetPluginReadme = async (event: any, name: string) => {
   return await getPluginReadme(name);
+};
+
+export const handleUninstallPlugin = async (event: any, name: string) => {
+  return await uninstallPlugin(name);
 };

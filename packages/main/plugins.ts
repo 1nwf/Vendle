@@ -37,3 +37,7 @@ export const getPluginReadme = async (name: string) => {
   const converter = new showdown.Converter();
   return converter.makeHtml(contents);
 };
+
+export const uninstallPlugin = async (name: string) => {
+  return await fs.rmdir(PLUGINS_PATH + name, { recursive: true });
+};

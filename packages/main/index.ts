@@ -8,6 +8,7 @@ import {
   handleGetPluginInfo,
   handleGetPluginReadme,
   handleSaveFile,
+  handleUninstallPlugin,
 } from "./ipcHandlers";
 import "./store";
 
@@ -70,6 +71,7 @@ async function createWindow() {
   ipcMain.handle("getFileContents", handleGetFileContents);
   ipcMain.handle("getPluginInfo", handleGetPluginInfo);
   ipcMain.handle("getPluginReadme", handleGetPluginReadme);
+  ipcMain.handle("uninstallPlugin", handleUninstallPlugin);
   protocol.registerFileProtocol("atom", (request, callback) => {
     const url = request.url.substr(7);
     callback({ path: url });
