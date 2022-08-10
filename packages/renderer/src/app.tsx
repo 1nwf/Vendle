@@ -1,4 +1,4 @@
-import { Component, onMount } from "solid-js";
+import { Component, createEffect, createSignal, onMount, Show } from "solid-js";
 import "./index.css";
 import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
@@ -8,6 +8,8 @@ import { initPlugins } from "./util/plugins";
 import { store } from "./store";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
+import { appState, showThemePicker } from "./state/app";
+import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
@@ -48,9 +50,20 @@ const App: Component = () => {
   });
 
   styles();
+  const handleKeydown = (e: KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.code == "KeyK") {
+      showThemePicker(!appState.themePickerShown);
+    }
+  };
+  createEffect(() => {
+    document.addEventListener("keydown", handleKeydown);
+  });
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
+      <Show when={appState.themePickerShown}>
+        <ThemeSelector closeHandler={() => showThemePicker(false)} />
+      </Show>
       <div class="h-full w-screen">
         <div
           style={settings.theme.sidePanelBg}

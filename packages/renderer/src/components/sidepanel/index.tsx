@@ -19,7 +19,7 @@ import {
   SelectContent,
   SelectListbox,
 } from "@hope-ui/solid";
-import ThemeSelector from "../plugins/theme/ThemeSelector";
+import { showThemePicker } from "@/state/app";
 const DropDownItem = ({
   title,
   path,
@@ -43,14 +43,11 @@ const DropDownItem = ({
 export default function SidePanel() {
   const [showExtensionsPage, setShowExtensionsPage] = createSignal(false);
   const { isOpen, onOpen, onClose } = createDisclosure();
-  const [showThemeSelector, setShowThemeSelector] = createSignal(false);
   const settingOptions = [
     <DropDownItem
       title="Theme"
       path={sparkles}
-      onClick={() => {
-        setShowThemeSelector(true);
-      }}
+      onClick={() => showThemePicker(true)}
     />,
     <DropDownItem title="Settings" path={adjustments} onClick={onOpen} />,
   ];
@@ -75,9 +72,6 @@ export default function SidePanel() {
         <div class="px-4 rounded-r-2xl h-12/12">
           <Plugins />
         </div>
-      </Show>
-      <Show when={showThemeSelector()}>
-        <ThemeSelector closeHandler={() => setShowThemeSelector(false)} />
       </Show>
 
       <div class="absolute bottom-3 left-3">
