@@ -6,7 +6,7 @@ export default function Settings({ onClose }: { onClose: () => void }) {
       <ModalHeader>
         <h2>Settings</h2>
       </ModalHeader>
-      <ModalBody class="my-4">settings..</ModalBody>
+      <ModalBody class="my-4">coming soon...</ModalBody>
     </ModalContent>
   );
 }

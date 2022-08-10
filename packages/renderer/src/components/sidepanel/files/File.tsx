@@ -88,7 +88,7 @@ export default function File({
           <SelectTrigger>
             <Icon
               path={dotsVertical}
-              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              class="h-5 w-5 mr-auto hover:cursor-pointer"
               stroke-width={2}
             />
           </SelectTrigger>
