@@ -12,9 +12,8 @@ export default function Titlebar() {
       style={`-webkit-app-region: drag;${settings.theme.appFg}`}
     >
       <div class="flex content-center items-center align-middle mt-1 ml-3">
-        <div class="ml-18 pt-1 text-sm">TitleBar</div>
         <button
-          class="ml-4 pt-1 text-sm hover:cursor-pointer"
+          class="mt-[7px] ml-auto mr-3 text-sm hover:cursor-pointer"
           onClick={toggleTheme}
         >
           {settings.isLightTheme ? (
