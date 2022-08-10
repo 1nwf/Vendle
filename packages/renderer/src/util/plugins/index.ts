@@ -49,6 +49,7 @@ export const loadPlugins = async () => {
       version: "",
       type: "",
       icon: "",
+      author: "",
       path,
     });
   });
