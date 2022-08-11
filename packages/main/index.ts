@@ -7,11 +7,13 @@ import {
   handleGetFileContents,
   handleGetPluginInfo,
   handleGetPluginReadme,
+  handleInstallPlugin,
   handleSaveFile,
   handleUninstallPlugin,
 } from "./ipcHandlers";
 import "./store";
 
+process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
 
@@ -72,6 +74,7 @@ async function createWindow() {
   ipcMain.handle("getPluginInfo", handleGetPluginInfo);
   ipcMain.handle("getPluginReadme", handleGetPluginReadme);
   ipcMain.handle("uninstallPlugin", handleUninstallPlugin);
+  ipcMain.handle("installPlugin", handleInstallPlugin);
   protocol.registerFileProtocol("atom", (request, callback) => {
     const url = request.url.substr(7);
     callback({ path: url });
