@@ -35,29 +35,25 @@ const getPluginInfo = async (dir: string) => {
 export const loadPlugins = async () => {
   let plugins: Plugin[] = [];
   const paths = await pluginPaths();
-  paths.forEach((path) => {
-    const mod = require(path);
-    Object.keys(mod).forEach((fn) => {
-      if (!(pluginApis as string[]).includes(fn)) {
-        delete mod[fn];
-      }
-    });
-    plugins.push({
-      module: mod,
-      name: "",
-      description: "",
-      version: "",
-      type: "",
-      icon: "",
-      author: "",
-      path,
-    });
-  });
+  await Promise.all(
+    paths.map(async (path) => {
+      const mod = require(path);
+      const info = await getPluginInfo(path);
+      Object.keys(mod).forEach((fn) => {
+        if (!(pluginApis as string[]).includes(fn)) {
+          delete mod[fn];
+        }
+      });
 
-  plugins = await Promise.all(
-    plugins.map(async (p) => {
-      const info = await getPluginInfo(p.path);
-      return { ...p, ...info };
+      plugins.push({
+        module: mod,
+        name: info.name,
+        description: info.description,
+        version: info.version,
+        type: info.type,
+        icon: info.icon,
+        author: info.author,
+      });
     })
   );
   return plugins;

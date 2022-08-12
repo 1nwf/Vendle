@@ -23,13 +23,14 @@ export const getPluginInfo = async (
   if (!files.includes("package.json")) {
     throw new Error("plugin does not contain package.json");
   }
-  let { vendle } = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
+  let info = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
+  let { vendle } = info;
 
   return {
     name: vendle.name,
     description: vendle.description,
-    version: vendle.version,
-    icon: "atom://" + vendle.icon,
+    version: info.version,
+    icon: vendle.icon,
     type: vendle.type,
     author: vendle.author,
   };
@@ -176,7 +177,7 @@ const isValidPlugin = async (name: string) => {
           version: data.vendle.version,
           author: data.vendle.author,
           description: data.vendle.description,
-          icon: "atom://" + data.vendle.icon,
+          icon: data.vendle.icon,
           type: data.vendle.type,
           module: {},
         });
