@@ -62,6 +62,8 @@ export const loadPlugins = async () => {
 export const initPlugins = async () => {
   const loadedPlugins = await loadPlugins();
   loadedPlugins.forEach((plugin) => {
+    const installed = plugins.find((p) => p.name === plugin.name);
+    if (installed) return;
     plugins.push(plugin);
   });
 };
