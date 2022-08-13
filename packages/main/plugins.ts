@@ -33,7 +33,7 @@ export const getPluginInfo = async (
     version: info.version,
     icon: vendle.icon,
     type: vendle.type,
-    author: vendle.author,
+    author: info.author,
   };
 };
 
