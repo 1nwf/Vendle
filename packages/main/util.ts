@@ -31,11 +31,11 @@ export const deleteNote = async (id: string) => {
 export const getFileContents = async (name: string) => {
   let res: string;
   if (name == "settings") {
-    res = await fs.readFile(SETTINGS_PATH, "ascii");
+    res = await fs.readFile(SETTINGS_PATH, "utf8");
   } else if (name == "files") {
-    res = await fs.readFile(WORKSPACE_FILES, "ascii");
+    res = await fs.readFile(WORKSPACE_FILES, "utf8");
   } else {
-    res = await fs.readFile(NOTES_PATH + `${name}.json`, "ascii");
+    res = await fs.readFile(NOTES_PATH + `${name}.json`, "utf8");
   }
 
   return res;

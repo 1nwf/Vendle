@@ -24,7 +24,7 @@ export async function saveFile(id: string, name: string, contents: any) {
 
 export async function getFileContents<T>(name: string): Promise<T> {
   let contents = await handleFileGetContents(name);
-  return contents;
+  return JSON.parse(contents);
 }
 
 async function updateWorkspaceFiles(id: string, name: string) {
