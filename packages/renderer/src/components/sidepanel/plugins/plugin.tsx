@@ -12,7 +12,9 @@ export default function PluginCard({ plugin }: { plugin: Plugin }) {
       onClick={clickHandler}
     >
       <div class="flex flex-row items-center">
-        <img src={plugin.icon} class="w-10 h-10 rounded-md " />
+        {plugin.icon && (
+          <img src={"atom://" + plugin.icon} class="w-10 h-10 rounded-md " />
+        )}
         <div class="block ml-2">
           <p>{plugin.name}</p>
           <p class="text-gray-600 text-xs">{plugin.description}</p>
