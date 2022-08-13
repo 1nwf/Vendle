@@ -22,6 +22,7 @@
     "@tiptap/extension-paragraph": "2.0.0-beta.26",
     "@types/fs-extra": "^9.0.13",
     "conf": "^10.2.0",
+    "electron-store": "^8.1.0",
     "fs-extra": "^10.1.0",
     "showdown": "^2.1.0",
     "solid-heroicons": "^2.0.3",
