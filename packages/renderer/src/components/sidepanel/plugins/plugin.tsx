@@ -16,7 +16,7 @@ export default function PluginCard({ plugin }: { plugin: Plugin }) {
           <img src={"atom://" + plugin.icon} class="w-10 h-10 rounded-md " />
         )}
         <div class="block ml-2">
-          <p>{plugin.name}</p>
+          <p>{plugin.displayName}</p>
           <p class="text-gray-600 text-xs">{plugin.description}</p>
         </div>
       </div>

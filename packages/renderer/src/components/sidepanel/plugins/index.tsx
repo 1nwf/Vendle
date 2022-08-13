@@ -44,6 +44,7 @@ export default function Plugins() {
         let d = data.objects.map((p: any) => {
           return {
             name: p.package.name,
+            displayName: p.package.name.substring(14).replace("-", " "),
             author: p.package.author.name,
             description: p.package.description || "",
             icon: "",

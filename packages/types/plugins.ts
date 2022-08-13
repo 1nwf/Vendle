@@ -21,6 +21,7 @@ export interface Module {
 }
 export interface Plugin {
   name: string;
+  displayName: string;
   version: string;
   author: string;
   description: string;

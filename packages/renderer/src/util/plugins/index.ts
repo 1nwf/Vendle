@@ -48,6 +48,7 @@ export const loadPlugins = async () => {
       plugins.push({
         module: mod,
         name: info.name,
+        displayName: info.displayName,
         description: info.description,
         version: info.version,
         type: info.type,

@@ -68,7 +68,7 @@ export default function ThemeSelector({
                 onFocus={() => handleFocus(p)}
                 tabindex={idx() + 1}
               >
-                <p>{p.name}</p>
+                <p>{p.displayName}</p>
                 <p>{p.description}</p>
               </div>
             );

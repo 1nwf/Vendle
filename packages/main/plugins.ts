@@ -10,7 +10,7 @@ export const getPluginPaths = async () => {
   let paths: string[] = [];
   let plugins = await fs.readdir(PLUGINS_PATH);
   plugins.forEach((dir) => {
-    if (dir.startsWith(".")) return;
+    if (dir.startsWith(".") || dir === "package.json") return;
     paths.push(PLUGINS_PATH + dir);
   });
   return paths;
@@ -27,7 +27,8 @@ export const getPluginInfo = async (
   let { vendle } = info;
 
   return {
-    name: vendle.name,
+    name: info.name,
+    displayName: vendle.name,
     description: vendle.description,
     version: info.version,
     icon: vendle.icon,
@@ -51,7 +52,6 @@ const installPlugin = async (name: string) => {
   return new Promise<string>(async (resolve, reject) => {
     const dir = PLUGINS_PATH + `${name}-${Date.now()}`;
     await fs.mkdir(dir, { recursive: true });
-    console.log("installing plugin:", name, yarn, dir);
     execFile(
       process.execPath,
       [
@@ -173,7 +173,8 @@ const isValidPlugin = async (name: string) => {
           return;
         }
         resolve({
-          name: data.vendle.name,
+          name: data.name,
+          displayName: data.vendle.name,
           version: data.vendle.version,
           author: data.vendle.author,
           description: data.vendle.description,
