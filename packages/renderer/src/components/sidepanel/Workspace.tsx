@@ -1,6 +1,6 @@
 import { createSignal, onCleanup } from "solid-js";
 import { settings } from "@/state/settings";
-import { saveFile } from "@/util/files";
+import { store } from "@/store";
 
 export default function Workspace() {
   const [editable, setEditable] = createSignal(false);
@@ -15,7 +15,7 @@ export default function Workspace() {
     if (e.key != "Enter") return;
     settings.username = e.target.textContent;
     setEditable(false);
-    await saveFile("settings", "", { name: e.target.textContent });
+    await store.set("settings", settings);
   };
 
   const handleMouseDown = (e: MouseEvent) => {
