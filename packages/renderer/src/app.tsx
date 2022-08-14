@@ -8,7 +8,7 @@ import { initPlugins } from "./util/plugins";
 import { store } from "./store";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
-import { appState, showThemePicker } from "./state/app";
+import { appState, setAppState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 
 const loadSettings = async () => {
@@ -65,15 +65,44 @@ const App: Component = () => {
         <ThemeSelector closeHandler={() => showThemePicker(false)} />
       </Show>
       <div class="h-full w-screen">
-        <div
-          style={settings.theme.sidePanelBg}
-          class={`float-left h-screen pt-6 absolute top-0 hidden lg:(block w-1/5)`}
-        >
-          <SidePanel />
-        </div>
+        <Show when={appState.sidepanelShown}>
+          <div
+            style={settings.theme.sidePanelBg}
+            class={`float-left h-screen pt-6 absolute top-0 hidden lg:(block w-1/5)`}
+          >
+            <SidePanel />
+          </div>
+        </Show>
+        <Show when={!appState.sidepanelShown}>
+          <div
+            class={`float-left h-screen mt-12 z-50 absolute top-0`}
+            style={settings.theme.editorBg}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 ml-3 hover:cursor-pointer z-50"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              onClick={() => setAppState("sidepanelShown", true)}
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </div>
+        </Show>
+
         <div
           style={settings.theme.editorBg}
-          class={`w-12/12 lg:(w-4/5 float-right) select-text h-screen overflow-y-auto`}
+          class={`w-12/12 ${
+            appState.sidepanelShown
+              ? "lg:(w-4/5 float-right)"
+              : "lg:(float-right w-12/12 pl-12)"
+          } select-text h-screen overflow-y-auto`}
         >
           <Routes />
         </div>

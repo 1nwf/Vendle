@@ -19,7 +19,7 @@ import {
   SelectContent,
   SelectListbox,
 } from "@hope-ui/solid";
-import { showThemePicker } from "@/state/app";
+import { setAppState, showThemePicker } from "@/state/app";
 const DropDownItem = ({
   title,
   path,
@@ -54,7 +54,24 @@ export default function SidePanel() {
 
   return (
     <div class="mt-2">
-      <Workspace />
+      <div class="flex items-center">
+        <Workspace />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 mr-3 hover:cursor-pointer"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+          onClick={() => setAppState("sidepanelShown", false)}
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </div>
       <div class="flex justify-center mb-4">
         <hr
           class={`w-10/12 ${
@@ -74,7 +91,7 @@ export default function SidePanel() {
         </div>
       </Show>
 
-      <div class="absolute bottom-3 left-3">
+      <div class="absolute bottom-3 left-3 justify-center">
         <div class="grid grid-cols-3 gap-3 items-center">
           <Tooltip label="Files">
             <Icon
