@@ -57,13 +57,15 @@ export default function Plugins() {
   const uninstallPlugin = async () => {
     if (loading()) return;
     if (confirm(`uninstall ${plugin()?.name}?`)) {
+      setLoading(true);
       await ipcRenderer.invoke("uninstallPlugin", plugin()?.name).then(() => {
+        setLoading(false);
+        setInstalled(false);
         plugins.splice(
           plugins.findIndex((p) => p.name === plugin()?.name),
           1
         );
       });
-      navigate("/");
     }
   };
   return (
@@ -88,7 +90,13 @@ export default function Plugins() {
                 class="bg-red-500 text-white p-1 rounded-md text-xs"
                 onClick={async () => await uninstallPlugin()}
               >
-                delete
+                {loading() ? (
+                  <div class="p-1">
+                    <Spinner size="xs" />
+                  </div>
+                ) : (
+                  "uninstall"
+                )}
               </button>
             ) : (
               <button
