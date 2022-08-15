@@ -1,4 +1,4 @@
-import { settings } from "@/state/settings";
+import { persistSettings, settings } from "@/state/settings";
 import Workspace from "./Workspace";
 import AllFiles from "./files";
 import Plugins from "./plugins";
@@ -19,7 +19,8 @@ import {
   SelectContent,
   SelectListbox,
 } from "@hope-ui/solid";
-import { setAppState, showThemePicker } from "@/state/app";
+import { showThemePicker } from "@/state/app";
+import { store } from "@/store";
 const DropDownItem = ({
   title,
   path,
@@ -52,6 +53,10 @@ export default function SidePanel() {
     <DropDownItem title="Settings" path={adjustments} onClick={onOpen} />,
   ];
 
+  const closeSidePanel = async () => {
+    settings.sidepanelShown = false;
+    await persistSettings();
+  };
   return (
     <div class="mt-2">
       <div class="flex items-center">
@@ -63,7 +68,7 @@ export default function SidePanel() {
           viewBox="0 0 24 24"
           stroke="currentColor"
           stroke-width="2"
-          onClick={() => setAppState("sidepanelShown", false)}
+          onClick={async () => closeSidePanel()}
         >
           <path
             stroke-linecap="round"

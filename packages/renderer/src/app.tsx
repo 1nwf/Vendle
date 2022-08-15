@@ -3,13 +3,14 @@ import "./index.css";
 import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
 import Titlebar from "./components/titlebar";
-import { settings } from "./state/settings";
+import { persistSettings, settings } from "./state/settings";
 import { initPlugins } from "./util/plugins";
 import { store } from "./store";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
 import { appState, setAppState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
+import { Motion, Presence } from "@motionone/solid";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
@@ -58,6 +59,10 @@ const App: Component = () => {
   createEffect(() => {
     document.addEventListener("keydown", handleKeydown);
   });
+  const openSidepanel = async () => {
+    settings.sidepanelShown = true;
+    await persistSettings();
+  };
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -65,7 +70,7 @@ const App: Component = () => {
         <ThemeSelector closeHandler={() => showThemePicker(false)} />
       </Show>
       <div class="h-full w-screen">
-        <Show when={appState.sidepanelShown}>
+        <Show when={settings.sidepanelShown}>
           <div
             style={settings.theme.sidePanelBg}
             class={`float-left h-screen pt-6 absolute top-0 hidden lg:(block w-1/5)`}
@@ -73,7 +78,8 @@ const App: Component = () => {
             <SidePanel />
           </div>
         </Show>
-        <Show when={!appState.sidepanelShown}>
+
+        <Show when={!settings.sidepanelShown}>
           <div
             class={`float-left h-screen mt-12 z-50 absolute top-0`}
             style={settings.theme.editorBg}
@@ -84,7 +90,7 @@ const App: Component = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              onClick={() => setAppState("sidepanelShown", true)}
+              onClick={async () => await openSidepanel()}
               stroke-width="2"
             >
               <path
@@ -99,7 +105,7 @@ const App: Component = () => {
         <div
           style={settings.theme.editorBg}
           class={`w-12/12 ${
-            appState.sidepanelShown
+            settings.sidepanelShown
               ? "lg:(w-4/5 float-right)"
               : "lg:(float-right w-12/12 pl-12)"
           } select-text h-screen overflow-y-auto`}

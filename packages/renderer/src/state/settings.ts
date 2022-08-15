@@ -62,6 +62,7 @@ export const settings = createMutable({
   ],
   username: "No User Name",
   themeName: "default",
+  sidepanelShown: true,
   get theme() {
     return this.isLightTheme ? this.lightTheme : this.darkTheme;
   },
@@ -72,4 +73,8 @@ export const plugins: Plugin[] = createMutable([]);
 export const changeColorscheme = (light: boolean) => {
   settings.isLightTheme = light;
   store.set("settings", settings);
+};
+
+export const persistSettings = async () => {
+  await store.set("settings", settings);
 };
