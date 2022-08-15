@@ -28,7 +28,7 @@ export default function Plugins() {
           version: data.version,
           author: data.author.name,
           type: data.vendle.type,
-          icon: "",
+          icon: data.vendle.icon,
         };
 
         setPlugin(plugin);
@@ -71,7 +71,7 @@ export default function Plugins() {
       <Show when={plugin()}>
         <div class="flex items-center">
           {plugin().icon && (
-            <img src={plugin().icon} class="h-20 w-20 rounded-md" />
+            <img src={"atom://" + plugin().icon} class="h-20 w-20 rounded-md" />
           )}
           <div class="block ml-5">
             <div class="flex items-baseline">

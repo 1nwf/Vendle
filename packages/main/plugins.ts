@@ -31,7 +31,7 @@ export const getPluginInfo = async (
     displayName: vendle.name,
     description: vendle.description,
     version: info.version,
-    icon: vendle.icon,
+    icon: vendle.icon ? path.join(dir, vendle.icon) : "",
     type: vendle.type,
     author: info.author,
   };
