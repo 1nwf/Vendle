@@ -13,7 +13,7 @@ export default function Titlebar() {
     >
       <div class="flex content-center items-center align-middle mt-1 ml-3">
         <button
-          class="mt-[7px] ml-auto mr-3 text-sm hover:cursor-pointer"
+          class="mt-3 ml-auto mr-5 text-sm hover:cursor-pointer"
           onClick={toggleTheme}
         >
           {settings.isLightTheme ? (
