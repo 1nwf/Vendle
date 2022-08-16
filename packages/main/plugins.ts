@@ -105,21 +105,17 @@ export const install = async (name: string) => {
 
       const pluginFiles = await fs.readdir(pluginDir);
       if (pluginFiles.includes("package.json")) {
-        const pjson = JSON.parse(
+        const { dependencies, devDependencies } = JSON.parse(
           await fs.readFile(pluginDir + "/package.json", "utf8")
         );
-        if (pjson.dependencies) {
-          await movePluginDeps(
-            tempDir,
-            pluginDir,
-            Object.keys(pjson.dependencies)
-          );
+        if (dependencies) {
+          await movePluginDeps(tempDir, pluginDir, Object.keys(dependencies));
         }
-        if (pjson.devDependencies) {
+        if (devDependencies) {
           await movePluginDeps(
             tempDir,
             pluginDir,
-            Object.keys(pjson.devDependencies)
+            Object.keys(devDependencies)
           );
         }
         rmSync(tempDir, { recursive: true, force: true });
