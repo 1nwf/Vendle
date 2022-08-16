@@ -8,9 +8,8 @@ import { initPlugins } from "./util/plugins";
 import { store } from "./store";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
-import { appState, setAppState, showThemePicker } from "./state/app";
+import { appState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
-import { Motion, Presence } from "@motionone/solid";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
