@@ -1,7 +1,7 @@
 import { plugins } from "@/state/settings";
 import { matchSorter } from "match-sorter";
 import { createSignal, For, Show } from "solid-js";
-import PluginCard from "./plugin";
+import PluginCard from "./PluginCard";
 import {
   Select,
   SelectTrigger,

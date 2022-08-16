@@ -17,7 +17,7 @@ export default function PluginCard({ plugin }: { plugin: Plugin }) {
         )}
         <div class="block ml-2">
           <p>{plugin.displayName}</p>
-          <p class="text-gray-600 text-xs">{plugin.description}</p>
+          <p class="opacity-60 text-xs">{plugin.description}</p>
         </div>
       </div>
     </div>
