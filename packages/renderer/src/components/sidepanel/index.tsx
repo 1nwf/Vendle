@@ -20,7 +20,6 @@ import {
   SelectListbox,
 } from "@hope-ui/solid";
 import { showThemePicker } from "@/state/app";
-import { store } from "@/store";
 const DropDownItem = ({
   title,
   path,

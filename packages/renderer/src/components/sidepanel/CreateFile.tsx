@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { createSignal } from "solid-js";
 import { saveFile } from "@/util/files";
+import { useNavigate } from "@solidjs/router";
 
 export default function CreateFile({
   ref,
@@ -11,7 +12,7 @@ export default function CreateFile({
 }) {
   const [fileName, setFileName] = createSignal("");
 
-  const handleFileCreate = async () => {
+  const handleFileCreate = async (fileId: string) => {
     if (!fileName()) return;
     let initialData = {
       type: "doc",
@@ -24,15 +25,18 @@ export default function CreateFile({
       ],
     };
 
-    await saveFile(nanoid(), fileName(), initialData);
+    await saveFile(fileId, fileName(), initialData);
     setFileName("");
   };
 
+  const navigate = useNavigate();
   const handleKeyDown = async (e: any) => {
     if (e.key != "Enter") return;
     setFileName(e.target.value);
-    await handleFileCreate();
+    const fileId = nanoid();
+    await handleFileCreate(fileId);
     closeHandler();
+    navigate(`/file/${fileId}`);
   };
   return (
     <div class="ml-auto">
