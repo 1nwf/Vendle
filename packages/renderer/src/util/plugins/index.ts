@@ -54,6 +54,7 @@ export const loadPlugins = async () => {
         type: info.type,
         icon: info.icon,
         author: info.author,
+        updateAvailable: info.updateAvailable,
       });
     })
   );

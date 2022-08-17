@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, protocol } from "electron";
+import { app, BrowserWindow, shell, ipcMain, protocol, Menu } from "electron";
 import { release } from "os";
 import { join } from "path";
 
@@ -8,8 +8,10 @@ import {
   handleGetPluginInfo,
   handleGetPluginReadme,
   handleInstallPlugin,
+  handlePluginCheckUpdate,
   handleSaveFile,
   handleUninstallPlugin,
+  handleUpdatePlugin,
 } from "./ipcHandlers";
 import "./store";
 
@@ -75,10 +77,16 @@ async function createWindow() {
   ipcMain.handle("getPluginReadme", handleGetPluginReadme);
   ipcMain.handle("uninstallPlugin", handleUninstallPlugin);
   ipcMain.handle("installPlugin", handleInstallPlugin);
+  ipcMain.handle("updatePlugin", handleUpdatePlugin);
+  ipcMain.handle("pluginCheckUpdate", handlePluginCheckUpdate);
   protocol.registerFileProtocol("atom", (request, callback) => {
     const url = request.url.substr(7);
     callback({ path: url });
   });
+
+  // const menu = Menu.getApplicationMenu();
+  // const items = menu?.items.filter((item) => item.role !== "editMenu");
+  // Menu.setApplicationMenu(Menu.buildFromTemplate(items!));
 }
 
 app.whenReady().then(createWindow);

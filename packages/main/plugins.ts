@@ -27,6 +27,7 @@ export const getPluginInfo = async (
   let info = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
   let { vendle } = info;
 
+  const updateAvailable = await pluginUpdateAvailable(info.name, info.version);
   return {
     name: info.name,
     displayName: vendle.name,
@@ -35,6 +36,7 @@ export const getPluginInfo = async (
     icon: vendle.icon ? path.join(dir, vendle.icon) : "",
     type: vendle.type,
     author: info.author,
+    updateAvailable,
   };
 };
 
@@ -144,41 +146,55 @@ const movePluginDeps = async (src: string, dist: string, deps: string[]) => {
 };
 
 const isValidPlugin = async (name: string) => {
-  return new Promise<Omit<Plugin, "module">>((resolve, reject) => {
-    execFile(
-      process.execPath,
-      [yarn, "info", name, "--json"],
-      {
-        maxBuffer: 1024 * 1024,
-        env: {
-          NODE_ENV: "production",
-          ELECTRON_RUN_AS_NODE: "true",
-          VITE_DEV_SERVER_HOST: "localhost",
-          VITE_DEV_SERVER_PORT: "3344",
+  return new Promise<Omit<Plugin, "module" | "updateAvailable">>(
+    (resolve, reject) => {
+      execFile(
+        process.execPath,
+        [yarn, "info", name, "--json"],
+        {
+          maxBuffer: 1024 * 1024,
+          env: {
+            NODE_ENV: "production",
+            ELECTRON_RUN_AS_NODE: "true",
+            VITE_DEV_SERVER_HOST: "localhost",
+            VITE_DEV_SERVER_PORT: "3344",
+          },
         },
-      },
-      (err, stdout, stderr) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+        (err, stdout, stderr) => {
+          if (err) {
+            reject(err);
+            return;
+          }
 
-        const { data } = JSON.parse(stdout.toString());
+          const { data } = JSON.parse(stdout.toString());
 
-        if (!data.hasOwnProperty("vendle")) {
-          reject(new Error("plugin is not a vendle plugin"));
-          return;
+          if (!data.hasOwnProperty("vendle")) {
+            reject(new Error("plugin is not a vendle plugin"));
+            return;
+          }
+          resolve({
+            name: data.name,
+            displayName: data.vendle.name,
+            version: data.version,
+            author: data.vendle.author,
+            description: data.vendle.description,
+            icon: data.vendle.icon,
+            type: data.vendle.type,
+          });
         }
-        resolve({
-          name: data.name,
-          displayName: data.vendle.name,
-          version: data.version,
-          author: data.vendle.author,
-          description: data.vendle.description,
-          icon: data.vendle.icon,
-          type: data.vendle.type,
-        });
-      }
-    );
-  });
+      );
+    }
+  );
+};
+
+export const pluginUpdateAvailable = async (
+  name: string,
+  currentVersion: string
+) => {
+  const { version } = await isValidPlugin(name);
+  return currentVersion != version;
+};
+export const updatePlugin = async (name: string) => {
+  await uninstallPlugin(name);
+  await install(name);
 };

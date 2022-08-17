@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@hope-ui/solid": "^0.6.7",
+    "@motionone/solid": "^10.13.3",
     "@solidjs/router": "^0.4.2",
     "@stitches/core": "^1.2.8",
     "@tiptap/extension-paragraph": "2.0.0-beta.26",
@@ -24,6 +25,8 @@
     "conf": "^10.2.0",
     "electron-store": "^8.1.0",
     "fs-extra": "^10.1.0",
+    "jsonfile": "^6.1.0",
+    "pkg-up": "^4.0.0",
     "showdown": "^2.1.0",
     "solid-heroicons": "^2.0.3",
     "solid-transition-group": "^0.0.10",

@@ -8,7 +8,7 @@ import { createResource, createSignal, Show } from "solid-js";
 
 export default function Plugins() {
   const fetchPluginData = async (name: string) => {
-    const p = plugins.find((p) => p.name === name) ?? null;
+    const p = plugins.find((p) => p.name === name);
     if (p) {
       const readme = await ipcRenderer.invoke("getPluginReadme", name);
       setPlugin(p);
@@ -56,7 +56,7 @@ export default function Plugins() {
 
   const uninstallPlugin = async () => {
     if (loading()) return;
-    if (confirm(`uninstall ${plugin()?.name}?`)) {
+    if (confirm(`uninstall ${plugin()?.displayName}?`)) {
       setLoading(true);
       await ipcRenderer.invoke("uninstallPlugin", plugin()?.name).then(() => {
         setLoading(false);
@@ -67,6 +67,12 @@ export default function Plugins() {
         );
       });
     }
+  };
+  const [updating, setUpdating] = createSignal(false);
+  const updatePlugin = async () => {
+    setUpdating(true);
+    await ipcRenderer.invoke("updatePlugin", plugin()!.name);
+    setUpdating(false);
   };
   return (
     <div class="px-10 mt-5">
@@ -86,21 +92,38 @@ export default function Plugins() {
             <p class="text-gray-500 text-sm">by: {plugin().author}</p>
 
             {installed() ? (
-              <button
-                class="bg-red-500 text-white p-1 rounded-md text-xs"
-                onClick={async () => await uninstallPlugin()}
-              >
-                {loading() ? (
-                  <div class="p-1">
-                    <Spinner size="xs" />
-                  </div>
-                ) : (
-                  "uninstall"
-                )}
-              </button>
+              <div>
+                <button
+                  class="bg-red-500 text-white p-1 rounded-md text-xs"
+                  onClick={async () => await uninstallPlugin()}
+                >
+                  {loading() ? (
+                    <div class="p-1">
+                      <Spinner size="xs" />
+                    </div>
+                  ) : (
+                    "uninstall"
+                  )}
+                </button>
+
+                <Show when={plugin()?.updateAvailable}>
+                  <button
+                    class="p-1 text-xs mx-2 bg-blue-500 text-white rounded-md"
+                    onClick={async () => await updatePlugin()}
+                  >
+                    {updating() ? (
+                      <div>
+                        <Spinner size="xs" />
+                      </div>
+                    ) : (
+                      "upgrade"
+                    )}
+                  </button>
+                </Show>
+              </div>
             ) : (
               <button
-                class="bg-blue-500 text-white p-1 rounded-md text-xs"
+                class="bg-black text-white p-1 rounded-md text-xs"
                 onClick={async () => await installPlugin()}
               >
                 {loading() ? (

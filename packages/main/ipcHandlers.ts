@@ -2,7 +2,9 @@ import {
   getPluginInfo,
   getPluginReadme,
   install,
+  pluginUpdateAvailable,
   uninstallPlugin,
+  updatePlugin,
 } from "./plugins";
 import { deleteNote, saveFile, getFileContents } from "./util";
 
@@ -36,4 +38,16 @@ export const handleUninstallPlugin = async (event: any, name: string) => {
 
 export const handleInstallPlugin = async (event: any, name: string) => {
   return await install(name);
+};
+
+export const handleUpdatePlugin = async (event: any, name: string) => {
+  return await updatePlugin(name);
+};
+
+export const handlePluginCheckUpdate = async (
+  event: any,
+  name: string,
+  version: string
+) => {
+  return await pluginUpdateAvailable(name, version);
 };

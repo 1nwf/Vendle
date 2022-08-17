@@ -28,6 +28,7 @@ export interface Plugin {
   icon: any;
   module: Partial<Module>;
   type: string;
+  updateAvailable: boolean;
 }
 
 export const pluginApis: (keyof Module)[] = [
