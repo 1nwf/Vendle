@@ -8,7 +8,7 @@ import { initPlugins } from "./util/plugins";
 import { store } from "./store";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
-import { appState, showThemePicker } from "./state/app";
+import { appState, setAppState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 
 const loadSettings = async () => {
@@ -62,6 +62,15 @@ const App: Component = () => {
     settings.sidepanelShown = true;
     await persistSettings();
   };
+  const handleResize = (e) => {
+    console.log("e: ", e, window.innerWidth);
+    if (window.innerWidth < 1024) {
+      settings.sidepanelShown = false;
+    }
+  };
+  createEffect(() => {
+    window.addEventListener("resize", handleResize);
+  });
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -72,7 +81,7 @@ const App: Component = () => {
         <Show when={settings.sidepanelShown}>
           <div
             style={settings.theme.sidePanelBg}
-            class={`float-left h-screen pt-6 absolute top-0 hidden lg:(block w-1/5)`}
+            class={`float-left h-screen pt-6 absolute top-0 block w-1/5`}
           >
             <SidePanel />
           </div>
