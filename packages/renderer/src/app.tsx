@@ -62,8 +62,7 @@ const App: Component = () => {
     settings.sidepanelShown = true;
     await persistSettings();
   };
-  const handleResize = (e) => {
-    console.log("e: ", e, window.innerWidth);
+  const handleResize = () => {
     if (window.innerWidth < 1024) {
       settings.sidepanelShown = false;
     }
@@ -81,7 +80,7 @@ const App: Component = () => {
         <Show when={settings.sidepanelShown}>
           <div
             style={settings.theme.sidePanelBg}
-            class={`float-left h-screen pt-6 absolute top-0 block w-1/5`}
+            class={`float-left h-screen pt-6 absolute top-0 block md:(w-3/12) w-2/5 lg:(w-1/5) z-50`}
           >
             <SidePanel />
           </div>
@@ -94,7 +93,7 @@ const App: Component = () => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 ml-3 hover:cursor-pointer z-50"
+              class="h-5 w-5 ml-3 hover:cursor-pointer"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -112,10 +111,10 @@ const App: Component = () => {
 
         <div
           style={settings.theme.editorBg}
-          class={`w-12/12 ${
+          class={`${
             settings.sidepanelShown
-              ? "lg:(w-4/5 float-right)"
-              : "lg:(float-right w-12/12 pl-12)"
+              ? "lg:(w-4/5) w-9/12 float-right"
+              : "w-12/12"
           } select-text h-screen overflow-y-auto`}
         >
           <Routes />
