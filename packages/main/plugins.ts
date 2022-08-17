@@ -10,7 +10,8 @@ export const getPluginPaths = async () => {
   let paths: string[] = [];
   let plugins = await fs.readdir(PLUGINS_PATH);
   plugins.forEach((dir) => {
-    if (dir.startsWith(".") || dir === "package.json") return;
+    if (dir.startsWith(".") || dir === "package.json" || dir === "yarn.lock")
+      return;
     paths.push(PLUGINS_PATH + dir);
   });
   return paths;
@@ -91,6 +92,14 @@ const installPlugin = async (name: string) => {
   });
 };
 
+const getPluginDependencies = async (pluginPath: string) => {
+  let { dependencies, devDependencies } = JSON.parse(
+    await fs.readFile(path.join(pluginPath, "package.json"), "utf8")
+  );
+  dependencies = dependencies ?? [];
+  devDependencies = devDependencies ?? [];
+  return [...Object.keys(dependencies), ...Object.keys(devDependencies)];
+};
 export const install = async (name: string) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -105,19 +114,11 @@ export const install = async (name: string) => {
 
       const pluginFiles = await fs.readdir(pluginDir);
       if (pluginFiles.includes("package.json")) {
-        const { dependencies, devDependencies } = JSON.parse(
-          await fs.readFile(pluginDir + "/package.json", "utf8")
+        await movePluginDeps(
+          tempDir,
+          pluginDir,
+          await getPluginDependencies(pluginDir)
         );
-        if (dependencies) {
-          await movePluginDeps(tempDir, pluginDir, Object.keys(dependencies));
-        }
-        if (devDependencies) {
-          await movePluginDeps(
-            tempDir,
-            pluginDir,
-            Object.keys(devDependencies)
-          );
-        }
         rmSync(tempDir, { recursive: true, force: true });
         resolve(plugin);
       }
@@ -143,7 +144,7 @@ const movePluginDeps = async (src: string, dist: string, deps: string[]) => {
 };
 
 const isValidPlugin = async (name: string) => {
-  return new Promise<Plugin>((resolve, reject) => {
+  return new Promise<Omit<Plugin, "module">>((resolve, reject) => {
     execFile(
       process.execPath,
       [yarn, "info", name, "--json"],
@@ -171,12 +172,11 @@ const isValidPlugin = async (name: string) => {
         resolve({
           name: data.name,
           displayName: data.vendle.name,
-          version: data.vendle.version,
+          version: data.version,
           author: data.vendle.author,
           description: data.vendle.description,
           icon: data.vendle.icon,
           type: data.vendle.type,
-          module: {},
         });
       }
     );
