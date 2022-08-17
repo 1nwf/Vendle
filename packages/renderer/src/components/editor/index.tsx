@@ -75,7 +75,7 @@ export default function Editor() {
     setShowCommandsPopup(false);
   };
   return (
-    <div style={settings.theme.editorBg} class={`w-full`}>
+    <div style={settings.theme.editorBg} class="w-full">
       <Show when={showCommandsPopup()}>
         <OverlayCommandsPopup
           position={cursorCoordinates()}
