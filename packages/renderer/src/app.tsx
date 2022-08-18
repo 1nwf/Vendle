@@ -62,14 +62,6 @@ const App: Component = () => {
     settings.sidepanelShown = true;
     await persistSettings();
   };
-  const handleResize = () => {
-    if (window.innerWidth < 1024) {
-      settings.sidepanelShown = false;
-    }
-  };
-  createEffect(() => {
-    window.addEventListener("resize", handleResize);
-  });
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -113,7 +105,7 @@ const App: Component = () => {
           style={settings.theme.editorBg}
           class={`${
             settings.sidepanelShown
-              ? "lg:(w-4/5) w-9/12 float-right"
+              ? "lg:(w-4/5) md:(w-9/12) w-3/5 float-right"
               : "w-12/12"
           } select-text h-screen overflow-y-auto`}
         >
