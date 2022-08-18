@@ -10,16 +10,23 @@ import {
 } from "@hope-ui/solid";
 
 export default function Plugins() {
-  const [pluginsList, setPluginsList] = createSignal(plugins);
+  const [pluginsList, setPluginsList] = createSignal([
+    ...plugins.editor,
+    ...plugins.colorscheme,
+  ]);
   const [searchPlugin, setSearchPlugin] = createSignal("");
   const [filters, setFilters] = createSignal<string[]>([]);
   const handleOnInput = async (e: any) => {
     setSearchPlugin(e.target.value);
     if (filters().includes("installed")) {
       setPluginsList(
-        matchSorter(plugins, e.target.value, {
-          keys: ["name", "type", "description"],
-        })
+        matchSorter(
+          [...plugins.editor, ...plugins.colorscheme],
+          e.target.value,
+          {
+            keys: ["name", "type", "description"],
+          }
+        )
       );
     } else {
       await search();
@@ -27,7 +34,7 @@ export default function Plugins() {
   };
   const updateFilters = (f: string) => {
     if (filters().includes(f)) return;
-    setPluginsList(plugins);
+    setPluginsList([...plugins.editor, ...plugins.colorscheme]);
     setFilters((prev) => [...prev, f]);
   };
   const clearFilter = (f: string) => {

@@ -4,7 +4,7 @@ import { Plugin } from "packages/types/plugins";
 export default function PluginCard({ plugin }: { plugin: Plugin }) {
   const navigate = useNavigate();
   const clickHandler = () => {
-    navigate(`/plugins/${plugin.name}`);
+    navigate(`/plugins/${plugin.name}/${plugin.type ?? ""}`);
   };
   return (
     <div

@@ -68,7 +68,21 @@ export const settings = createMutable({
   },
 });
 
-export const plugins: Plugin[] = createMutable([]);
+export const plugins: Record<"colorscheme" | "editor", Plugin[]> =
+  createMutable({
+    colorscheme: [],
+    editor: [],
+  });
+
+export const findPlugin = (name: string, type?: "colorscheme" | "editor") => {
+  if (!type) {
+    return (
+      plugins.editor.find((p) => p.name === name) ??
+      plugins.colorscheme.find((p) => p.name === name)
+    );
+  }
+  return plugins[type].find((p) => p.name === name);
+};
 
 export const changeColorscheme = (light: boolean) => {
   settings.isLightTheme = light;

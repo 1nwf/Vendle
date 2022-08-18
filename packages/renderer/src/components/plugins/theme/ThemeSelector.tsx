@@ -12,7 +12,7 @@ export default function ThemeSelector({
 }: {
   closeHandler: () => void;
 }) {
-  const [themes, setThemes] = createSignal(plugins);
+  const [themes, setThemes] = createSignal(plugins.colorscheme);
   let ref: any;
   const handleKeyDown = (e: KeyboardEvent) => {
     const active = document.activeElement as Element;
@@ -38,7 +38,7 @@ export default function ThemeSelector({
   };
   const handleOnInput = (e: any) => {
     setThemes(
-      matchSorter(plugins, e.target.value, {
+      matchSorter(plugins.colorscheme, e.target.value, {
         keys: ["name", "description"],
       })
     );

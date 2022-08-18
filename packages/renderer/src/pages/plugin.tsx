@@ -1,14 +1,20 @@
-import { plugins } from "@/state/settings";
+import { findPlugin, plugins } from "@/state/settings";
 import { initPlugins } from "@/util/plugins";
 import { Spinner } from "@hope-ui/solid";
-import { useNavigate, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { ipcRenderer } from "electron";
 import { Plugin } from "packages/types/plugins";
 import { createResource, createSignal, Show } from "solid-js";
 
 export default function Plugins() {
-  const fetchPluginData = async (name: string) => {
-    const p = plugins.find((p) => p.name === name);
+  const fetchPluginData = async ({
+    name,
+    type,
+  }: {
+    name: string;
+    type: "editor" | "colorscheme" | undefined;
+  }) => {
+    const p = findPlugin(name, type);
     if (p) {
       const readme = await ipcRenderer.invoke("getPluginReadme", name);
       setPlugin(p);
@@ -38,7 +44,10 @@ export default function Plugins() {
   const params = useParams();
   const [plugin, setPlugin] = createSignal<Partial<Plugin>>();
   const [installed, setInstalled] = createSignal(false);
-  createResource(() => params.name, fetchPluginData);
+  createResource(
+    () => ({ name: params.name, type: params.type }),
+    fetchPluginData
+  );
   const [readme, setReadme] = createSignal("");
   const [loading, setLoading] = createSignal(false);
   const installPlugin = async () => {
@@ -52,7 +61,6 @@ export default function Plugins() {
     setInstalled(true);
     initPlugins();
   };
-  const navigate = useNavigate();
 
   const uninstallPlugin = async () => {
     if (loading()) return;
@@ -61,8 +69,8 @@ export default function Plugins() {
       await ipcRenderer.invoke("uninstallPlugin", plugin()?.name).then(() => {
         setLoading(false);
         setInstalled(false);
-        plugins.splice(
-          plugins.findIndex((p) => p.name === plugin()?.name),
+        plugins[plugin().type].splice(
+          plugins[plugin().type].findIndex((p) => p.name === plugin()?.name),
           1
         );
       });

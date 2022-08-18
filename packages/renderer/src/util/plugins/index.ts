@@ -4,6 +4,7 @@ import { ipcRenderer } from "electron";
 import * as vendle from "./vendle";
 import { generateStylesFromWindiClassName } from "@/util/styles";
 import { store } from "@/store";
+import { batch } from "solid-js";
 
 const pluginPaths = async () => {
   const paths: string[] = await ipcRenderer.invoke("get-plugins-path");
@@ -33,7 +34,10 @@ const getPluginInfo = async (dir: string) => {
 };
 
 export const loadPlugins = async () => {
-  let plugins: Plugin[] = [];
+  let plugins: Record<"colorscheme" | "editor", Plugin[]> = {
+    colorscheme: [],
+    editor: [],
+  };
   const paths = await pluginPaths();
   await Promise.all(
     paths.map(async (path) => {
@@ -44,8 +48,7 @@ export const loadPlugins = async () => {
           delete mod[fn];
         }
       });
-
-      plugins.push({
+      let pluginInfo = {
         module: mod,
         name: info.name,
         displayName: info.displayName,
@@ -55,17 +58,21 @@ export const loadPlugins = async () => {
         icon: info.icon,
         author: info.author,
         updateAvailable: info.updateAvailable,
-      });
+      };
+
+      if (["colorscheme", "editor"].includes(info.type)) {
+        let type = info.type as "colorscheme" | "editor";
+        plugins[type].push(pluginInfo);
+      }
     })
   );
   return plugins;
 };
 export const initPlugins = async () => {
   const loadedPlugins = await loadPlugins();
-  loadedPlugins.forEach((plugin) => {
-    const installed = plugins.find((p) => p.name === plugin.name);
-    if (installed) return;
-    plugins.push(plugin);
+  batch(() => {
+    plugins.colorscheme = loadedPlugins.colorscheme;
+    plugins.editor = loadedPlugins.editor;
   });
 };
 

@@ -10,7 +10,7 @@ export const routes: RouteDefinition[] = [
     component: lazy(() => import("./pages/file")),
   },
   {
-    path: "/plugins/:name",
+    path: "/plugins//:name/:type?",
     component: lazy(() => import("./pages/plugin")),
   },
 ];
