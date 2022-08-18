@@ -27,7 +27,7 @@ export interface Plugin {
   description: string;
   icon: any;
   module: Partial<Module>;
-  type: string;
+  type: "editor" | "colorscheme";
   updateAvailable: boolean;
 }
 
