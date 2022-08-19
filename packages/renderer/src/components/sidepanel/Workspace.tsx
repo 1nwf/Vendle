@@ -44,7 +44,8 @@ export default function Workspace() {
               ? `atom://${settings.pfpPath}`
               : "https://www.mintface.xyz/content/images/2021/08/QmdhoQdQ1oB2rdJD3ZpexSwwfspqAWGMdDjPR3mYeWGpZT.png"
           }
-          class="w-10 h-10 rounded-xl shadow-stone-2xl"
+          class="w-10 h-10 rounded-xl shadow-stone-2xl hover:(p-1)"
+          style={settings.theme.appBg}
           onClick={() => fileRef.click()}
         />
         <input
