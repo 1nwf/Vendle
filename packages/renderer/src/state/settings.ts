@@ -63,6 +63,7 @@ export const settings = createMutable({
   username: "No User Name",
   themeName: "default",
   sidepanelShown: true,
+  pfpPath: "",
   get theme() {
     return this.isLightTheme ? this.lightTheme : this.darkTheme;
   },

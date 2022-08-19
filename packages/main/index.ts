@@ -8,6 +8,7 @@ import {
   handleGetPluginInfo,
   handleGetPluginReadme,
   handleInstallPlugin,
+  handlePfpUpload,
   handlePluginCheckUpdate,
   handleSaveFile,
   handleUninstallPlugin,
@@ -79,6 +80,7 @@ async function createWindow() {
   ipcMain.handle("installPlugin", handleInstallPlugin);
   ipcMain.handle("updatePlugin", handleUpdatePlugin);
   ipcMain.handle("pluginCheckUpdate", handlePluginCheckUpdate);
+  ipcMain.handle("pfpUpload", handlePfpUpload);
   protocol.registerFileProtocol("atom", (request, callback) => {
     const url = request.url.substr(7);
     callback({ path: url });

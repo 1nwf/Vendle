@@ -1,3 +1,4 @@
+import { app } from "electron";
 import { mkdirSync, writeFileSync, promises as fs } from "fs";
 import {
   NOTES_PATH,
@@ -6,6 +7,7 @@ import {
   WORKSPACE_FILES,
 } from "./constants";
 
+import { join } from "path";
 export const initDirs = () => {
   mkdirSync(NOTES_PATH);
   mkdirSync(PLUGINS_PATH);
@@ -39,4 +41,17 @@ export const getFileContents = async (name: string) => {
   }
 
   return res;
+};
+export const updateUserPfp = async (path: string) => {
+  let ext = path.split(".").pop();
+  const userData = app.getPath("userData");
+  let pfpPath = (await fs.readdir(userData)).find((p) => p.includes("pfp"));
+
+  if (pfpPath && pfpPath.split(".").pop() != ext) {
+    await fs.rename(join(userData, pfpPath), join(userData, `pfp.${ext}`));
+  } else {
+    await fs.writeFile(join(userData, `pfp.${ext}`), "");
+  }
+  await fs.copyFile(path, `${userData}/pfp.${ext}`);
+  return join(userData, `pfp.${ext}`);
 };

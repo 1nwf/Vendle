@@ -6,7 +6,7 @@ import {
   uninstallPlugin,
   updatePlugin,
 } from "./plugins";
-import { deleteNote, saveFile, getFileContents } from "./util";
+import { deleteNote, saveFile, getFileContents, updateUserPfp } from "./util";
 
 export const handleSaveFile = async (
   event: any,
@@ -50,4 +50,8 @@ export const handlePluginCheckUpdate = async (
   version: string
 ) => {
   return await pluginUpdateAvailable(name, version);
+};
+
+export const handlePfpUpload = async (event: any, path: string) => {
+  return await updateUserPfp(path);
 };
