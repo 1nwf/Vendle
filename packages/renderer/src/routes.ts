@@ -1,6 +1,7 @@
 import { RouteDefinition } from "@solidjs/router";
 import { lazy } from "solid-js";
 import FileData from "./pages/file/data";
+import PluginData from "./pages/plugin/data";
 
 export const routes: RouteDefinition[] = [
   {
@@ -15,5 +16,6 @@ export const routes: RouteDefinition[] = [
   {
     path: "/plugins//:name/:type?",
     component: lazy(() => import("./pages/plugin")),
+    data: PluginData,
   },
 ];

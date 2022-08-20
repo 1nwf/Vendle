@@ -1,61 +1,26 @@
-import { findPlugin, plugins } from "@/state/settings";
+import { plugins } from "@/state/settings";
 import { initPlugins } from "@/util/plugins";
 import { Spinner } from "@hope-ui/solid";
-import { useParams } from "@solidjs/router";
+import { useRouteData } from "@solidjs/router";
 import { ipcRenderer } from "electron";
-import { Plugin } from "packages/types/plugins";
-import { createResource, createSignal, Show } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
 
 export default function Plugins() {
-  const fetchPluginData = async ({
-    name,
-    type,
-  }: {
-    name: string;
-    type: "editor" | "colorscheme" | undefined;
-  }) => {
-    const p = findPlugin(name, type);
-    if (p) {
-      const readme = await ipcRenderer.invoke("getPluginReadme", name);
-      setPlugin(p);
-      setReadme(readme ?? "");
-      setInstalled(true);
-      return;
-    }
-
-    setInstalled(false);
-    await fetch(`https://registry.npmjs.org/${name}/latest`)
-      .then((r) => r.json())
-      .then((data) => {
-        const plugin = {
-          name: data.name,
-          displayName: data.vendle.name,
-          description: data.vendle.description,
-          version: data.version,
-          author: data.author.name,
-          type: data.vendle.type,
-          icon: data.vendle.icon,
-        };
-
-        setPlugin(plugin);
-      });
-    setReadme("");
-  };
-  const params = useParams();
-  const [plugin, setPlugin] = createSignal<Partial<Plugin>>();
+  const data = useRouteData();
   const [installed, setInstalled] = createSignal(false);
-  createResource(
-    () => ({ name: params.name, type: params.type }),
-    fetchPluginData
-  );
-  const [readme, setReadme] = createSignal("");
+
+  createEffect(() => {
+    if (!data()) return;
+    setInstalled(data().isInstalled);
+  });
   const [loading, setLoading] = createSignal(false);
+
   const installPlugin = async () => {
     if (loading()) return;
-    const p = plugin();
-    if (!p) return;
+    const plugin = data().plugin;
+    if (!plugin) return;
     setLoading(true);
-    await ipcRenderer.invoke("installPlugin", p.name);
+    await ipcRenderer.invoke("installPlugin", plugin.name);
     setLoading(false);
 
     setInstalled(true);
@@ -63,14 +28,15 @@ export default function Plugins() {
   };
 
   const uninstallPlugin = async () => {
+    const plugin = data().plugin;
     if (loading()) return;
-    if (confirm(`uninstall ${plugin()?.displayName}?`)) {
+    if (confirm(`uninstall ${plugin.displayName}?`)) {
       setLoading(true);
-      await ipcRenderer.invoke("uninstallPlugin", plugin()?.name).then(() => {
+      await ipcRenderer.invoke("uninstallPlugin", plugin.name).then(() => {
         setLoading(false);
         setInstalled(false);
-        plugins[plugin().type].splice(
-          plugins[plugin().type].findIndex((p) => p.name === plugin()?.name),
+        plugins[plugin.type].splice(
+          plugins[plugin.type].findIndex((p) => p.name === plugin.name),
           1
         );
       });
@@ -79,25 +45,28 @@ export default function Plugins() {
   const [updating, setUpdating] = createSignal(false);
   const updatePlugin = async () => {
     setUpdating(true);
-    await ipcRenderer.invoke("updatePlugin", plugin()!.name);
+    await ipcRenderer.invoke("updatePlugin", data().plugin.name);
     setUpdating(false);
   };
   return (
-    <div class="px-10 mt-5">
-      <Show when={plugin()}>
+    <Show when={data()}>
+      <div class="px-10 mt-5">
         <div class="flex items-center">
-          {plugin().icon && (
-            <img src={"atom://" + plugin().icon} class="h-20 w-20 rounded-md" />
+          {data().plugin.icon && (
+            <img
+              src={"atom://" + data().plugin.icon}
+              class="h-20 w-20 rounded-md"
+            />
           )}
           <div class="block ml-5">
             <div class="flex items-baseline">
-              <h1>{plugin()?.displayName}</h1>
+              <h1>{data().plugin.displayName}</h1>
               <p class="bg-black p-1 rounded-md text-[10px] ml-2 text-white">
-                {plugin().version}
+                {data().plugin.version}
               </p>
             </div>
-            <p>{plugin().description}</p>
-            <p class="text-gray-500 text-sm">by: {plugin().author}</p>
+            <p>{data().plugin.description}</p>
+            <p class="text-gray-500 text-sm">by: {data().plugin.author}</p>
 
             {installed() ? (
               <div>
@@ -114,7 +83,7 @@ export default function Plugins() {
                   )}
                 </button>
 
-                <Show when={plugin()?.updateAvailable}>
+                <Show when={data().plugin.updateAvailable}>
                   <button
                     class="p-1 text-xs mx-2 bg-blue-500 text-white rounded-md"
                     onClick={async () => await updatePlugin()}
@@ -145,9 +114,9 @@ export default function Plugins() {
             )}
           </div>
         </div>
-      </Show>
-      <hr class="mt-5" />
-      <div innerHTML={readme()} class="mt-5" />
-    </div>
+        <hr class="mt-5" />
+        <div innerHTML={data().readme} class="mt-5" />
+      </div>
+    </Show>
   );
 }
