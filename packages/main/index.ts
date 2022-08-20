@@ -42,6 +42,9 @@ async function createWindow() {
     },
     titleBarStyle: "hiddenInset",
   });
+  win.on("enter-full-screen", () => {
+    console.log("entered full screen");
+  });
 
   if (app.isPackaged) {
     win.loadFile(join(__dirname, "../renderer/index.html"));
@@ -69,6 +72,13 @@ async function createWindow() {
   });
   ipcMain.handle("initDirs", () => {
     initDirs();
+  });
+
+  win.on("enter-full-screen", () => {
+    win?.webContents.send("fullscreen");
+  });
+  win.on("leave-full-screen", () => {
+    win?.webContents.send("leave-fullscreen");
   });
 
   ipcMain.handle("saveFile", handleSaveFile);

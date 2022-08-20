@@ -1,4 +1,4 @@
-import { Component, createEffect, onMount, Show } from "solid-js";
+import { Component, createEffect, createSignal, onMount, Show } from "solid-js";
 import "./index.css";
 import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
@@ -10,6 +10,7 @@ import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
 import { appState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
+import { ipcRenderer } from "electron";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
@@ -62,6 +63,15 @@ const App: Component = () => {
     settings.sidepanelShown = true;
     await persistSettings();
   };
+  const [fullscreen, setFullScreen] = createSignal(false);
+  createEffect(() => {
+    ipcRenderer.on("fullscreen", () => {
+      setFullScreen(true);
+    });
+    ipcRenderer.on("leave-fullscreen", () => {
+      setFullScreen(false);
+    });
+  });
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -72,7 +82,9 @@ const App: Component = () => {
         <Show when={settings.sidepanelShown}>
           <div
             style={settings.theme.sidePanelBg}
-            class={`float-left h-screen pt-6 absolute top-0 block md:(w-3/12) w-2/5 lg:(w-1/5) z-50`}
+            class={`float-left h-screen ${
+              !fullscreen() && "pt-6"
+            } absolute top-0 block md:(w-3/12) w-2/5 lg:(w-1/5) z-50`}
           >
             <SidePanel />
           </div>
