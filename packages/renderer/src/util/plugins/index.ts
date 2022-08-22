@@ -5,6 +5,7 @@ import * as vendle from "./vendle";
 import { generateStylesFromWindiClassName } from "@/util/styles";
 import { store } from "@/store";
 import { batch } from "solid-js";
+import * as tiptap from "@tiptap/core";
 
 const pluginPaths = async () => {
   const paths: string[] = await ipcRenderer.invoke("get-plugins-path");
@@ -21,6 +22,8 @@ const patchRequire = () => {
       case "fs":
       case "electron":
         return undefined;
+      case "@tiptap/core":
+        return tiptap;
       default:
         return originalRequire.apply(this, arguments);
     }
