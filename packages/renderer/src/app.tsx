@@ -1,4 +1,10 @@
-import { Component, createEffect, createSignal, onMount, Show } from "solid-js";
+import {
+  Component,
+  createEffect,
+  createRenderEffect,
+  createSignal,
+  Show,
+} from "solid-js";
 import "./index.css";
 import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
@@ -24,11 +30,8 @@ const loadSettings = async () => {
 };
 
 const App: Component = () => {
-  onMount(async () => {
-    await initPlugins();
-  });
-  onMount(async () => {
-    await loadSettings();
+  createRenderEffect(async () => {
+    await Promise.all([initPlugins(), loadSettings()]);
   });
 
   const Routes = useRoutes(routes);
