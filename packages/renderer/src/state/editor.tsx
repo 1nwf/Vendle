@@ -5,22 +5,42 @@ import { createMutable } from "solid-js/store";
 import { createTiptapEditor, UseEditorOptions } from "solid-tiptap";
 import { settings } from "./settings";
 import { file } from "./file";
+import Paragraph from "@tiptap/extension-paragraph";
+import { initRenderer } from "electron-store";
+import { Editor } from "@tiptap/core";
 
-const CustomDocument = Document.extend({
+export const CustomDocument = Document.extend({
   content: "heading block*",
+});
+
+export const CustomParagraph = Paragraph.extend({
+  addAttributes() {
+    return {
+      color: {
+        default: null,
+        // Take the attribute values
+        renderHTML: (attributes) => {
+          // … and return an object with HTML attributes.
+          return {
+            style: `color: red`,
+          };
+        },
+      },
+    };
+  },
 });
 export const editorStyle = () => {
   return `outline-none  pt-12 w-full lg:px-42 md:px-32 px-22 h-screen`;
 };
 
-const editorExtensions = createMutable([
+export const [editorExtensions, setEditorExtensions] = createSignal([
   StarterKit.configure({ document: false }),
   CustomDocument,
 ]);
 export const editorProps: Partial<UseEditorOptions<HTMLDivElement>> =
   createMutable({
     get extensions() {
-      return editorExtensions;
+      return editorExtensions();
     },
     editorProps: {
       attributes: {
@@ -39,18 +59,25 @@ export const updateFileContents = () => {
 };
 
 export let editorRef;
-export let EditorDiv = (
-  <div
-    id="editor"
-    ref={editorRef}
-    class="flex justify-center"
-    style={settings.theme.editorFg}
-  />
-);
-export const editor = createTiptapEditor({
-  get element() {
-    return editorRef;
-  },
-  content: file.contents,
-  ...editorProps,
-});
+export const EditorDiv = () => {
+  return (
+    <div
+      id="editor"
+      ref={editorRef}
+      class="flex justify-center"
+      // style={settings.theme.editorFg}
+    />
+  );
+};
+
+export let editor: () => Editor | undefined;
+export const initEditor = () => {
+  const tiptapEditor = createTiptapEditor({
+    get element() {
+      return editorRef;
+    },
+    content: file.contents,
+    ...editorProps,
+  });
+  editor = tiptapEditor;
+};

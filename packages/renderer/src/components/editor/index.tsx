@@ -6,6 +6,7 @@ import { getCaretCoordinates } from "@/util/cursor";
 import { OverlayCommandsPopup } from "./overlayCommandsPopup";
 
 export default function Editor() {
+  const instance = editor();
   const [cursorCoordinates, setCursorCoordinates] = createSignal({
     x: null,
     y: null,
@@ -20,7 +21,6 @@ export default function Editor() {
   const handleKeyDown = async (e) => {
     if (e.metaKey && e.key === "s") {
       e.preventDefault();
-      let instance = editor();
       if (instance != undefined) {
         await saveNote();
       }
@@ -31,7 +31,6 @@ export default function Editor() {
     }
   };
   createEffect(() => {
-    const instance = editor();
     if (instance) {
       instance.commands.focus();
     }
@@ -45,8 +44,8 @@ export default function Editor() {
     on(
       () => settings.lightTheme,
       () => {
-        if (!editor()) return;
-        editor().setOptions({
+        if (!instance) return;
+        instance.setOptions({
           editorProps: {
             attributes: {
               class: editorStyle(),
@@ -57,8 +56,8 @@ export default function Editor() {
     )
   );
   createEffect(() => {
-    if (!editor()) return;
-    editor().setOptions({
+    if (!instance) return;
+    instance.setOptions({
       editorProps: {
         attributes: {
           class: editorStyle(),
@@ -83,7 +82,7 @@ export default function Editor() {
           closeHandler={closeCommandsPopup}
         />
       </Show>
-      {EditorDiv}
+      <EditorDiv />
     </div>
   );
 }

@@ -17,6 +17,7 @@ import { globalCss } from "@hope-ui/solid";
 import { appState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 import { ipcRenderer } from "electron";
+import { initEditor } from "./state/editor";
 
 const loadSettings = async () => {
   const loadedSettings = await store.get("settings");
@@ -31,9 +32,10 @@ const loadSettings = async () => {
 
 const App: Component = () => {
   createRenderEffect(async () => {
-    await Promise.all([initPlugins(), loadSettings()]);
+    await Promise.all([initPlugins(), loadSettings()]).then(() => {
+      initEditor();
+    });
   });
-
   const Routes = useRoutes(routes);
   const styles = globalCss({
     h1: {
