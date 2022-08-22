@@ -25,9 +25,11 @@ export const getPluginInfo = async (
     throw new Error("plugin does not contain package.json");
   }
   let info = JSON.parse(await fs.readFile(dir + "/package.json", "utf8"));
+
   let { vendle } = info;
 
   const updateAvailable = await pluginUpdateAvailable(info.name, info.version);
+
   return {
     name: info.name,
     displayName: vendle.name,
@@ -87,7 +89,6 @@ const installPlugin = async (name: string) => {
         }
         console.log("stdout:", stdout);
         console.log("stderr:", stderr);
-        console.log("done");
         resolve(dir);
       }
     );
@@ -166,21 +167,25 @@ const isValidPlugin = async (name: string) => {
             return;
           }
 
-          const { data } = JSON.parse(stdout.toString());
+          try {
+            const { data } = JSON.parse(stdout.toString());
 
-          if (!data.hasOwnProperty("vendle")) {
-            reject(new Error("plugin is not a vendle plugin"));
-            return;
+            if (!data.hasOwnProperty("vendle")) {
+              reject(new Error("plugin is not a vendle plugin"));
+              return;
+            }
+            resolve({
+              name: data.name,
+              displayName: data.vendle.name,
+              version: data.version,
+              author: data.vendle.author,
+              description: data.vendle.description,
+              icon: data.vendle.icon,
+              type: data.vendle.type,
+            });
+          } catch {
+            reject(new Error("unable to look up plugin information"));
           }
-          resolve({
-            name: data.name,
-            displayName: data.vendle.name,
-            version: data.version,
-            author: data.vendle.author,
-            description: data.vendle.description,
-            icon: data.vendle.icon,
-            type: data.vendle.type,
-          });
         }
       );
     }
@@ -191,8 +196,12 @@ export const pluginUpdateAvailable = async (
   name: string,
   currentVersion: string
 ) => {
-  const { version } = await isValidPlugin(name);
-  return currentVersion != version;
+  try {
+    const { version } = await isValidPlugin(name);
+    return currentVersion != version;
+  } catch {
+    return false;
+  }
 };
 export const updatePlugin = async (name: string) => {
   await uninstallPlugin(name);
