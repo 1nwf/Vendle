@@ -36,7 +36,7 @@ const getPluginInfo = async (dir: string) => {
   return await ipcRenderer.invoke("getPluginInfo", dir);
 };
 
-export const loadPlugins = async () => {
+const loadPlugins = async () => {
   let plugins: Record<"colorscheme" | "editor", Plugin[]> = {
     colorscheme: [],
     editor: [],
