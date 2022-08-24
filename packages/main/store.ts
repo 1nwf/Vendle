@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import Store from "electron-store";
 
-const store = new Store();
+export const store = new Store();
 ipcMain.handle(
   "electron-store",
   async (_evnet, methodSign: string, ...args: any[]) => {
@@ -11,3 +11,6 @@ ipcMain.handle(
     return (store as any)[methodSign];
   }
 );
+ipcMain.once("getSettings", (e) => {
+  e.returnValue = JSON.parse(store.get("settings") as string);
+});
