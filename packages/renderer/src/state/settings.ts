@@ -1,36 +1,46 @@
 import { store } from "@/store";
-import { generateStylesFromWindiClassName } from "@/util/styles";
 import { createMutable } from "solid-js/store";
 import { Plugin } from "../../../types/plugins";
 
 const defaultLight = {
-  editorBg: "bg-gray-100",
-  editorFg: "text-gray-700",
-  editorFont: "font-sans",
-  appBg: "bg-white",
-  appFg: "text-black",
-  sidePanelBg: "bg-gray-200",
-  sidePanelFg: "text-black",
-  commandsPopupBg: "bg-gray-300",
-  commandsPopupFg: "text-black",
+  editorBg:
+    "--tw-bg-opacity: 1;background-color: rgba(243, 244, 246, var(--tw-bg-opacity));",
+  editorFg:
+    "--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));",
+  editorFont:
+    'font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";',
+  appBg:
+    "--tw-bg-opacity: 1;background-color: rgba(255, 255, 255, var(--tw-bg-opacity));",
+  appFg: "--tw-text-opacity: 1;color: rgba(0, 0, 0, var(--tw-text-opacity));",
+  sidePanelBg:
+    "--tw-bg-opacity: 1;background-color: rgba(229, 231, 235, var(--tw-bg-opacity));",
+  sidePanelFg:
+    "--tw-text-opacity: 1;color: rgba(0, 0, 0, var(--tw-text-opacity));",
+  commandsPopupBg:
+    "--tw-bg-opacity: 1;background-color: rgba(209, 213, 219, var(--tw-bg-opacity));",
+  commandsPopupFg:
+    "--tw-text-opacity: 1;color: rgba(0, 0, 0, var(--tw-text-opacity));",
 };
-
 const defaultDark = {
-  editorBg: "bg-gray-800",
-  editorFg: "text-gray-200",
-  editorFont: "font-sans",
-  appBg: "bg-gray-800",
-  appFg: "text-gray-200",
-  sidePanelBg: "bg-gray-900",
-  sidePanelFg: "text-gray-200",
-  commandsPopupBg: "bg-gray-300",
-  commandsPopupFg: "text-black",
+  editorBg:
+    "--tw-bg-opacity: 1;background-color: rgba(31, 41, 55, var(--tw-bg-opacity));",
+  editorFg:
+    "--tw-text-opacity: 1;color: rgba(229, 231, 235, var(--tw-text-opacity));",
+  editorFont:
+    'font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";',
+  appBg:
+    "--tw-bg-opacity: 1;background-color: rgba(31, 41, 55, var(--tw-bg-opacity));",
+  appFg:
+    "--tw-text-opacity: 1;color: rgba(229, 231, 235, var(--tw-text-opacity));",
+  sidePanelBg:
+    "--tw-bg-opacity: 1;background-color: rgba(17, 24, 39, var(--tw-bg-opacity));",
+  sidePanelFg:
+    "--tw-text-opacity: 1;color: rgba(229, 231, 235, var(--tw-text-opacity));",
+  commandsPopupBg:
+    "--tw-bg-opacity: 1;background-color: rgba(209, 213, 219, var(--tw-bg-opacity));",
+  commandsPopupFg:
+    "--tw-text-opacity: 1;color: rgba(0, 0, 0, var(--tw-text-opacity));",
 };
-Object.keys(defaultLight).forEach((key) => {
-  let k = key as keyof typeof defaultDark;
-  defaultLight[k] = generateStylesFromWindiClassName(defaultLight[k]);
-  defaultDark[k] = generateStylesFromWindiClassName(defaultDark[k]);
-});
 
 export const settings = createMutable({
   allowEditing: true,
