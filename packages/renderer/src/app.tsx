@@ -1,41 +1,16 @@
-import {
-  Component,
-  createEffect,
-  createRenderEffect,
-  createSignal,
-  Show,
-} from "solid-js";
+import { Component, createEffect, createSignal, Show } from "solid-js";
 import "./index.css";
 import { useRoutes } from "@solidjs/router";
 import { routes } from "./routes";
 import Titlebar from "./components/titlebar";
 import { persistSettings, settings } from "./state/settings";
-import { initPlugins } from "./util/plugins";
-import { store } from "./store";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
 import { appState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 import { ipcRenderer } from "electron";
-import { initEditor } from "./state/editor";
-
-const loadSettings = async () => {
-  const loadedSettings = await store.get("settings");
-  if (settings) {
-    Object.keys(loadedSettings).forEach((key) => {
-      let k = key as keyof typeof settings;
-      if (k == "theme") return;
-      settings[k] = loadedSettings[k];
-    });
-  }
-};
 
 const App: Component = () => {
-  createRenderEffect(async () => {
-    await Promise.all([initPlugins(), loadSettings()]).then(() => {
-      initEditor();
-    });
-  });
   const Routes = useRoutes(routes);
   const styles = globalCss({
     h1: {
