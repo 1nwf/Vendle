@@ -5,10 +5,24 @@ import { render } from "solid-js/web";
 import { Router, createIntegration } from "@solidjs/router";
 import App from "./app";
 import { HopeThemeConfig, HopeProvider } from "@hope-ui/solid";
+import { createRenderEffect } from "solid-js";
+import { initPlugins } from "./util/plugins";
+import { settings } from "./state/settings";
+import { initEditor } from "./state/editor";
 function bindEvent(target: EventTarget, type: string, handler: EventListener) {
   target.addEventListener(type, handler);
   return () => target.removeEventListener(type, handler);
 }
+const loadSettings = async () => {
+  const loadedSettings = window.settings;
+  if (settings) {
+    Object.keys(loadedSettings).forEach((key) => {
+      let k = key as keyof typeof settings;
+      if (k == "theme") return;
+      settings[k] = loadedSettings[k];
+    });
+  }
+};
 
 function electronIntegration() {
   return createIntegration(
@@ -54,6 +68,11 @@ const config: HopeThemeConfig = {
   },
 };
 render(() => {
+  createRenderEffect(async () => {
+    await Promise.all([initPlugins(), loadSettings()]).then(() => {
+      initEditor();
+    });
+  });
   return (
     <Router source={electronIntegration()}>
       <HopeProvider config={config}>
