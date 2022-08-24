@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, protocol, Menu } from "electron";
+import { app, BrowserWindow, shell, ipcMain, protocol } from "electron";
 import { release } from "os";
 import { join } from "path";
 
@@ -53,11 +53,6 @@ async function createWindow() {
     win.webContents.openDevTools();
   }
 
-  // Test active push message to Renderer-process
-  win.webContents.on("did-finish-load", () => {
-    win?.webContents.send("main-process-message", new Date().toLocaleString());
-  });
-
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith("https:")) shell.openExternal(url);
@@ -92,10 +87,6 @@ async function createWindow() {
     const url = request.url.substr(7);
     callback({ path: url });
   });
-
-  // const menu = Menu.getApplicationMenu();
-  // const items = menu?.items.filter((item) => item.role !== "editMenu");
-  // Menu.setApplicationMenu(Menu.buildFromTemplate(items!));
 }
 
 app.whenReady().then(createWindow);
