@@ -82,7 +82,7 @@ export default function Editor() {
           closeHandler={closeCommandsPopup}
         />
       </Show>
-      <EditorDiv />
+      {EditorDiv}
     </div>
   );
 }

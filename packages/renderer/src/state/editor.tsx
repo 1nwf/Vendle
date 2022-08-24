@@ -1,7 +1,7 @@
 import Document from "@tiptap/extension-document";
 import StarterKit from "@tiptap/starter-kit";
 import { createSignal } from "solid-js";
-import { createMutable } from "solid-js/store";
+import { createMutable, unwrap } from "solid-js/store";
 import { createTiptapEditor, UseEditorOptions } from "solid-tiptap";
 import { settings } from "./settings";
 import { file } from "./file";
@@ -41,9 +41,9 @@ export const updateFileContents = () => {
 };
 
 export let editorRef;
-export const EditorDiv = () => {
-  return <div id="editor" ref={editorRef} class="flex justify-center" />;
-};
+export const EditorDiv = (
+  <div id="editor" ref={editorRef} class="flex justify-center" />
+);
 
 export let editor: () => Editor | undefined;
 export const initEditor = () => {
