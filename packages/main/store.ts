@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import Store from "electron-store";
 
-export const store = new Store();
+const store = new Store();
 ipcMain.handle(
   "electron-store",
   async (_evnet, methodSign: string, ...args: any[]) => {
