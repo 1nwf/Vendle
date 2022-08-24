@@ -15,7 +15,7 @@ function bindEvent(target: EventTarget, type: string, handler: EventListener) {
 }
 const loadSettings = async () => {
   const loadedSettings = window.settings;
-  if (settings) {
+  if (loadedSettings) {
     Object.keys(loadedSettings).forEach((key) => {
       let k = key as keyof typeof settings;
       if (k == "theme") return;

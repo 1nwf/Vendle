@@ -11,6 +11,11 @@ ipcMain.handle(
     return (store as any)[methodSign];
   }
 );
-ipcMain.once("getSettings", (e) => {
-  e.returnValue = JSON.parse(store.get("settings") as string);
+ipcMain.on("getSettings", (e) => {
+  const settings = store.get("settings") as string;
+  if (settings) {
+    e.returnValue = JSON.parse(settings);
+  } else {
+    e.returnValue = undefined;
+  }
 });
