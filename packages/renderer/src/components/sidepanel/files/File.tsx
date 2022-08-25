@@ -59,6 +59,11 @@ export default function File({
     e.stopPropagation();
     setShowMenu(!showMenu());
   };
+
+  const handleFileDelete = async () => {
+    await deleteFile(id);
+    navigate("/");
+  };
   return (
     <div
       class={`flex rounded-md select-text ${
@@ -101,7 +106,7 @@ export default function File({
                   stroke-width={2}
                 />
                 <p
-                  onClick={async () => await deleteFile(id)}
+                  onClick={async () => await handleFileDelete()}
                   class="hover:(bg-red-500 text-white)  text-sm"
                 >
                   delete
