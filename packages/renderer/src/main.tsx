@@ -4,25 +4,15 @@ import "virtual:windi.css";
 import { render } from "solid-js/web";
 import { Router, createIntegration } from "@solidjs/router";
 import App from "./app";
-import { HopeThemeConfig, HopeProvider } from "@hope-ui/solid";
-import { createRenderEffect } from "solid-js";
+import { HopeThemeConfig, HopeProvider, Spinner } from "@hope-ui/solid";
+import { createRenderEffect, createSignal } from "solid-js";
 import { initPlugins } from "./util/plugins";
-import { settings } from "./state/settings";
 import { initEditor } from "./state/editor";
+import { settings } from "./state/settings";
 function bindEvent(target: EventTarget, type: string, handler: EventListener) {
   target.addEventListener(type, handler);
   return () => target.removeEventListener(type, handler);
 }
-const loadSettings = async () => {
-  const loadedSettings = window.settings;
-  if (loadedSettings) {
-    Object.keys(loadedSettings).forEach((key) => {
-      let k = key as keyof typeof settings;
-      if (k == "theme") return;
-      settings[k] = loadedSettings[k];
-    });
-  }
-};
 
 function electronIntegration() {
   return createIntegration(
@@ -67,16 +57,30 @@ const config: HopeThemeConfig = {
     },
   },
 };
+const Loading = () => {
+  return (
+    <div
+      class="w-screen h-screen flex items-center justify-center"
+      style={window.settings.theme.appBg}
+    >
+      <Spinner thickness="4px" style={settings.theme.appFg} />
+    </div>
+  );
+};
+
 render(() => {
+  const [loading, setLoading] = createSignal(false);
   createRenderEffect(async () => {
-    await Promise.all([initPlugins(), loadSettings()]).then(() => {
+    setLoading(true);
+    await Promise.all([initPlugins()]).then(() => {
       initEditor();
     });
+    setLoading(false);
   });
   return (
     <Router source={electronIntegration()}>
       <HopeProvider config={config}>
-        <App />
+        {loading() ? <Loading /> : <App />}
       </HopeProvider>
     </Router>
   );

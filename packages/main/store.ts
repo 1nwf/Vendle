@@ -1,5 +1,6 @@
 import { ipcMain } from "electron";
 import Store from "electron-store";
+import { defaultSettings } from "./settings";
 
 const store = new Store();
 ipcMain.handle(
@@ -16,6 +17,6 @@ ipcMain.on("getSettings", (e) => {
   if (settings) {
     e.returnValue = JSON.parse(settings);
   } else {
-    e.returnValue = undefined;
+    e.returnValue = defaultSettings;
   }
 });
