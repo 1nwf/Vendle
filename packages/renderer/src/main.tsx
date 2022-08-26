@@ -72,7 +72,7 @@ render(() => {
   const [loading, setLoading] = createSignal(false);
   createRenderEffect(async () => {
     setLoading(true);
-    await Promise.all([initPlugins()]).then(() => {
+    await initPlugins().then(() => {
       initEditor();
     });
     setLoading(false);

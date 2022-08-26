@@ -1,7 +1,7 @@
 import Document from "@tiptap/extension-document";
 import StarterKit from "@tiptap/starter-kit";
 import { createSignal } from "solid-js";
-import { createMutable, unwrap } from "solid-js/store";
+import { createMutable } from "solid-js/store";
 import { createTiptapEditor, UseEditorOptions } from "solid-tiptap";
 import { settings } from "./settings";
 import { file } from "./file";
