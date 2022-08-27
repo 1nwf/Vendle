@@ -1,4 +1,4 @@
-import { createEffect } from "solid-js";
+import { createEffect, onCleanup } from "solid-js";
 
 export default function handleOutsideClick(ref: any, cb: () => void) {
   const handleMouseDown = (e: any) => {
@@ -6,7 +6,12 @@ export default function handleOutsideClick(ref: any, cb: () => void) {
       cb();
     }
   };
+
   createEffect(() => {
     document.addEventListener("mousedown", handleMouseDown);
+  });
+
+  onCleanup(() => {
+    document.removeEventListener("mousedown", handleMouseDown);
   });
 }
