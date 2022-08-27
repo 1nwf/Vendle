@@ -5,8 +5,6 @@ import { matchSorter } from "match-sorter";
 import { Plugin } from "packages/types/plugins";
 import { createEffect, createSignal, For } from "solid-js";
 
-export {};
-
 export default function ThemeSelector({
   closeHandler,
 }: {
@@ -33,7 +31,7 @@ export default function ThemeSelector({
     ref.addEventListener("keydown", handleKeyDown);
     handleOutsideClick(ref, closeHandler);
   });
-  const handleFocus = (p: Plugin) => {
+  const setTheme = (p: Plugin) => {
     loadStyles(p.module.setColorscheme());
   };
   const handleOnInput = (e: any) => {
@@ -45,6 +43,13 @@ export default function ThemeSelector({
     const active = ref as Element;
     if (active.children[1]) active.children[1].focus();
     inputRef.focus();
+  };
+  const handleClick = (e, p: Plugin) => {
+    if (e.detail === 2) {
+      closeHandler();
+    } else {
+      setTheme(p);
+    }
   };
   return (
     <div class="absolute top-10 w-screen lg:ml-20 z-50">
@@ -65,7 +70,8 @@ export default function ThemeSelector({
                 class={
                   "w-fit p-2 text-sm outline-4 outline-white outline-offset-2 hover:(cursor-pointer bg-gray-700) focus:(cursor-pointer bg-gray-700)"
                 }
-                onFocus={() => handleFocus(p)}
+                onFocus={() => setTheme(p)}
+                onClick={(e) => handleClick(e, p)}
                 tabindex={idx() + 1}
               >
                 <p>{p.displayName}</p>
