@@ -13,20 +13,7 @@ import WindiCSS from "vite-plugin-windicss";
 export default defineConfig({
   mode: process.env.NODE_ENV,
   root: __dirname,
-  plugins: [
-    solidPlugin(),
-    resolveElectron(),
-    WindiCSS(),
-    /**
-     * Here you can specify other modules
-     * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
-     *    which will ensure that the electron-builder can package it correctly
-     * @example
-     * {
-     *   'electron-store': 'const Store = require("electron-store"); export default Store;',
-     * }
-     */
-  ],
+  plugins: [solidPlugin(), resolveElectron(), WindiCSS()],
   base: "./",
   build: {
     target: "esnext",

@@ -1,4 +1,4 @@
-const { Processor } = require("windicss/lib");
+import { Processor } from "windicss/lib";
 export const generateStylesFromWindiClassName = (classNames: string) => {
   const processor = new Processor();
   const interpretedSheet = processor.interpret(classNames).styleSheet.children;
