@@ -1,5 +1,5 @@
 import { store } from "@/store";
-import { createResource } from "solid-js";
+import { batch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
 const getFileNames = async () => {
@@ -12,6 +12,13 @@ export const [file, setFile] = createStore({
   name: "",
   contents: {},
 });
+export const resetFileState = () => {
+  batch(() => {
+    setFile("contents", {});
+    setFile("name", "");
+    setFile("id", "");
+  });
+};
 export const [allFiles, { refetch: refetchAllFiles }] = createResource(
   getFileNames,
   {

@@ -1,4 +1,4 @@
-import { allFiles, file, refetchAllFiles, setFile } from "../state/file";
+import { allFiles, file, refetchAllFiles, resetFileState } from "../state/file";
 import { store } from "@/store";
 import { ipcRenderer } from "electron";
 import { editor } from "@/state/editor";
@@ -55,7 +55,7 @@ export async function deleteFile(id: string) {
   currentFiles.splice(idx, 1);
   await deleteNote(id);
   await store.set(WORKSPACE_FILES, currentFiles);
-  setFile({ id: "", name: "", contents: {} });
+  resetFileState();
   refetchAllFiles();
 }
 
