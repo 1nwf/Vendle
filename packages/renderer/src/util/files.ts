@@ -68,5 +68,6 @@ export async function renameFile(id: string, newName: string) {
 }
 
 export async function saveNote() {
+  if (!file.id) return;
   await saveFile(file.id, file.name, editor()!.getJSON());
 }
