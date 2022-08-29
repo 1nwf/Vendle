@@ -1,10 +1,11 @@
 import { allFiles } from "@/state/file";
 import { settings } from "@/state/settings";
-import { createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import CreateFile from "../CreateFile";
 import File from "./File";
 import { Icon } from "solid-heroicons";
 import { plus } from "solid-heroicons/outline";
+import handleOutsideClick from "@/hooks/handleOutsideClick";
 
 export default function AllFiles() {
   const [showCreateFile, setShowCreateFile] = createSignal(false);
@@ -16,6 +17,14 @@ export default function AllFiles() {
       createFileRef.focus();
     }
   };
+  const closeHandler = () => {
+    setShowCreateFile(false);
+  };
+  createEffect(() => {
+    if (showCreateFile()) {
+      handleOutsideClick(createFileRef, closeHandler);
+    }
+  });
   return (
     <div>
       <div class="flex items-center">
@@ -35,10 +44,7 @@ export default function AllFiles() {
         </For>
 
         <Show when={showCreateFile()}>
-          <CreateFile
-            closeHandler={() => setShowCreateFile(false)}
-            ref={createFileRef}
-          />
+          <CreateFile closeHandler={closeHandler} ref={createFileRef} />
         </Show>
       </div>
     </div>

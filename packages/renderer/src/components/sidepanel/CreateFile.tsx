@@ -41,7 +41,7 @@ export default function CreateFile({
   return (
     <div class="ml-auto">
       <input
-        class="p-2 rounded-lg pl-3 w-full mt-2 text-black"
+        class="p-2 rounded-md pl-3 w-full mt-2 text-black outline-none drop-shadow-3xl"
         placeholder="name"
         value={fileName()}
         onChange={(e) => setFileName(e.target.value)}
