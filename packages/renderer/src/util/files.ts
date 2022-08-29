@@ -1,4 +1,10 @@
-import { allFiles, file, refetchAllFiles, resetFileState } from "../state/file";
+import {
+  allFiles,
+  file,
+  refetchAllFiles,
+  resetFileState,
+  setFile,
+} from "../state/file";
 import { store } from "@/store";
 import { ipcRenderer } from "electron";
 import { editor } from "@/state/editor";
@@ -59,7 +65,8 @@ export async function deleteFile(id: string) {
   refetchAllFiles();
 }
 
-export async function renameFile(id: string, newName: string) {
+export async function renameFile(id: string, oldName: string, newName: string) {
+  await updateFileTitle(id, oldName, newName);
   let updatedFiles = allFiles();
   let idx = updatedFiles.findIndex((f) => f.id == id);
   updatedFiles[idx].name = newName;
@@ -71,3 +78,14 @@ export async function saveNote() {
   if (!file.id) return;
   await saveFile(file.id, file.name, editor()!.getJSON());
 }
+const updateFileTitle = async (id: string, name: string, title: string) => {
+  if (file.id === id) {
+    const contents = editor()!.getJSON();
+    contents.content[0].content[0].text = title;
+    setFile("contents", contents);
+  } else {
+    const contents = await getFileContents<any>(id);
+    contents.content[0].content[0].text = title;
+    await saveFile(id, name, contents);
+  }
+};

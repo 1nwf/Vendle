@@ -46,7 +46,7 @@ export default function File({
   const handleKeyDown = async (e) => {
     if (e.key == "Enter") {
       e.preventDefault();
-      await renameFile(id, newName());
+      await renameFile(id, fileName, newName());
       setEditable(false);
     }
   };
