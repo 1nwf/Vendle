@@ -6,10 +6,10 @@ import { Icon } from "solid-heroicons";
 import { createDisclosure, Modal, ModalOverlay, Tooltip } from "@hope-ui/solid";
 import {
   adjustmentsVertical,
-  cog,
   rectangleStack,
   cube,
   sparkles,
+  cog_6Tooth,
 } from "solid-heroicons/outline";
 import { Settings } from "@/pages";
 import { createSignal, For, Show } from "solid-js";
@@ -117,7 +117,7 @@ export default function SidePanel() {
             <SelectTrigger>
               <Tooltip label="settings">
                 <Icon
-                  path={cog}
+                  path={cog_6Tooth}
                   class="h-6 w-6 mr-auto hover:cursor-pointer"
                   stroke-width={2}
                 />
