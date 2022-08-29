@@ -4,7 +4,7 @@ import { createSignal, For, Show } from "solid-js";
 import CreateFile from "../CreateFile";
 import File from "./File";
 import { Icon } from "solid-heroicons";
-import { documentAdd } from "solid-heroicons/outline";
+import { documentPlus } from "solid-heroicons/outline";
 
 export default function AllFiles() {
   const [showCreateFile, setShowCreateFile] = createSignal(false);
@@ -26,7 +26,7 @@ export default function AllFiles() {
           class="ml-auto hover:(cursor-pointer bg-opacity-60)"
           onClick={() => handleShowCreateFile()}
         >
-          <Icon path={documentAdd} class="h-6 w-6 mr-1" stroke-width={2} />
+          <Icon path={documentPlus} class="h-6 w-6 mr-1" stroke-width={2} />
         </div>
       </div>
       <div class="h-[76vh] overflow-y-auto mt-4">

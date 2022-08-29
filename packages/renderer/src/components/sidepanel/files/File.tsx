@@ -4,7 +4,7 @@ import { file } from "../../../state/file";
 import { deleteFile, renameFile, saveNote } from "@/util/files";
 import { useNavigate } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
-import { dotsVertical, trash } from "solid-heroicons/outline";
+import { ellipsisVertical, pencilSquare, trash } from "solid-heroicons/outline";
 import {
   Select,
   SelectContent,
@@ -43,6 +43,10 @@ export default function File({
     }
   };
 
+  const toggleRename = () => {
+    setEditable(true);
+    nameRef.focus();
+  };
   const handleKeyDown = async (e) => {
     if (e.key == "Enter") {
       e.preventDefault();
@@ -92,7 +96,7 @@ export default function File({
         <Select>
           <SelectTrigger>
             <Icon
-              path={dotsVertical}
+              path={ellipsisVertical}
               class="h-5 w-5 mr-auto hover:cursor-pointer"
               stroke-width={2}
             />
@@ -107,9 +111,22 @@ export default function File({
                 />
                 <p
                   onClick={async () => await handleFileDelete()}
-                  class="hover:(bg-red-500 text-white)  text-sm"
+                  class="hover:(text-white)  text-sm"
                 >
                   delete
+                </p>
+              </div>
+              <div class="flex items-center p-2 rounded-xl hover:(bg-blue-500 text-white cursor-pointer)">
+                <Icon
+                  path={pencilSquare}
+                  class="h-4 w-4 mr-2 hover:cursor-pointer"
+                  stroke-width={2}
+                />
+                <p
+                  onClick={() => toggleRename()}
+                  class="hover:(text-white)  text-sm"
+                >
+                  rename
                 </p>
               </div>
             </SelectListbox>

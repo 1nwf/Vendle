@@ -5,9 +5,9 @@ import Plugins from "./plugins";
 import { Icon } from "solid-heroicons";
 import { createDisclosure, Modal, ModalOverlay, Tooltip } from "@hope-ui/solid";
 import {
-  adjustments,
+  adjustmentsVertical,
   cog,
-  collection,
+  rectangleStack,
   cube,
   sparkles,
 } from "solid-heroicons/outline";
@@ -49,7 +49,11 @@ export default function SidePanel() {
       path={sparkles}
       onClick={() => showThemePicker(true)}
     />,
-    <DropDownItem title="Settings" path={adjustments} onClick={onOpen} />,
+    <DropDownItem
+      title="Settings"
+      path={adjustmentsVertical}
+      onClick={onOpen}
+    />,
   ];
 
   const closeSidePanel = async () => {
@@ -103,7 +107,7 @@ export default function SidePanel() {
         <div class="grid grid-cols-3 gap-3 items-center">
           <Tooltip label="Files">
             <Icon
-              path={collection}
+              path={rectangleStack}
               class="h-6 w-6 mr-auto hover:cursor-pointer"
               stroke-width={2}
               onClick={() => setShowExtensionsPage(false)}

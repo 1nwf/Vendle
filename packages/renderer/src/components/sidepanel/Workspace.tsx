@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, Show } from "solid-js";
+import { createSignal, onCleanup } from "solid-js";
 import { persistSettings, settings } from "@/state/settings";
 import { ipcRenderer } from "electron";
 
