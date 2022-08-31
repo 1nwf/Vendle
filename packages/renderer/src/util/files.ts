@@ -81,7 +81,14 @@ export async function saveNote() {
 const updateFileTitle = async (id: string, name: string, title: string) => {
   if (file.id === id) {
     const contents = editor()!.getJSON();
-    contents.content[0].content[0].text = title;
+    const titlePos = contents.content![0];
+
+    if (titlePos.hasOwnProperty("content")) {
+      titlePos.content![0].text = title;
+    } else {
+      titlePos.content = [{ text: title, type: "text" }];
+    }
+
     setFile("contents", contents);
   } else {
     const contents = await getFileContents<any>(id);
