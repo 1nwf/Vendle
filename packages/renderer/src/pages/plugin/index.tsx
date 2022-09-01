@@ -45,6 +45,7 @@ export default function Plugins() {
           1
         );
       });
+      setReloadRequired(true);
     }
   };
   const [updating, setUpdating] = createSignal(false);
@@ -54,6 +55,7 @@ export default function Plugins() {
     setUpdating(false);
   };
   const handleReload = () => {
+    setReloadRequired(false);
     ipcRenderer.send("reload");
   };
   return (
@@ -75,9 +77,8 @@ export default function Plugins() {
             </div>
             <p>{data().plugin.description}</p>
             <p class="text-gray-500 text-sm">by: {data().plugin.author}</p>
-
-            {installed() ? (
-              <div class="flex gap-2">
+            <div class="flex gap-2">
+              {installed() ? (
                 <button
                   class="bg-red-500 text-white p-1 rounded-md text-xs"
                   onClick={async () => await uninstallPlugin()}
@@ -90,43 +91,44 @@ export default function Plugins() {
                     "uninstall"
                   )}
                 </button>
-                <Show when={reloadRequired()}>
-                  <div
-                    class="bg-green-700 p-1 text-xs rounded-md hover:cursor-pointer"
-                    onClick={handleReload}
-                  >
-                    reload to activate plugin
-                  </div>
-                </Show>
-                <Show when={data().plugin.updateAvailable}>
-                  <button
-                    class="p-1 text-xs mx-2 bg-blue-500 text-white rounded-md"
-                    onClick={async () => await updatePlugin()}
-                  >
-                    {updating() ? (
-                      <div>
-                        <Spinner size="xs" />
-                      </div>
-                    ) : (
-                      "upgrade"
-                    )}
-                  </button>
-                </Show>
-              </div>
-            ) : (
-              <button
-                class="bg-black text-white p-1 rounded-md text-xs"
-                onClick={async () => await installPlugin()}
-              >
-                {loading() ? (
-                  <div class="p-1">
-                    <Spinner size="xs" />
-                  </div>
-                ) : (
-                  "install"
-                )}
-              </button>
-            )}
+              ) : (
+                <button
+                  class="bg-black text-white p-1 rounded-md text-xs"
+                  onClick={async () => await installPlugin()}
+                >
+                  {loading() ? (
+                    <div class="p-1">
+                      <Spinner size="xs" />
+                    </div>
+                  ) : (
+                    "install"
+                  )}
+                </button>
+              )}
+              <Show when={data().plugin.updateAvailable}>
+                <button
+                  class="p-1 text-xs mx-2 bg-blue-500 text-white rounded-md"
+                  onClick={async () => await updatePlugin()}
+                >
+                  {updating() ? (
+                    <div>
+                      <Spinner size="xs" />
+                    </div>
+                  ) : (
+                    "upgrade"
+                  )}
+                </button>
+              </Show>
+
+              <Show when={reloadRequired()}>
+                <div
+                  class="bg-green-700 p-1 text-xs rounded-md hover:cursor-pointer"
+                  onClick={handleReload}
+                >
+                  reload required
+                </div>
+              </Show>
+            </div>
           </div>
         </div>
         <hr class="mt-5" />
