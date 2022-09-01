@@ -3,7 +3,7 @@ import { ipcRenderer } from "electron";
 import { createResource } from "solid-js";
 
 export default function PluginData({ params }) {
-  const [plugin] = createResource(
+  const [plugin, { refetch }] = createResource(
     () => ({
       name: params.name,
       type: params.type as "editor" | "colorscheme" | undefined,
@@ -42,5 +42,5 @@ export default function PluginData({ params }) {
         });
     }
   );
-  return plugin;
+  return { data: plugin, refetchPluginData: refetch };
 }

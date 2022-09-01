@@ -83,6 +83,9 @@ async function createWindow() {
   ipcMain.handle("updatePlugin", handleUpdatePlugin);
   ipcMain.handle("pluginCheckUpdate", handlePluginCheckUpdate);
   ipcMain.handle("pfpUpload", handlePfpUpload);
+  ipcMain.on("reload", () => {
+    win?.webContents.reloadIgnoringCache();
+  });
   protocol.registerFileProtocol("atom", (request, callback) => {
     const url = request.url.substr(7);
     callback({ path: url });

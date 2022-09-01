@@ -6,8 +6,10 @@ import { ipcRenderer } from "electron";
 import { createEffect, createSignal, Show } from "solid-js";
 
 export default function Plugins() {
-  const data = useRouteData();
+  const { data, refetchPluginData } = useRouteData();
+
   const [installed, setInstalled] = createSignal(false);
+  const [reloadRequired, setReloadRequired] = createSignal(false);
 
   createEffect(() => {
     if (!data()) return;
@@ -22,9 +24,12 @@ export default function Plugins() {
     setLoading(true);
     await ipcRenderer.invoke("installPlugin", plugin.name);
     setLoading(false);
-
     setInstalled(true);
-    initPlugins();
+    if (plugin.type === "editor") {
+      setReloadRequired(true);
+    }
+    await initPlugins();
+    refetchPluginData();
   };
 
   const uninstallPlugin = async () => {
@@ -48,6 +53,9 @@ export default function Plugins() {
     await ipcRenderer.invoke("updatePlugin", data().plugin.name);
     setUpdating(false);
   };
+  const handleReload = () => {
+    ipcRenderer.send("reload");
+  };
   return (
     <Show when={data()}>
       <div class="px-10 mt-5">
@@ -69,7 +77,7 @@ export default function Plugins() {
             <p class="text-gray-500 text-sm">by: {data().plugin.author}</p>
 
             {installed() ? (
-              <div>
+              <div class="flex gap-2">
                 <button
                   class="bg-red-500 text-white p-1 rounded-md text-xs"
                   onClick={async () => await uninstallPlugin()}
@@ -82,7 +90,14 @@ export default function Plugins() {
                     "uninstall"
                   )}
                 </button>
-
+                <Show when={reloadRequired()}>
+                  <div
+                    class="bg-green-700 p-1 text-xs rounded-md hover:cursor-pointer"
+                    onClick={handleReload}
+                  >
+                    reload to activate plugin
+                  </div>
+                </Show>
                 <Show when={data().plugin.updateAvailable}>
                   <button
                     class="p-1 text-xs mx-2 bg-blue-500 text-white rounded-md"
