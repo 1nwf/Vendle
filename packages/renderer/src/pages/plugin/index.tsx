@@ -1,5 +1,5 @@
-import { plugins } from "@/state/settings";
-import { initPlugins } from "@/util/plugins";
+import { plugins, settings } from "@/state/settings";
+import { initPlugins, loadStyles } from "@/util/plugins";
 import { Spinner } from "@hope-ui/solid";
 import { useRouteData } from "@solidjs/router";
 import { ipcRenderer } from "electron";
@@ -78,6 +78,12 @@ export default function Plugins() {
     setReloadRequired(false);
     ipcRenderer.send("reload");
   };
+  const setColorscheme = () => {
+    const pluginMod = plugins.colorscheme.find(
+      (p) => p.name === data().plugin.name
+    );
+    loadStyles(pluginMod.module.setColorscheme(), data().plugin.name);
+  };
   return (
     <Show when={data()}>
       <div class="px-10 mt-5">
@@ -146,6 +152,20 @@ export default function Plugins() {
                   onClick={handleReload}
                 >
                   reload required
+                </div>
+              </Show>
+              <Show
+                when={
+                  installed() &&
+                  data().plugin.type === "colorscheme" &&
+                  settings.themeName !== data().plugin.name
+                }
+              >
+                <div
+                  class="text-xs p-1 border-yellow-600 border-2 rounded-md cursor-pointer"
+                  onClick={setColorscheme}
+                >
+                  set colorscheme
                 </div>
               </Show>
             </div>
