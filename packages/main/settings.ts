@@ -67,7 +67,7 @@ export const defaultSettings = {
     },
   ],
   username: "No User Name",
-  themeName: "default",
+  themeName: "vendle-plugin-default-theme",
   sidepanelShown: true,
   pfpPath: "",
   get theme() {

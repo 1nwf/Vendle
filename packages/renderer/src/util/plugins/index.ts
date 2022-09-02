@@ -79,7 +79,7 @@ export const initPlugins = async () => {
   });
 };
 
-export const loadStyles = (style: typeof settings.lightTheme) => {
+export const loadStyles = (style: typeof settings.lightTheme, name: string) => {
   Object.keys(style).forEach((theme) => {
     let colors = style[theme];
     Object.keys(colors).forEach((type) => {
@@ -87,5 +87,6 @@ export const loadStyles = (style: typeof settings.lightTheme) => {
       settings[theme][type] = styles;
     });
   });
+  settings.themeName = name;
   store.set("settings", settings);
 };

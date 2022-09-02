@@ -32,7 +32,7 @@ export default function ThemeSelector({
     handleOutsideClick(ref, closeHandler);
   });
   const setTheme = (p: Plugin) => {
-    loadStyles(p.module.setColorscheme());
+    loadStyles(p.module.setColorscheme(), p.name);
   };
   const handleOnInput = (e: any) => {
     setThemes(
