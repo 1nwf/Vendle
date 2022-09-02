@@ -9,11 +9,16 @@ export const settings = createMutable({
   },
 });
 
-export const plugins: Record<"colorscheme" | "editor", Plugin[]> =
-  createMutable({
-    colorscheme: [],
-    editor: [],
-  });
+interface PluginsState {
+  colorscheme: Plugin[];
+  editor: Plugin[];
+  needsReload: string[];
+}
+export const plugins: PluginsState = createMutable({
+  colorscheme: [],
+  editor: [],
+  needsReload: [],
+});
 
 export const findPlugin = (name: string, type?: "colorscheme" | "editor") => {
   if (!type) {

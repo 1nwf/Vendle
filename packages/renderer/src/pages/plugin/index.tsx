@@ -14,9 +14,31 @@ export default function Plugins() {
   createEffect(() => {
     if (!data()) return;
     setInstalled(data().isInstalled);
+    setReloadRequired(plugins.needsReload.includes(data().plugin.name));
   });
-  const [loading, setLoading] = createSignal(false);
 
+  const [loading, setLoading] = createSignal(false);
+  const checkIfReloadRequired = () => {
+    if (!data() || !data().plugin) return;
+    if (data().plugin.type === "editor") {
+      setReloadRequired(true);
+    } else {
+      setReloadRequired(false);
+    }
+    updatePluginNeedReloadList();
+  };
+
+  const updatePluginNeedReloadList = () => {
+    const isReloadRequired = plugins.needsReload.includes(data().plugin.name);
+    if (reloadRequired() && !isReloadRequired) {
+      plugins.needsReload = [...plugins.needsReload, data().plugin.name];
+    } else if (!reloadRequired() && isReloadRequired) {
+      plugins.needsReload.splice(
+        plugins.needsReload.indexOf(data().plugin.name),
+        1
+      );
+    }
+  };
   const installPlugin = async () => {
     if (loading()) return;
     const plugin = data().plugin;
@@ -25,9 +47,7 @@ export default function Plugins() {
     await ipcRenderer.invoke("installPlugin", plugin.name);
     setLoading(false);
     setInstalled(true);
-    if (plugin.type === "editor") {
-      setReloadRequired(true);
-    }
+    checkIfReloadRequired();
     await initPlugins();
     refetchPluginData();
   };
@@ -38,6 +58,7 @@ export default function Plugins() {
     if (confirm(`uninstall ${plugin.displayName}?`)) {
       setLoading(true);
       await ipcRenderer.invoke("uninstallPlugin", plugin.name).then(() => {
+        checkIfReloadRequired();
         setLoading(false);
         setInstalled(false);
         plugins[plugin.type].splice(
@@ -45,7 +66,6 @@ export default function Plugins() {
           1
         );
       });
-      setReloadRequired(true);
     }
   };
   const [updating, setUpdating] = createSignal(false);
