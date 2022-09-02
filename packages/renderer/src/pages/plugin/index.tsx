@@ -162,7 +162,8 @@ export default function Plugins() {
                 }
               >
                 <div
-                  class="text-xs p-1 border-yellow-600 border-2 rounded-md cursor-pointer"
+                  class="text-xs p-1 border-1 border-current rounded-md cursor-pointer"
+                  style={settings.theme.appBg}
                   onClick={setColorscheme}
                 >
                   set colorscheme
