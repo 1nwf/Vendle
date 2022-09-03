@@ -148,7 +148,7 @@ export default function Plugins() {
 
               <Show when={reloadRequired()}>
                 <div
-                  class="bg-green-700 p-1 text-xs rounded-md hover:cursor-pointer"
+                  class="bg-green-700 text-white p-1 text-xs rounded-md hover:cursor-pointer"
                   onClick={handleReload}
                 >
                   reload required
