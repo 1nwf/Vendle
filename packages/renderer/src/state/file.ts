@@ -1,9 +1,10 @@
 import { store } from "@/store";
+import { WORKSPACE_FILES } from "@/util/files";
 import { batch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
 const getFileNames = async () => {
-  return await store.get("files");
+  return await store.get(WORKSPACE_FILES);
 };
 
 export const [fileContents, setFileContents] = createStore({});
@@ -19,9 +20,7 @@ export const resetFileState = () => {
     setFile("id", "");
   });
 };
-export const [allFiles, { refetch: refetchAllFiles }] = createResource(
-  getFileNames,
-  {
+export const [allFiles, { mutate: setAllFiles, refetch: refetchAllFiles }] =
+  createResource(getFileNames, {
     initialValue: [],
-  }
-);
+  });

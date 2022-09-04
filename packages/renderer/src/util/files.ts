@@ -1,8 +1,8 @@
 import {
   allFiles,
   file,
-  refetchAllFiles,
   resetFileState,
+  setAllFiles,
   setFile,
 } from "../state/file";
 import { store } from "@/store";
@@ -19,7 +19,10 @@ export const handleFileGetContents = async (name: string) => {
   return await ipcRenderer.invoke("getFileContents", name);
 };
 
-const WORKSPACE_FILES = "files";
+export const WORKSPACE_FILES = "files";
+const setWorkspaceFiles = (files: any[]) => {
+  setAllFiles(() => [...files]);
+};
 
 export async function saveFile(id: string, name: string, contents: any) {
   await handleFileSave(id, JSON.stringify(contents));
@@ -48,8 +51,8 @@ async function updateWorkspaceFiles(id: string, name: string) {
       index: currentFiles.length,
     });
   }
+  setWorkspaceFiles(currentFiles);
   await store.set(WORKSPACE_FILES, currentFiles);
-  refetchAllFiles();
 }
 
 export async function deleteFile(id: string) {
@@ -61,8 +64,8 @@ export async function deleteFile(id: string) {
   currentFiles.splice(idx, 1);
   await deleteNote(id);
   await store.set(WORKSPACE_FILES, currentFiles);
+  setWorkspaceFiles(currentFiles);
   resetFileState();
-  refetchAllFiles();
 }
 
 export async function renameFile(id: string, oldName: string, newName: string) {
@@ -71,7 +74,7 @@ export async function renameFile(id: string, oldName: string, newName: string) {
   let idx = updatedFiles.findIndex((f) => f.id == id);
   updatedFiles[idx].name = newName;
   await store.set(WORKSPACE_FILES, updatedFiles);
-  refetchAllFiles();
+  setWorkspaceFiles(updatedFiles);
 }
 
 export async function saveNote() {
