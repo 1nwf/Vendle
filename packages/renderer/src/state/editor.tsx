@@ -6,6 +6,7 @@ import { createTiptapEditor, UseEditorOptions } from "solid-tiptap";
 import { settings } from "./settings";
 import { file } from "./file";
 import { Editor } from "@tiptap/core";
+import { saveNote } from "@/util/files";
 
 export const CustomDocument = Document.extend({
   content: "heading block*",
@@ -31,6 +32,9 @@ export const editorProps: Partial<UseEditorOptions<HTMLDivElement>> =
       handleKeyPress(view, event) {
         return !settings.allowEditing;
       },
+    },
+    async onBlur() {
+      await saveNote();
     },
   });
 

@@ -1,7 +1,7 @@
 import { settings } from "@/state/settings";
 import { createSignal, onCleanup } from "solid-js";
 import { file } from "../../../state/file";
-import { deleteFile, renameFile, saveNote } from "@/util/files";
+import { deleteFile, renameFile } from "@/util/files";
 import { useNavigate } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
 import { ellipsisVertical, pencilSquare, trash } from "solid-heroicons/outline";
@@ -26,9 +26,6 @@ export default function File({
   let nameRef;
   const handleClick = async (e) => {
     if (e.detail == 1) {
-      if (file.id && file.id !== id) {
-        await saveNote();
-      }
       navigate(`/file/${id}`);
     } else if (e.detail == 2) {
       setEditable(true);
