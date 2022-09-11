@@ -3,12 +3,10 @@ import { settings } from "../state/settings";
 
 const App: Component = () => {
   return (
-    <div class="mt-10 w-full justify-center">
-      <div class="ml-12">
-        <h1 class="text-4xl" style={settings.theme.appFg}>
-          Hello {settings.username}
-        </h1>
-      </div>
+    <div class="w-full h-full justify-center" style={settings.theme.appBg}>
+      <h1 class="text-4xl">
+        Hello {settings.username}
+      </h1>
     </div>
   );
 };

@@ -16,11 +16,9 @@ export default function Titlebar() {
           class="mt-3 ml-auto mr-5 text-sm hover:cursor-pointer"
           onClick={toggleTheme}
         >
-          {settings.isLightTheme ? (
-            <Icon path={moon} class="h-4 w-4" stroke-width={2} />
-          ) : (
-            <Icon path={sun} class="h-4 w-4" stroke-width={2} />
-          )}
+          {settings.isLightTheme
+            ? <Icon path={moon} class="h-4 w-4" stroke-width={2} />
+            : <Icon path={sun} class="h-4 w-4" stroke-width={2} />}
         </button>
       </div>
     </div>
