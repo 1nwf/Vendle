@@ -170,7 +170,7 @@ const isValidPlugin = async (name: string) => {
           try {
             const { data } = JSON.parse(stdout.toString());
 
-            if (!data.hasOwnProperty("vendle")) {
+            if (!Object.prototype.hasOwnProperty.call(data, 'vendle')) {
               reject(new Error("plugin is not a vendle plugin"));
               return;
             }

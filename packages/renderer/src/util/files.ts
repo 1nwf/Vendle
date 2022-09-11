@@ -86,7 +86,7 @@ const updateFileTitle = async (id: string, name: string, title: string) => {
     const contents = editor()!.getJSON();
     const titlePos = contents.content![0];
 
-    if (titlePos.hasOwnProperty("content")) {
+    if (Object.prototype.hasOwnProperty.call(titlePos, 'content')) {
       titlePos.content![0].text = title;
     } else {
       titlePos.content = [{ text: title, type: "text" }];
