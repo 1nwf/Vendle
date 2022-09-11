@@ -56,15 +56,18 @@ const App: Component = () => {
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
       <Show when={appState.themePickerShown}>
-        <ThemeSelector closeHandler={() => showThemePicker(false)} />
+        <ThemeSelector
+          closeHandler={() =>
+            showThemePicker(false)}
+        />
       </Show>
-      <div class="h-full w-screen">
+      <div class="h-full">
         <Show when={settings.sidepanelShown}>
           <div
             style={settings.theme.sidePanelBg}
             class={`float-left h-screen ${
               !fullscreen() && "pt-6"
-            } absolute top-0 block md:(w-3/12) w-2/5 lg:(w-1/5) z-50`}
+            } md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px]`}
           >
             <SidePanel />
           </div>
@@ -81,7 +84,8 @@ const App: Component = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              onClick={async () => await openSidepanel()}
+              onClick={async () =>
+                await openSidepanel()}
               stroke-width="2"
             >
               <path
@@ -95,11 +99,6 @@ const App: Component = () => {
 
         <div
           style={settings.theme.editorBg}
-          class={`${
-            settings.sidepanelShown
-              ? "lg:(w-4/5) md:(w-9/12) w-3/5 float-right"
-              : "w-12/12"
-          } select-text h-screen overflow-y-auto`}
         >
           <Routes />
         </div>
