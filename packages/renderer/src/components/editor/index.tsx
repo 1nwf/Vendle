@@ -1,5 +1,5 @@
 import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
-import { editorStyle, editorRef, editor, EditorDiv } from "@/state/editor";
+import { editor, EditorDiv, editorRef, editorStyle } from "@/state/editor";
 import { settings } from "@/state/settings";
 import { saveNote } from "@/util/files";
 import { getCaretCoordinates } from "@/util/cursor";
@@ -52,8 +52,8 @@ export default function Editor() {
             },
           },
         });
-      }
-    )
+      },
+    ),
   );
   createEffect(() => {
     if (!instance) return;
@@ -74,7 +74,7 @@ export default function Editor() {
     setShowCommandsPopup(false);
   };
   return (
-    <div style={settings.theme.editorBg} class="w-full">
+    <div style={settings.theme.editorBg}>
       <Show when={showCommandsPopup()}>
         <OverlayCommandsPopup
           position={cursorCoordinates()}
