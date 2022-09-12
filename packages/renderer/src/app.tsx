@@ -9,6 +9,7 @@ import { globalCss } from "@hope-ui/solid";
 import { appState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 import { ipcRenderer } from "electron";
+import useResize from "./hooks/useResize";
 
 const App: Component = () => {
   const Routes = useRoutes(routes);
@@ -52,6 +53,20 @@ const App: Component = () => {
       setFullScreen(false);
     });
   });
+
+  const [sidebarWidth, setSidbarWidth] = createSignal(0);
+  let resizeRef;
+  createEffect(() => {
+    const w = useResize(resizeRef);
+    createEffect(() => {
+      if (w() != 0) {
+        setSidbarWidth(w());
+      }
+    });
+  });
+  createEffect(() => {
+    console.log("sidebarWidth", sidebarWidth());
+  });
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -64,12 +79,19 @@ const App: Component = () => {
       <div class="h-full">
         <Show when={settings.sidepanelShown}>
           <div
-            style={settings.theme.sidePanelBg}
+            style={`${settings.theme.sidePanelBg}; ${
+              sidebarWidth() && `width: ${sidebarWidth()}px;`
+            }`}
             class={`float-left h-screen ${
               !fullscreen() && "pt-6"
-            } md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px]`}
+            } md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px] flex flex-row`}
           >
             <SidePanel />
+            <div
+              class="w-1 z-50 ml-auto relative hover:cursor-move h-screen"
+              ref={resizeRef}
+            >
+            </div>
           </div>
         </Show>
 

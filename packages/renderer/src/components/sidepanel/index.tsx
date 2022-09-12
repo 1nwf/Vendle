@@ -6,18 +6,18 @@ import { Icon } from "solid-heroicons";
 import { createDisclosure, Modal, ModalOverlay, Tooltip } from "@hope-ui/solid";
 import {
   adjustmentsVertical,
-  rectangleStack,
-  cube,
-  sparkles,
   cog_6Tooth,
+  cube,
+  rectangleStack,
+  sparkles,
 } from "solid-heroicons/outline";
 import { Settings } from "@/pages";
 import { createSignal, For, Show } from "solid-js";
 import {
   Select,
-  SelectTrigger,
   SelectContent,
   SelectListbox,
+  SelectTrigger,
 } from "@hope-ui/solid";
 import { showThemePicker } from "@/state/app";
 const DropDownItem = ({
@@ -61,7 +61,7 @@ export default function SidePanel() {
     await persistSettings();
   };
   return (
-    <div class="mt-2">
+    <div class="mt-2 w-full">
       <div class="flex items-center">
         <div class="flex items-center w-full">
           <div class="w-full">
@@ -125,7 +125,9 @@ export default function SidePanel() {
             </SelectTrigger>
             <SelectContent css={{ minWidth: "120px", borderRadius: "$xl" }}>
               <SelectListbox>
-                <For each={settingOptions}>{(item) => item}</For>
+                <For each={settingOptions}>
+                  {(item) => item}
+                </For>
               </SelectListbox>
             </SelectContent>
           </Select>
