@@ -59,7 +59,7 @@ const App: Component = () => {
   createEffect(() => {
     const w = useResize(resizeRef);
     createEffect(() => {
-      if (w() != 0) {
+      if (w() != 0 && w() > 200) {
         setSidbarWidth(w());
       }
     });
@@ -77,17 +77,20 @@ const App: Component = () => {
         <Show when={settings.sidepanelShown}>
           <div
             style={`${settings.theme.sidePanelBg}; ${
-              sidebarWidth() && `width: ${sidebarWidth()}px;`
+              sidebarWidth() &&
+              `width: ${sidebarWidth()}px;`
             }`}
             class={`float-left h-screen ${
               !fullscreen() && "pt-6"
-            } md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px] flex flex-row`}
+            } md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px] flex `}
           >
             <SidePanel />
-            <div
-              class="w-1 top-[-24px] h-screen z-50 ml-auto relative active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
-              ref={resizeRef}
-            >
+            <div>
+              <div
+                class="w-1 fixed top-0 h-screen z-50 ml-auto active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
+                ref={resizeRef}
+              >
+              </div>
             </div>
           </div>
         </Show>
