@@ -64,9 +64,6 @@ const App: Component = () => {
       }
     });
   });
-  createEffect(() => {
-    console.log("sidebarWidth", sidebarWidth());
-  });
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -88,7 +85,7 @@ const App: Component = () => {
           >
             <SidePanel />
             <div
-              class="w-1 z-50 ml-auto relative hover:cursor-move h-screen"
+              class="w-1 top-[-24px] h-screen z-50 ml-auto relative active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
               ref={resizeRef}
             >
             </div>
@@ -119,9 +116,7 @@ const App: Component = () => {
           </div>
         </Show>
 
-        <div
-          style={settings.theme.editorBg}
-        >
+        <div>
           <Routes />
         </div>
       </div>
