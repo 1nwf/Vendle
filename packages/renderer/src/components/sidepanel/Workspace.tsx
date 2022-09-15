@@ -8,6 +8,7 @@ export default function Workspace() {
   const handleClick = (e: MouseEvent) => {
     if (e.detail == 2) {
       setEditable(true);
+      usernameRef.focus();
     }
     e.stopPropagation();
   };
@@ -37,14 +38,12 @@ export default function Workspace() {
   };
   return (
     <div class={`py-2 rounded-r-2xl  mb-1`}>
-      <div class=" rounded-r-xl p-2  flex items-center w-full hover:(bg-black bg-opacity-15 cursor-pointer)">
+      <div class="rounded-r-xl p-2  flex items-center w-full">
         <img
-          src={
-            settings.pfpPath
-              ? `atom://${settings.pfpPath}`
-              : "https://www.mintface.xyz/content/images/2021/08/QmdhoQdQ1oB2rdJD3ZpexSwwfspqAWGMdDjPR3mYeWGpZT.png"
-          }
-          class="w-10 h-10 rounded-xl shadow-stone-2xl hover:(p-1)"
+          src={settings.pfpPath
+            ? `atom://${settings.pfpPath}`
+            : "https://www.mintface.xyz/content/images/2021/08/QmdhoQdQ1oB2rdJD3ZpexSwwfspqAWGMdDjPR3mYeWGpZT.png"}
+          class="w-10 h-10 rounded-xl shadow-stone-2xl hover:(p-1 cursor-pointer)"
           style={settings.theme.appBg}
           onClick={() => fileRef.click()}
         />
@@ -58,10 +57,8 @@ export default function Workspace() {
         <p
           class={`ml-2 w-full ${
             editable() &&
-            `${
-              settings.lightTheme ? "bg-black" : "bg-white"
-            } text-white bg-opacity-20`
-          } p-2 rounded-md outline-none select-text`}
+            `${settings.isLightTheme ? "bg-black/20" : "bg-gray-300/20"}`
+          } p-2 rounded-md outline-none select-text border-1 border-transparent hover:( border-gray-500 cursor-pointer)`}
           contentEditable={editable()}
           onClick={handleClick}
           onKeyDown={async (e) => await handleKeyDown(e)}
