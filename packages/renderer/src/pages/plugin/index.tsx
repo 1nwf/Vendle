@@ -35,7 +35,7 @@ export default function Plugins() {
     } else if (!reloadRequired() && isReloadRequired) {
       plugins.needsReload.splice(
         plugins.needsReload.indexOf(data().plugin.name),
-        1
+        1,
       );
     }
   };
@@ -63,7 +63,7 @@ export default function Plugins() {
         setInstalled(false);
         plugins[plugin.type].splice(
           plugins[plugin.type].findIndex((p) => p.name === plugin.name),
-          1
+          1,
         );
       });
     }
@@ -80,14 +80,14 @@ export default function Plugins() {
   };
   const setColorscheme = () => {
     const pluginMod = plugins.colorscheme.find(
-      (p) => p.name === data().plugin.name
+      (p) => p.name === data().plugin.name,
     );
     loadStyles(pluginMod.module.setColorscheme(), data().plugin.name);
   };
   return (
     <Show when={data()}>
-      <div class="px-10 mt-5">
-        <div class="flex items-center">
+      <div class="px-10 pt-5">
+        <div class="flex items-center px-4">
           {data().plugin.icon && (
             <img
               src={"atom://" + data().plugin.icon}
@@ -104,45 +104,53 @@ export default function Plugins() {
             <p>{data().plugin.description}</p>
             <p class="text-gray-500 text-sm">by: {data().plugin.author}</p>
             <div class="flex gap-2">
-              {installed() ? (
-                <button
-                  class="bg-red-500 text-white p-1 rounded-md text-xs"
-                  onClick={async () => await uninstallPlugin()}
-                >
-                  {loading() ? (
-                    <div class="p-1">
-                      <Spinner size="xs" />
-                    </div>
-                  ) : (
-                    "uninstall"
-                  )}
-                </button>
-              ) : (
-                <button
-                  class="bg-black text-white p-1 rounded-md text-xs"
-                  onClick={async () => await installPlugin()}
-                >
-                  {loading() ? (
-                    <div class="p-1">
-                      <Spinner size="xs" />
-                    </div>
-                  ) : (
-                    "install"
-                  )}
-                </button>
-              )}
+              {installed()
+                ? (
+                  <button
+                    class="bg-red-500 text-white p-1 rounded-md text-xs"
+                    onClick={async () => await uninstallPlugin()}
+                  >
+                    {loading()
+                      ? (
+                        <div class="p-1">
+                          <Spinner size="xs" />
+                        </div>
+                      )
+                      : (
+                        "uninstall"
+                      )}
+                  </button>
+                )
+                : (
+                  <button
+                    class="bg-black text-white p-1 rounded-md text-xs"
+                    onClick={async () => await installPlugin()}
+                  >
+                    {loading()
+                      ? (
+                        <div class="p-1">
+                          <Spinner size="xs" />
+                        </div>
+                      )
+                      : (
+                        "install"
+                      )}
+                  </button>
+                )}
               <Show when={data().plugin.updateAvailable}>
                 <button
                   class="p-1 text-xs mx-2 bg-blue-500 text-white rounded-md"
                   onClick={async () => await updatePlugin()}
                 >
-                  {updating() ? (
-                    <div>
-                      <Spinner size="xs" />
-                    </div>
-                  ) : (
-                    "upgrade"
-                  )}
+                  {updating()
+                    ? (
+                      <div>
+                        <Spinner size="xs" />
+                      </div>
+                    )
+                    : (
+                      "upgrade"
+                    )}
                 </button>
               </Show>
 
@@ -155,11 +163,9 @@ export default function Plugins() {
                 </div>
               </Show>
               <Show
-                when={
-                  installed() &&
+                when={installed() &&
                   data().plugin.type === "colorscheme" &&
-                  settings.themeName !== data().plugin.name
-                }
+                  settings.themeName !== data().plugin.name}
               >
                 <div
                   class="text-xs p-1 border-1 border-current rounded-md cursor-pointer"
@@ -173,7 +179,7 @@ export default function Plugins() {
           </div>
         </div>
         <hr class="mt-5" />
-        <div innerHTML={data().readme} class="mt-5" />
+        <div innerHTML={data().readme} class="flex p-5" />
       </div>
     </Show>
   );
