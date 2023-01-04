@@ -86,7 +86,7 @@ const updateFileTitle = async (id: string, name: string, title: string) => {
     const contents = editor()!.getJSON();
     const titlePos = contents.content![0];
 
-    if (Object.prototype.hasOwnProperty.call(titlePos, 'content')) {
+    if (Object.prototype.hasOwnProperty.call(titlePos, "content")) {
       titlePos.content![0].text = title;
     } else {
       titlePos.content = [{ text: title, type: "text" }];
@@ -98,4 +98,8 @@ const updateFileTitle = async (id: string, name: string, title: string) => {
     contents.content[0].content[0].text = title;
     await saveFile(id, name, contents);
   }
+};
+
+export const openFileInfo = () => {
+  return [file.id, JSON.stringify(editor()!.getJSON())];
 };

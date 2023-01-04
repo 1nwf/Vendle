@@ -1,5 +1,5 @@
 import { app } from "electron";
-import { mkdirSync, writeFileSync, promises as fs } from "fs";
+import { mkdirSync, promises as fs, writeFileSync } from "fs";
 import {
   NOTES_PATH,
   PLUGINS_PATH,
@@ -54,4 +54,13 @@ export const updateUserPfp = async (path: string) => {
   }
   await fs.copyFile(path, `${userData}/pfp.${ext}`);
   return join(userData, `pfp.${ext}`);
+};
+
+export const saveFileSync = (id: string, contents: string) => {
+  if (id == "files") {
+    return writeFileSync(WORKSPACE_FILES, contents);
+  } else if (id == "settings") {
+    return writeFileSync(SETTINGS_PATH, contents);
+  }
+  return writeFileSync(NOTES_PATH + `${id}.json`, contents);
 };

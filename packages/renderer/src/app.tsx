@@ -10,6 +10,7 @@ import { appState, showThemePicker } from "./state/app";
 import ThemeSelector from "./components/plugins/theme/ThemeSelector";
 import { ipcRenderer } from "electron";
 import useResize from "./hooks/useResize";
+import { openFileInfo } from "./util/files";
 
 const App: Component = () => {
   const Routes = useRoutes(routes);
@@ -55,7 +56,7 @@ const App: Component = () => {
   });
 
   const [sidebarWidth, setSidbarWidth] = createSignal(0);
-  let resizeRef;
+  let resizeRef: any;
   createEffect(() => {
     const w = useResize(resizeRef);
     createEffect(() => {
@@ -64,6 +65,11 @@ const App: Component = () => {
       }
     });
   });
+
+  window.onbeforeunload = (e) => {
+    ipcRenderer.send("app_quit", ...openFileInfo());
+  };
+
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
@@ -77,8 +83,7 @@ const App: Component = () => {
         <Show when={settings.sidepanelShown}>
           <div
             style={`${settings.theme.sidePanelBg}; ${
-              sidebarWidth() &&
-              `width: ${sidebarWidth()}px;`
+              sidebarWidth() && `width: ${sidebarWidth()}px;`
             }`}
             class={`float-left h-screen ${
               !fullscreen() && "pt-6"

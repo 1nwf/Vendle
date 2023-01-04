@@ -1,3 +1,4 @@
+import { app } from "electron";
 import {
   getPluginInfo,
   getPluginReadme,
@@ -6,12 +7,18 @@ import {
   uninstallPlugin,
   updatePlugin,
 } from "./plugins";
-import { deleteNote, saveFile, getFileContents, updateUserPfp } from "./util";
+import {
+  deleteNote,
+  getFileContents,
+  saveFile,
+  saveFileSync,
+  updateUserPfp,
+} from "./util";
 
 export const handleSaveFile = async (
   event: any,
   id: string,
-  contents: string
+  contents: string,
 ) => {
   return await saveFile(id, contents);
 };
@@ -47,11 +54,18 @@ export const handleUpdatePlugin = async (event: any, name: string) => {
 export const handlePluginCheckUpdate = async (
   event: any,
   name: string,
-  version: string
+  version: string,
 ) => {
   return await pluginUpdateAvailable(name, version);
 };
 
 export const handlePfpUpload = async (event: any, path: string) => {
   return await updateUserPfp(path);
+};
+
+export const handleAppQuit = (event: any, id: string, contents: string) => {
+  if (id) {
+    saveFileSync(id, contents);
+  }
+  app.quit();
 };

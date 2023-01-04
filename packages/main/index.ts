@@ -1,8 +1,9 @@
-import { app, BrowserWindow, shell, ipcMain, protocol } from "electron";
+import { app, BrowserWindow, ipcMain, protocol, shell } from "electron";
 import { release } from "os";
 import { join } from "path";
 
 import {
+  handleAppQuit,
   handleDeleteNote,
   handleGetFileContents,
   handleGetPluginInfo,
@@ -47,7 +48,9 @@ async function createWindow() {
     win.loadFile(join(__dirname, "../renderer/index.html"));
   } else {
     // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
-    const url = `http://${process.env["VITE_DEV_SERVER_HOST"]}:${process.env["VITE_DEV_SERVER_PORT"]}`;
+    const url = `http://${process.env["VITE_DEV_SERVER_HOST"]}:${
+      process.env["VITE_DEV_SERVER_PORT"]
+    }`;
 
     win.loadURL(url);
     win.webContents.openDevTools();
@@ -83,6 +86,7 @@ async function createWindow() {
   ipcMain.handle("updatePlugin", handleUpdatePlugin);
   ipcMain.handle("pluginCheckUpdate", handlePluginCheckUpdate);
   ipcMain.handle("pfpUpload", handlePfpUpload);
+  ipcMain.on("app_quit", handleAppQuit);
   ipcMain.on("reload", () => {
     win?.webContents.reloadIgnoringCache();
   });
