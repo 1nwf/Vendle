@@ -6,16 +6,11 @@ import Titlebar from "./components/titlebar";
 import { persistSettings, settings } from "./state/settings";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
-import {
-  appState,
-  toggleShowFilePicker,
-  toggleShowThemePicker,
-} from "./state/app";
 import { ipcRenderer } from "electron";
 import useResize from "./hooks/useResize";
 import { openFileInfo } from "./util/files";
-import FilePicker from "./components/selector/FileSelector";
-import ThemeSelector from "./components/selector/ThemeSelector";
+import Pickers from "./components/selector";
+import { handleKeyboardShortcuts } from "./hooks/useKeyboardShortcut";
 
 const App: Component = () => {
   const Routes = useRoutes(routes);
@@ -38,17 +33,11 @@ const App: Component = () => {
   });
 
   styles();
-  const handleKeydown = (e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.code == "KeyK") {
-      toggleShowThemePicker();
-    } else if ((e.metaKey || e.ctrlKey) && e.code == "KeyF") {
-      toggleShowFilePicker();
-    }
-  };
 
   createEffect(() => {
-    document.addEventListener("keydown", handleKeydown);
+    document.addEventListener("keydown", handleKeyboardShortcuts);
   });
+
   const openSidepanel = async () => {
     settings.sidepanelShown = true;
     await persistSettings();
@@ -81,18 +70,7 @@ const App: Component = () => {
   return (
     <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
       <Titlebar />
-      <Show when={appState.themePickerShown}>
-        <ThemeSelector
-          closeHandler={() =>
-            toggleShowThemePicker()}
-        />
-      </Show>
-      <Show when={appState.filePickerShown}>
-        <FilePicker
-          closeHandler={() =>
-            toggleShowFilePicker()}
-        />
-      </Show>
+      <Pickers />
       <div class="h-full">
         <Show when={settings.sidepanelShown}>
           <div
@@ -125,7 +103,8 @@ const App: Component = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              onClick={async () => await openSidepanel()}
+              onClick={async () =>
+                await openSidepanel()}
               stroke-width="2"
             >
               <path

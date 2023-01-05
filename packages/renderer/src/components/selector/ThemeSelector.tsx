@@ -1,4 +1,4 @@
-import Selector from "@/components/selector";
+import Selector from "./Selector";
 import { plugins } from "@/state/settings";
 import { loadStyles } from "@/util/plugins";
 import { Plugin } from "packages/types/plugins";

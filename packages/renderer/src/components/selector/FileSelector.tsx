@@ -1,5 +1,5 @@
 import { allFiles } from "@/state/file";
-import Selector from ".";
+import Selector from "./Selector";
 import { useNavigate } from "@solidjs/router";
 
 export default function FilePicker(
