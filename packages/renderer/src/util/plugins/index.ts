@@ -1,5 +1,5 @@
 import { plugins, settings } from "../../state/settings";
-import { pluginApis, Plugin } from "../../../../types/plugins";
+import { Plugin, pluginApis } from "../../../../types/plugins";
 import { ipcRenderer } from "electron";
 import * as vendle from "./vendle";
 import { generateStylesFromWindiClassName } from "@/util/styles";
@@ -8,7 +8,7 @@ import { batch } from "solid-js";
 import * as tiptap from "@tiptap/core";
 
 const pluginPaths = async () => {
-  const paths: string[] = await ipcRenderer.invoke("get-plugins-path");
+  const paths: string[] = await ipcRenderer.invoke("getPluginsPath");
   return paths;
 };
 
@@ -67,7 +67,7 @@ const loadPlugins = async () => {
         let type = info.type as "colorscheme" | "editor";
         plugins[type].push(pluginInfo);
       }
-    })
+    }),
   );
   return plugins;
 };

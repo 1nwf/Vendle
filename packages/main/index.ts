@@ -62,7 +62,7 @@ async function createWindow() {
     return { action: "deny" };
   });
 
-  ipcMain.handle("get-plugins-path", async () => {
+  ipcMain.handle("getPluginsPath", async () => {
     return await plugins.getPluginPaths();
   });
   ipcMain.handle("initDirs", () => {
