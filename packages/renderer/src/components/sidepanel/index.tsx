@@ -19,7 +19,7 @@ import {
   SelectListbox,
   SelectTrigger,
 } from "@hope-ui/solid";
-import { showThemePicker } from "@/state/app";
+import { toggleShowThemePicker } from "@/state/app";
 const DropDownItem = ({
   title,
   path,
@@ -47,7 +47,7 @@ export default function SidePanel() {
     <DropDownItem
       title="Theme"
       path={sparkles}
-      onClick={() => showThemePicker(true)}
+      onClick={() => toggleShowThemePicker()}
     />,
     <DropDownItem
       title="Settings"

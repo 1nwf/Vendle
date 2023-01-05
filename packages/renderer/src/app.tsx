@@ -6,11 +6,16 @@ import Titlebar from "./components/titlebar";
 import { persistSettings, settings } from "./state/settings";
 import SidePanel from "./components/sidepanel";
 import { globalCss } from "@hope-ui/solid";
-import { appState, showThemePicker } from "./state/app";
-import ThemeSelector from "./components/plugins/theme/ThemeSelector";
+import {
+  appState,
+  toggleShowFilePicker,
+  toggleShowThemePicker,
+} from "./state/app";
 import { ipcRenderer } from "electron";
 import useResize from "./hooks/useResize";
 import { openFileInfo } from "./util/files";
+import FilePicker from "./components/selector/FileSelector";
+import ThemeSelector from "./components/selector/ThemeSelector";
 
 const App: Component = () => {
   const Routes = useRoutes(routes);
@@ -35,9 +40,12 @@ const App: Component = () => {
   styles();
   const handleKeydown = (e: KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.code == "KeyK") {
-      showThemePicker(!appState.themePickerShown);
+      toggleShowThemePicker();
+    } else if ((e.metaKey || e.ctrlKey) && e.code == "KeyF") {
+      toggleShowFilePicker();
     }
   };
+
   createEffect(() => {
     document.addEventListener("keydown", handleKeydown);
   });
@@ -76,7 +84,13 @@ const App: Component = () => {
       <Show when={appState.themePickerShown}>
         <ThemeSelector
           closeHandler={() =>
-            showThemePicker(false)}
+            toggleShowThemePicker()}
+        />
+      </Show>
+      <Show when={appState.filePickerShown}>
+        <FilePicker
+          closeHandler={() =>
+            toggleShowFilePicker()}
         />
       </Show>
       <div class="h-full">
@@ -111,8 +125,7 @@ const App: Component = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              onClick={async () =>
-                await openSidepanel()}
+              onClick={async () => await openSidepanel()}
               stroke-width="2"
             >
               <path
@@ -124,9 +137,7 @@ const App: Component = () => {
           </div>
         </Show>
 
-        <div>
-          <Routes />
-        </div>
+        <Routes />
       </div>
     </div>
   );

@@ -2,9 +2,9 @@
 import "virtual:windi.css";
 
 import { render } from "solid-js/web";
-import { Router, createIntegration } from "@solidjs/router";
+import { createIntegration, Router } from "@solidjs/router";
 import App from "./app";
-import { HopeThemeConfig, HopeProvider, Spinner } from "@hope-ui/solid";
+import { HopeProvider, HopeThemeConfig, Spinner } from "@hope-ui/solid";
 import { createRenderEffect, createSignal } from "solid-js";
 import { initPlugins } from "./util/plugins";
 import { initEditor } from "./state/editor";
@@ -30,7 +30,7 @@ function electronIntegration() {
     {
       go: (delta) => window.history.go(delta),
       renderPath: (path) => `#${path}`,
-    }
+    },
   );
 }
 const config: HopeThemeConfig = {
