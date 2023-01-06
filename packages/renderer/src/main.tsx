@@ -69,16 +69,29 @@ const Loading = () => {
 };
 
 render(() => {
-  const [loading, setLoading] = createSignal(true);
+  const [pluginsLoaded, setPluginsLoaded] = createSignal(false);
   createRenderEffect(async () => {
     initEditor();
-    setLoading(false);
     await initPlugins();
+    setPluginsLoaded(true);
   });
   return (
     <Router source={electronIntegration()}>
       <HopeProvider config={config}>
-        {loading() ? <Loading /> : <App />}
+        {!pluginsLoaded() && (
+          <div
+            class="fixed  bottom-7 left-[50%] p-1 rounded-md"
+            style={settings.theme.sidePanelBg}
+          >
+            <div class="items-center flex gap-2">
+              <Spinner size="sm" style={settings.theme.appFg} />
+              <p class="text-sm" style={settings.theme.appFg}>
+                loading plugins...
+              </p>
+            </div>
+          </div>
+        )}
+        <App />
       </HopeProvider>
     </Router>
   );
