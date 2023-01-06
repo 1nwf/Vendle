@@ -69,13 +69,11 @@ const Loading = () => {
 };
 
 render(() => {
-  const [loading, setLoading] = createSignal(false);
+  const [loading, setLoading] = createSignal(true);
   createRenderEffect(async () => {
-    setLoading(true);
-    await initPlugins().then(() => {
-      initEditor();
-    });
+    initEditor();
     setLoading(false);
+    await initPlugins();
   });
   return (
     <Router source={electronIntegration()}>
