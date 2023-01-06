@@ -63,7 +63,7 @@ export const handlePfpUpload = async (event: any, path: string) => {
   return await updateUserPfp(path);
 };
 
-export const handleAppQuit = (event: any, id: string, contents: string) => {
+export const handleAppQuit = (id: string, contents: string) => {
   if (id) {
     saveFileSync(id, contents);
   }

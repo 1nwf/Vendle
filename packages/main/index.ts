@@ -34,8 +34,16 @@ import { store } from "./store";
 import { defaultSettings } from "./settings";
 
 let win: BrowserWindow | null = null;
+let windowConfig = {
+  width: 1280,
+  height: 680,
+};
 
 async function createWindow() {
+  let storedWindowConfig = store.get("winBounds") as string;
+  if (storedWindowConfig) {
+    Object.assign(windowConfig, storedWindowConfig);
+  }
   win = new BrowserWindow({
     title: "Main window",
     webPreferences: {
@@ -44,12 +52,12 @@ async function createWindow() {
       contextIsolation: false,
     },
     titleBarStyle: "hiddenInset",
+    ...windowConfig,
   });
 
-  let settingsStr = store.get("settings") as string;
+  let settings = store.get("settings") as typeof defaultSettings | undefined;
 
-  if (settingsStr) {
-    const settings = JSON.parse(settingsStr) as typeof defaultSettings;
+  if (settings) {
     let bg: string;
     if (settings.isLightTheme) {
       bg = settings.lightTheme.appBg;
@@ -103,7 +111,15 @@ async function createWindow() {
   ipcMain.handle("updatePlugin", handleUpdatePlugin);
   ipcMain.handle("pluginCheckUpdate", handlePluginCheckUpdate);
   ipcMain.handle("pfpUpload", handlePfpUpload);
-  ipcMain.on("app_quit", handleAppQuit);
+  ipcMain.on("app_quit", (event: any, id: string, contents: string) => {
+    if (win) {
+      Object.assign(windowConfig, {
+        isMaximized: win.isMaximized(),
+      }, win.getNormalBounds());
+      store.set("winBounds", windowConfig);
+    }
+    handleAppQuit(id, contents);
+  });
   ipcMain.on("reload", () => {
     win?.webContents.reloadIgnoringCache();
   });

@@ -3,8 +3,8 @@ import { Icon } from "solid-heroicons";
 import { moon, sun } from "solid-heroicons/outline";
 
 export default function Titlebar() {
-  const toggleTheme = () => {
-    changeColorscheme(!settings.isLightTheme);
+  const toggleTheme = async () => {
+    await changeColorscheme(!settings.isLightTheme);
   };
   return (
     <div

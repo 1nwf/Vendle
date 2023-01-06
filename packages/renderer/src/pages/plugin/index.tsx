@@ -78,11 +78,11 @@ export default function Plugins() {
     setReloadRequired(false);
     ipcRenderer.send("reload");
   };
-  const setColorscheme = () => {
+  const setColorscheme = async () => {
     const pluginMod = plugins.colorscheme.find(
       (p) => p.name === data().plugin.name,
     );
-    loadStyles(pluginMod.module.setColorscheme(), data().plugin.name);
+    await loadStyles(pluginMod.module.setColorscheme(), data().plugin.name);
   };
   return (
     <Show when={data()}>

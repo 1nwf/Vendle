@@ -15,7 +15,7 @@ ipcMain.handle(
 ipcMain.on("getSettings", (e) => {
   const settings = store.get("settings") as string;
   if (settings) {
-    e.returnValue = JSON.parse(settings);
+    e.returnValue = settings;
   } else {
     e.returnValue = defaultSettings;
   }

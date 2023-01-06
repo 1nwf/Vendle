@@ -24,17 +24,17 @@ export const findPlugin = (name: string, type?: "colorscheme" | "editor") => {
   if (!type) {
     return (
       plugins.editor.find((p) => p.name === name) ??
-      plugins.colorscheme.find((p) => p.name === name)
+        plugins.colorscheme.find((p) => p.name === name)
     );
   }
   return plugins[type].find((p) => p.name === name);
 };
 
-export const changeColorscheme = (light: boolean) => {
+export const changeColorscheme = async (light: boolean) => {
   settings.isLightTheme = light;
-  store.set("settings", settings);
+  await persistSettings();
 };
 
 export const persistSettings = async () => {
-  await store.set("settings", settings);
+  await store.set("settings", JSON.parse(JSON.stringify(settings)));
 };

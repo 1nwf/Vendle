@@ -19,8 +19,8 @@ export default function ThemeSelector({
 }: {
   closeHandler: () => void;
 }) {
-  const setTheme = (p: Plugin) => {
-    loadStyles(p.module.setColorscheme(), p.name);
+  const setTheme = async (p: Plugin) => {
+    await loadStyles(p.module.setColorscheme(), p.name);
   };
   const handleClick = (e: any, p: Plugin) => {
     if (e.detail === 2) {

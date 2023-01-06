@@ -1,4 +1,4 @@
-import { plugins, settings } from "../../state/settings";
+import { persistSettings, plugins, settings } from "../../state/settings";
 import { Plugin, pluginApis } from "../../../../types/plugins";
 import { ipcRenderer } from "electron";
 import * as vendle from "./vendle";
@@ -79,7 +79,10 @@ export const initPlugins = async () => {
   });
 };
 
-export const loadStyles = (style: typeof settings.lightTheme, name: string) => {
+export const loadStyles = async (
+  style: typeof settings.lightTheme,
+  name: string,
+) => {
   Object.keys(style).forEach((theme) => {
     let colors = style[theme];
     Object.keys(colors).forEach((type) => {
@@ -88,5 +91,5 @@ export const loadStyles = (style: typeof settings.lightTheme, name: string) => {
     });
   });
   settings.themeName = name;
-  store.set("settings", settings);
+  await persistSettings();
 };
