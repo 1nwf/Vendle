@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import Store from "electron-store";
 import { defaultSettings } from "./settings";
 
-const store = new Store();
+export const store = new Store();
 ipcMain.handle(
   "electron-store",
   async (_evnet, methodSign: string, ...args: any[]) => {
@@ -10,7 +10,7 @@ ipcMain.handle(
       return (store as any)[methodSign](...args);
     }
     return (store as any)[methodSign];
-  }
+  },
 );
 ipcMain.on("getSettings", (e) => {
   const settings = store.get("settings") as string;

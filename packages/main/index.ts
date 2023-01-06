@@ -30,6 +30,8 @@ if (!app.requestSingleInstanceLock()) {
 }
 import * as plugins from "./plugins";
 import { initDirs } from "./util";
+import { store } from "./store";
+import { defaultSettings } from "./settings";
 
 let win: BrowserWindow | null = null;
 
@@ -43,6 +45,21 @@ async function createWindow() {
     },
     titleBarStyle: "hiddenInset",
   });
+
+  let settingsStr = store.get("settings") as string;
+
+  if (settingsStr) {
+    const settings = JSON.parse(settingsStr) as typeof defaultSettings;
+    let bg: string;
+    if (settings.isLightTheme) {
+      bg = settings.lightTheme.appBg;
+    } else {
+      bg = settings.darkTheme.appBg;
+    }
+    const opacity = bg.substring(17, bg.indexOf(";")).trim();
+    bg = bg.slice(37, bg.indexOf(", var")) + ", " + opacity + ")";
+    win.setBackgroundColor(bg);
+  }
 
   if (app.isPackaged) {
     win.loadFile(join(__dirname, "../renderer/index.html"));
