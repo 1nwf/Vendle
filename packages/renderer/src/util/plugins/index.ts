@@ -3,7 +3,6 @@ import { Plugin, pluginApis } from "../../../../types/plugins";
 import { ipcRenderer } from "electron";
 import * as vendle from "./vendle";
 import { generateStylesFromWindiClassName } from "@/util/styles";
-import { store } from "@/store";
 import { batch } from "solid-js";
 import * as tiptap from "@tiptap/core";
 
