@@ -116,7 +116,7 @@ async function createWindow() {
   ipcMain.handle("updatePlugin", handleUpdatePlugin);
   ipcMain.handle("pluginCheckUpdate", handlePluginCheckUpdate);
   ipcMain.handle("pfpUpload", handlePfpUpload);
-  ipcMain.on("app_quit", (event: any, id: string, contents: string) => {
+  ipcMain.on("appQuit", (event: any, id: string, contents: string) => {
     if (win) {
       Object.assign(windowConfig, {
         isMaximized: win.isMaximized(),

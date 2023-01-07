@@ -1,4 +1,3 @@
-import { app } from "electron";
 import {
   getPluginInfo,
   getPluginReadme,
@@ -67,5 +66,4 @@ export const handleAppQuit = (id: string, contents: string) => {
   if (id) {
     saveFileSync(id, contents);
   }
-  app.quit();
 };

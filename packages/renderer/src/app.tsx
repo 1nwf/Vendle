@@ -64,7 +64,7 @@ const App: Component = () => {
   });
 
   window.onbeforeunload = (e) => {
-    ipcRenderer.send("app_quit", ...openFileInfo());
+    ipcRenderer.send("appQuit", ...openFileInfo());
   };
 
   return (
