@@ -116,7 +116,9 @@ const App: Component = () => {
           </div>
         </Show>
 
-        <Routes />
+        <div class="overflow-y-auto h-full">
+          <Routes />
+        </div>
       </div>
     </div>
   );
