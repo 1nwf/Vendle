@@ -51,6 +51,7 @@ async function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    show: false,
     titleBarStyle: "hiddenInset",
     ...windowConfig,
   });
@@ -92,6 +93,10 @@ async function createWindow() {
   });
   ipcMain.handle("initDirs", () => {
     initDirs();
+  });
+
+  win.on("ready-to-show", () => {
+    win!.show();
   });
 
   win.on("enter-full-screen", () => {
