@@ -1,12 +1,12 @@
-import { plugins } from "@/state/settings";
+import { plugins, settings } from "@/state/settings";
 import { matchSorter } from "match-sorter";
 import { createSignal, For, Show } from "solid-js";
 import PluginCard from "./PluginCard";
 import {
   Select,
-  SelectTrigger,
   SelectContent,
   SelectListbox,
+  SelectTrigger,
 } from "@hope-ui/solid";
 
 export default function Plugins() {
@@ -25,8 +25,8 @@ export default function Plugins() {
           e.target.value,
           {
             keys: ["name", "type", "description"],
-          }
-        )
+          },
+        ),
       );
     } else {
       await search();
@@ -41,10 +41,12 @@ export default function Plugins() {
     setFilters((prev) => prev.filter((p) => p !== f));
   };
   const search = async () => {
-    let url = `https://registry.npmjs.org/-/v1/search?text=vendle-plugin-${searchPlugin().replace(
-      " ",
-      "-"
-    )}`;
+    let url = `https://registry.npmjs.org/-/v1/search?text=vendle-plugin-${
+      searchPlugin().replace(
+        " ",
+        "-",
+      )
+    }`;
     return await fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -66,7 +68,7 @@ export default function Plugins() {
   };
 
   return (
-    <div>
+    <div style={settings.theme.sidePanelFg}>
       <h1>Plugins</h1>
       <div class="flex items-center">
         <input

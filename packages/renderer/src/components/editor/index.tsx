@@ -82,7 +82,9 @@ export default function Editor() {
           closeHandler={closeCommandsPopup}
         />
       </Show>
-      {EditorDiv}
+      <div style={settings.theme.editorFg}>
+        {EditorDiv}
+      </div>
     </div>
   );
 }

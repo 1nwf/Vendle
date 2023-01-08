@@ -73,6 +73,7 @@ export default function SidePanel() {
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            style={settings.theme.sidePanelFg}
             stroke-width="2"
             onClick={async () => closeSidePanel()}
           >
@@ -109,6 +110,7 @@ export default function SidePanel() {
             <Icon
               path={rectangleStack}
               class="h-6 w-6 mr-auto hover:cursor-pointer"
+              style={settings.theme.sidePanelFg}
               stroke-width={2}
               onClick={() => setShowExtensionsPage(false)}
             />
@@ -118,6 +120,8 @@ export default function SidePanel() {
               <Tooltip label="settings">
                 <Icon
                   path={cog_6Tooth}
+                  style={settings.theme.sidePanelFg}
+                  color={settings.theme.sidePanelFg}
                   class="h-6 w-6 mr-auto hover:cursor-pointer"
                   stroke-width={2}
                 />
@@ -135,6 +139,7 @@ export default function SidePanel() {
             <Icon
               path={cube}
               class="h-6 w-6 mr-auto hover:cursor-pointer"
+              style={settings.theme.sidePanelFg}
               stroke-width={2}
               onClick={() => setShowExtensionsPage(true)}
             />

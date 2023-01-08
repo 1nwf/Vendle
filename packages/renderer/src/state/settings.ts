@@ -1,10 +1,11 @@
 import { store } from "@/store";
+import { Colorscheme } from "packages/types/settings";
 import { createMutable } from "solid-js/store";
 import { Plugin } from "../../../types/plugins";
 
 export const settings = createMutable({
   ...window.settings,
-  get theme() {
+  get theme(): Colorscheme {
     return this.isLightTheme ? this.lightTheme : this.darkTheme;
   },
 });

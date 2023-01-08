@@ -1,4 +1,4 @@
-interface Colorscheme {
+export interface Colorscheme {
   editorBg: string;
   editorFg: string;
   editorFont: string;

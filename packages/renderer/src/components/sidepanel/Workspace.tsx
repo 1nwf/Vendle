@@ -55,6 +55,7 @@ export default function Workspace() {
         />
 
         <p
+          style={settings.theme.sidePanelFg}
           class={`ml-2 w-full ${
             editable() &&
             `${settings.isLightTheme ? "bg-black/20" : "bg-gray-300/20"}`

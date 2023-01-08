@@ -71,8 +71,8 @@ export default function File({
         editable()
           ? "bg-black shadow-xl"
           : `hover:(cursor-pointer bg-black text-white bg-opacity-10 font-bold) ${
-              file.id == id && "bg-white bg-opacity-25"
-            }`
+            file.id == id && "bg-white bg-opacity-25"
+          }`
       }`}
       onClick={handleClick}
     >
@@ -94,6 +94,7 @@ export default function File({
           <SelectTrigger>
             <Icon
               path={ellipsisVertical}
+              style={settings.theme.sidePanelFg}
               class="h-5 w-5 mr-auto hover:cursor-pointer"
               stroke-width={2}
             />
