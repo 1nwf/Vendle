@@ -73,21 +73,7 @@ const App: Component = () => {
       <Pickers />
       <div class="h-full">
         <Show when={settings.sidepanelShown}>
-          <div
-            style={`${settings.theme.sidePanelBg}; ${
-              sidebarWidth() && `width: ${sidebarWidth()}px;`
-            }`}
-            class={`float-left h-full md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px] flex`}
-          >
-            <SidePanel />
-            <div>
-              <div
-                class="w-1 fixed h-full z-50 ml-auto active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
-                ref={resizeRef}
-              >
-              </div>
-            </div>
-          </div>
+          <SidePanel />
         </Show>
 
         <Routes />

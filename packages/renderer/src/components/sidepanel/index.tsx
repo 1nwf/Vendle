@@ -11,7 +11,7 @@ import {
   sparkles,
 } from "solid-heroicons/outline";
 import { Settings } from "@/pages";
-import { createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
 import {
   Select,
   SelectContent,
@@ -19,6 +19,7 @@ import {
   SelectTrigger,
 } from "@hope-ui/solid";
 import { togglePicker } from "@/state/app";
+import useResize from "@/hooks/useResize";
 const DropDownItem = ({
   title,
   path,
@@ -55,8 +56,28 @@ export default function SidePanel() {
     />,
   ];
 
+  const [sidebarWidth, setSidbarWidth] = createSignal(0);
+  let resizeRef: any;
+  createEffect(() => {
+    const w = useResize(resizeRef);
+    createEffect(() => {
+      if (w() != 0 && w() > 200) {
+        setSidbarWidth(w());
+      }
+    });
+  });
   return (
-    <div class="mt-2 w-full">
+    <div
+      class="float-left h-full md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px]"
+      style={`${settings.theme.sidePanelBg}; ${
+        sidebarWidth() && `width: ${sidebarWidth()}px;`
+      }`}
+    >
+      <div
+        class="w-1 z-50 float-right h-full z-50 active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
+        ref={resizeRef}
+      >
+      </div>
       <Show when={!showExtensionsPage()}>
         <div class="px-4 rounded-r-2xl h-12/12">
           <AllFiles />
