@@ -52,7 +52,8 @@ async function createWindow() {
       contextIsolation: false,
     },
     show: false,
-    titleBarStyle: "hiddenInset",
+    titleBarStyle: "hidden",
+    trafficLightPosition: { x: 15, y: 15 },
     ...windowConfig,
   });
 

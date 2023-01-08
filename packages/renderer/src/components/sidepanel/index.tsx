@@ -1,5 +1,4 @@
-import { persistSettings, settings } from "@/state/settings";
-import Workspace from "./Workspace";
+import { settings } from "@/state/settings";
 import AllFiles from "./files";
 import Plugins from "./plugins";
 import { Icon } from "solid-heroicons";
@@ -56,43 +55,8 @@ export default function SidePanel() {
     />,
   ];
 
-  const closeSidePanel = async () => {
-    settings.sidepanelShown = false;
-    await persistSettings();
-  };
   return (
     <div class="mt-2 w-full">
-      <div class="flex items-center">
-        <div class="flex items-center w-full">
-          <div class="w-full">
-            <Workspace />
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5  hover:cursor-pointer ml-auto w-1/5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            style={settings.theme.sidePanelFg}
-            stroke-width="2"
-            onClick={async () => closeSidePanel()}
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </div>
-      </div>
-      <div class="flex justify-center mb-4">
-        <hr
-          class={`w-10/12 ${
-            settings.lightTheme ? "border-black" : "border-white"
-          }`}
-        />
-      </div>
-
       <Show when={!showExtensionsPage()}>
         <div class="px-4 rounded-r-2xl h-12/12">
           <AllFiles />

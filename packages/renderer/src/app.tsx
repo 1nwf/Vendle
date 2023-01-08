@@ -77,14 +77,12 @@ const App: Component = () => {
             style={`${settings.theme.sidePanelBg}; ${
               sidebarWidth() && `width: ${sidebarWidth()}px;`
             }`}
-            class={`float-left h-screen ${
-              !fullscreen() && "pt-6"
-            } md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px] flex `}
+            class={`float-left h-full md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px] flex`}
           >
             <SidePanel />
             <div>
               <div
-                class="w-1 fixed top-0 h-screen z-50 ml-auto active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
+                class="w-1 fixed h-full z-50 ml-auto active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
                 ref={resizeRef}
               >
               </div>
@@ -92,33 +90,7 @@ const App: Component = () => {
           </div>
         </Show>
 
-        <Show when={!settings.sidepanelShown}>
-          <div
-            class={`float-left h-screen mt-12 z-50 absolute top-0`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 ml-3 hover:cursor-pointer"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              onClick={async () =>
-                await openSidepanel()}
-              stroke-width="2"
-              style={settings.theme.appFg}
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </div>
-        </Show>
-
-        <div class="overflow-y-auto h-full">
-          <Routes />
-        </div>
+        <Routes />
       </div>
     </div>
   );

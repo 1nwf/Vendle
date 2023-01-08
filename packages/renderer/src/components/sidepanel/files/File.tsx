@@ -4,7 +4,12 @@ import { file } from "../../../state/file";
 import { deleteFile, renameFile } from "@/util/files";
 import { useNavigate } from "@solidjs/router";
 import { Icon } from "solid-heroicons";
-import { ellipsisVertical, pencilSquare, trash } from "solid-heroicons/outline";
+import {
+  documentText,
+  ellipsisVertical,
+  pencilSquare,
+  trash,
+} from "solid-heroicons/outline";
 import {
   Select,
   SelectContent,
@@ -76,7 +81,7 @@ export default function File({
       }`}
       onClick={handleClick}
     >
-      <div class={`p-2 text-red-500 w-8/12 break-all no-underline`}>
+      <div>
         <p
           ref={nameRef}
           style={!editable() ? settings.theme.sidePanelFg : "color: white"}
