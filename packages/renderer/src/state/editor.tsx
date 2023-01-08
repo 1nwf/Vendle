@@ -13,7 +13,7 @@ export const CustomDocument = Document.extend({
 });
 
 export const editorStyle = () => {
-  return `outline-none  pt-12 w-full lg:px-42 md:px-32 px-22 h-screen`;
+  return `outline-none pt-10 w-full lg:px-42 md:px-32 px-22 h-screen`;
 };
 
 export const [editorExtensions, setEditorExtensions] = createSignal([
