@@ -47,7 +47,7 @@
     "electron-builder": "^23.3.3",
     "electron-store": "^8.1.0",
     "postcss": "^8.4.14",
-    "solid-heroicons": "^3.0.1",
+    "solid-heroicons": "^3.1.1",
     "solid-js": "1.4.7",
     "solid-tiptap": "^0.3.3",
     "tailwindcss": "^3.1.7",
