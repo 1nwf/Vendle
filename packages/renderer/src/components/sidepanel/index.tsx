@@ -78,39 +78,32 @@ export default function SidePanel() {
         ref={resizeRef}
       >
       </div>
-      <Show when={!showExtensionsPage()}>
-        <div class="px-4 rounded-r-2xl h-12/12">
-          <AllFiles />
-        </div>
-      </Show>
-      <Show when={showExtensionsPage()}>
-        <div class="px-4 rounded-r-2xl h-12/12">
-          <Plugins />
-        </div>
-      </Show>
-
-      <div class="absolute bottom-3 left-3 justify-center">
-        <div class="grid grid-cols-3 gap-3 items-center">
-          <Tooltip label="Files">
+      <div class="">
+        <div class="grid grid-rows-3 items-center mx-3 border-b-1 border-gray-300 mb-3 pb-2">
+          <div
+            class="flex items-center gap-2 hover:cursor-pointer"
+            onClick={() => setShowExtensionsPage(false)}
+          >
             <Icon
               path={rectangleStack}
-              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              class="h-5  "
               style={settings.theme.sidePanelFg}
               stroke-width={2}
-              onClick={() => setShowExtensionsPage(false)}
             />
-          </Tooltip>
+            <p class="text-sm">files</p>
+          </div>
           <Select>
             <SelectTrigger>
-              <Tooltip label="settings">
+              <div class="flex items-center gap-2 hover:cursor-pointer">
                 <Icon
                   path={cog_6Tooth}
                   style={settings.theme.sidePanelFg}
                   color={settings.theme.sidePanelFg}
-                  class="h-6 w-6 mr-auto hover:cursor-pointer"
+                  class="h-5"
                   stroke-width={2}
                 />
-              </Tooltip>
+                <p class="text-sm">settings</p>
+              </div>
             </SelectTrigger>
             <SelectContent css={{ minWidth: "120px", borderRadius: "$xl" }}>
               <SelectListbox>
@@ -120,15 +113,18 @@ export default function SidePanel() {
               </SelectListbox>
             </SelectContent>
           </Select>
-          <Tooltip label="Plugins">
+          <div
+            class="flex items-center gap-2 hover:cursor-pointer"
+            onClick={() => setShowExtensionsPage(true)}
+          >
             <Icon
               path={cube}
-              class="h-6 w-6 mr-auto hover:cursor-pointer"
+              class="h-5"
               style={settings.theme.sidePanelFg}
               stroke-width={2}
-              onClick={() => setShowExtensionsPage(true)}
             />
-          </Tooltip>
+            <p class="text-sm">plugins</p>
+          </div>
           <Modal centered opened={isOpen()} onClose={onClose} size="7xl">
             <ModalOverlay
               bg="$blackAlpha3"
@@ -140,6 +136,16 @@ export default function SidePanel() {
           </Modal>
         </div>
       </div>
+      <Show when={!showExtensionsPage()}>
+        <div class="px-4 rounded-r-2xl h-12/12">
+          <AllFiles />
+        </div>
+      </Show>
+      <Show when={showExtensionsPage()}>
+        <div class="px-4 rounded-r-2xl h-12/12">
+          <Plugins />
+        </div>
+      </Show>
     </div>
   );
 }

@@ -72,7 +72,7 @@ export default function File({
   };
   return (
     <div
-      class={`flex rounded-md select-text ${
+      class={`flex rounded-md select-text items-center ${
         editable()
           ? "bg-black shadow-xl"
           : `hover:(cursor-pointer bg-black text-white bg-opacity-10 font-bold) ${
@@ -81,11 +81,11 @@ export default function File({
       }`}
       onClick={handleClick}
     >
-      <div>
+      <div class={`p-1 w-12/12 break-all no-underline`}>
         <p
           ref={nameRef}
           style={!editable() ? settings.theme.sidePanelFg : "color: white"}
-          class="outline-none"
+          class="outline-none text-sm"
           contentEditable={editable()}
           onInput={(e) => setNewName(e.target.textContent)}
           onKeyDown={handleKeyDown}
@@ -94,14 +94,13 @@ export default function File({
         </p>
       </div>
 
-      <div class="my-auto ml-auto mr-1" onClick={handleToggleMenu}>
+      <div onClick={handleToggleMenu} class="p-0 m-0">
         <Select>
           <SelectTrigger>
             <Icon
               path={ellipsisVertical}
               style={settings.theme.sidePanelFg}
-              class="h-5 w-5 mr-auto hover:cursor-pointer"
-              stroke-width={2}
+              class="h-5 mr-auto hover:cursor-pointer my-auto"
             />
           </SelectTrigger>
           <SelectContent css={{ minWidth: "100px", borderRadius: "$xl" }}>
