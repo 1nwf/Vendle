@@ -95,7 +95,6 @@ const App: Component = () => {
         <Show when={!settings.sidepanelShown}>
           <div
             class={`float-left h-screen mt-12 z-50 absolute top-0`}
-            style={settings.theme.editorBg}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -106,6 +105,7 @@ const App: Component = () => {
               onClick={async () =>
                 await openSidepanel()}
               stroke-width="2"
+              style={settings.theme.sidePanelFg}
             >
               <path
                 stroke-linecap="round"
