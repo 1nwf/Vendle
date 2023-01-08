@@ -105,7 +105,7 @@ const App: Component = () => {
               onClick={async () =>
                 await openSidepanel()}
               stroke-width="2"
-              style={settings.theme.sidePanelFg}
+              style={settings.theme.appFg}
             >
               <path
                 stroke-linecap="round"
