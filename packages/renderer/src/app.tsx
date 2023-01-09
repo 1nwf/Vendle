@@ -68,7 +68,10 @@ const App: Component = () => {
   };
 
   return (
-    <div style={settings.theme.appBg + settings.theme.appFg} class={`h-screen`}>
+    <div
+      style={settings.theme.appBg + settings.theme.appFg}
+      class="h-screen fixed"
+    >
       <Titlebar />
       <Pickers />
       <div class="h-full">
