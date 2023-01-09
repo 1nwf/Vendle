@@ -71,7 +71,7 @@ export default function SidePanel() {
       class="float-left h-full md:(w-3/12) w-2/5 lg:(w-1/5) z-50 max-w-[350px]"
       style={`${settings.theme.sidePanelBg}; ${
         sidebarWidth() && `width: ${sidebarWidth()}px;`
-      }`}
+      };${settings.theme.sidePanelFg}`}
     >
       <div
         class="w-1 z-50 float-right h-full z-50 active:(bg-gray-300) hover:(bg-gray-300 cursor-move)"
